@@ -1,0 +1,2 @@
+[15-Nov-2019 22:58:46 UTC] PHP Warning:  move_uploaded_file(uploads/products/Image_909212834.jpg): failed to open stream: No such file or directory in /home/active4web/public_html/rushatat/uploads/upload.php on line 7
+[15-Nov-2019 22:58:46 UTC] PHP Warning:  move_uploaded_file(): Unable to move '/tmp/phpzMtUjQ' to 'uploads/products/Image_909212834.jpg' in /home/active4web/public_html/rushatat/uploads/upload.php on line 7

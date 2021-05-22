@@ -1,0 +1,11 @@
+/*$this->db->select_max('price');
+$this->db->where('mazad_id',$mazad->id);
+$max_price = $this->db->get('mazad_subscribers')->row_array();*/
+
+//$subscribers = get_table('mazad_subscribers',['mazad_id'=>$mazad->id,'customer_id !='=>$max_price['customer_id']]);
+
+//$this->db->select('*');
+//$this->db->group_by('customer_id');
+//$this->db->where('mazad_id',$mazad->id);
+//$this->db->where('customer_id !=',$max_price['customer_id']);
+//$subscribers = $this->db->get('mazad_subscribers')->row_array();

@@ -1,0 +1,440 @@
+.header.home{-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+}
+.header.home .cont li {
+float: left;}
+.header.home .cont li:first-child {
+ margin-right: 3%;
+ margin-left:auto
+}
+.header.home .cont i {
+margin-right: 5px;}
+.navbar-brand img {
+ margin-left: 13%;}
+ #myslide .carousel-inner > .item {
+ height: 290px;
+}
+.header .download {
+float: right;}
+.header .download i {
+    margin-left: auto;
+	margin-right:5px;
+}
+p {
+    font-size: 16px;
+}
+.header:after {
+    bottom: -55px;
+    -webkit-transform: rotate(-6deg);
+    -ms-transform: rotate(-6deg);
+transform: rotate(-6deg);}
+.navbar-nav {
+float: right;}
+.breadcrumb {
+float: right;}
+.trin.one {
+-webkit-clip-path: polygon(100% 37%, 0 57%, 100% 90%);
+clip-path: polygon(100% 37%, 0 57%, 100% 90%);
+	height:140px;
+	width:60%;
+    right: -3%!important;
+	left:auto;
+    top: -7%;
+    -webkit-transform: rotate(.5deg);
+    -ms-transform: rotate(.5deg);
+    transform: rotate(.5deg);
+  }
+.about .pic {
+    left: -30%;
+right: auto;}
+.about .bg-pic {
+  
+height: 745px;}
+.about .pic img {
+   
+    left: auto;
+right: 10%;}
+.about.two .pic img {
+  
+top: 10%;}
+.servess{-webkit-clip-path: polygon(0 7%, 100% 0%, 100% 93%, 0% 100%);
+clip-path: polygon(0 7%, 100% 0%, 100% 93%, 0% 100%);margin-top: -12%}
+.servess h3 {
+    margin-top: 10%;
+}
+.teams{padding-top:4%}
+
+.teams .trin {
+-webkit-clip-path: polygon(100% 37%, 0 57%, 100% 90%);
+clip-path: polygon(100% 37%, 0 57%, 100% 90%);
+width:40%;
+    right: -3%;
+	left:auto;
+    top: -25%;height:140px
+    -webkit-transform:rotate(-1deg) ;
+    -ms-transform: rotate(-1deg);
+    transform: rotate(-1deg);}
+.owl-carousel .team:after{
+	right: 5px;
+	left:auto;
+    -webkit-transform: rotate(7deg);
+    -ms-transform: rotate(7deg);
+    transform: rotate(7deg);}
+.owl-buttons {
+ right:auto;
+left: -19%;}	
+.owl-carousel .team {
+direction: ltr;}
+.about.two .bg-pic {
+width: 60%;}
+.teams li i, .vision li i, .setup li i, .lower li i {
+    margin-right: 3%;
+margin-left: -5%;}
+footer .sochal {
+    text-align: right;
+}
+.mailing {
+   
+    right: auto;
+left: 26%;}	
+
+.team{-webkit-clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 89%);
+clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 89%);}
+.team > div{-webkit-clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 89%);
+clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 89%);}
+.vision{-webkit-clip-path: polygon(0% 18%, 100% 0%, 100% 77%, 0% 100%);
+clip-path: polygon(0% 18%, 100% 0%, 100% 77%, 0% 100%); margin-top: -15%;}
+.left-pic1 {
+right: -18%; position: absolute;width: 80%;}
+.left-pic1 img{height:440px}
+.left-pic {
+right: -6%;left:auto}
+.header.top:after {
+    bottom: -55px;
+    -webkit-transform: rotate(-6deg);
+    -ms-transform: rotate(-6deg);
+transform: rotate(-6deg);}
+.trin.three {
+    -webkit-clip-path: polygon(100% 37%, 0 55%, 100% 75%);
+clip-path: polygon(100% 37%, 0 55%, 100% 75%);
+    height: 150px;
+    width: 40%;
+    right: -3%!important;
+    left: auto;
+    top: 33%;
+    -webkit-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+transform: rotate(2deg);}
+.up-load {
+    margin-top: 19%;
+}
+.our-clints {
+margin-top: 5%;margin-bottom:0}
+.contact li p {
+right:auto;
+left: 13%;}
+.contact .contact-btn {
+    right: auto;
+left: 6%}
+.formance {
+  left:auto;
+right: -37%;}
+.performance .perf{
+  
+
+    height: 1230px;
+margin-top: -2%;}
+.performance .pic img {
+  right:auto;
+left: -20%;}
+ul.timeline > li {
+    padding-right:auto;
+padding-left: 20px;}
+ul.timeline:before {
+    right:auto;
+left: 29px;}
+ul.timeline > li:before {
+    right:auto;
+left: 20px}
+.international img{-webkit-clip-path: polygon(0 0, 100% 9%, 100% 100%, 0 90%);
+clip-path: polygon(0 0, 100% 9%, 100% 100%, 0 90%);margin-left: -22%;margin-right:auto;}
+.close {
+float: left;}
+#elevator_item {
+left: 9%;}
+footer i {
+    margin-right: 4%;}
+.regu{margin-top:5%}
+.model-contact:after {
+    -webkit-transform: rotate(5deg);
+    -ms-transform: rotate(5deg);
+transform: rotate(5deg);}
+
+.serv{margin-top:15%;}
+.systems {
+    padding: 5% 0 ;
+}
+
+.all-team:after {
+    content: "";
+    position: absolute;
+    bottom: -11%;
+    left: -5px;
+    height: 125px;
+    width: 103%;
+    background-color: #fdfdfd;
+    -webkit-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+z-index: 8888;}
+.setups{margin-bottom: 5%;}
+.setups:after {
+    content: "";
+    position: absolute;
+    top:0%;
+    left:0px;
+    height:0px;
+    width:0%;
+    background-color: #fdfdfd;
+    -webkit-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+transform: rotate(-3deg);}
+
+
+.colm-2{padding-left:15px!important}
+
+
+
+
+ @media (min-width: 240px)and (max-width: 319px){
+.header.home {
+   -webkit-clip-path: none;
+clip-path: none;
+height: 1045px;}
+.header.top{height:auto}	 
+.servess {
+    -webkit-clip-path: none;
+clip-path: none;}
+ 
+ .teams {
+ padding-bottom: 30%;}
+ .mailing {
+ left: 25%;
+right: auto;
+width: 73%;
+top: -11%;}
+.vision ,.all-team{
+    -webkit-clip-path: none!important;
+clip-path: none!important;}
+.left-pic1 img {
+    height: 280px;margin: 1% auto;
+}
+.vision{height:1095px}
+.vis-text {
+top: 30%;}
+.header.top:after {
+bottom: -105px;}
+.contact li p {
+    right: auto;
+    left: 22%;
+}
+.mailing {
+top: -7%;}
+.international img {
+    margin-left: auto;
+margin-right: auto;}
+.international {
+    padding-bottom: 10%;
+}
+.international {
+    padding-bottom: 33%;
+}
+.systems {
+    padding-bottom: 20% ;
+}
+.left-pic1 {
+position: static;margin: 1% auto;}
+ }
+ @media (min-width: 320px) and (max-width:479px) {
+	 .header.home {
+	 height: 1020px;-webkit-clip-path: none;
+    clip-path: none;}
+.header.top{height:auto}	
+	 .about {
+    margin-bottom: 0;
+	    height: auto;
+}
+	.about h3{margin-top:4%} 
+	.servess,.all-team {
+    -webkit-clip-path: none;
+    clip-path: none;
+    margin-top: 5%;
+}
+.mailing {
+   
+top: -7%;}
+.vision,.servess{
+    -webkit-clip-path: none;
+clip-path: none;}
+.vision{height:1020px}
+.left-pic1 img {
+    height: 350px;
+}
+.header.top:after {
+bottom: -105px;}
+.contact li p {
+    right: auto;
+    left: 22%;
+}
+
+.our-clints {
+    margin-bottom: 25%;
+}
+.international img {
+    margin-left: auto;
+margin-right: auto;}
+.international {
+    padding-bottom: 20%;
+}
+.about.two {
+height: auto;padding-bottom:15%}
+.systems {
+    padding-bottom: 17% ;
+}
+.left-pic1 {
+position: static;margin: 1% auto;}
+.up-load {
+    margin-top: 9%;
+}
+
+ } 
+@media (min-width: 480px) and (max-width: 767px) {
+ .header.home {
+	 height: 1020px;-webkit-clip-path: none;
+    clip-path: none;}
+.header.top{height:auto}	
+.servess,.all-team{-webkit-clip-path: none;
+    clip-path: none;
+margin-top: 0%;}
+.contact li p {
+    right: auto;
+    left: 22%;
+}
+.serves {
+    width: 48%!important;
+}
+.teams{
+padding-bottom: 15%;}
+.mailing{margin-top:-4%}
+.vision {
+    -webkit-clip-path: none!important;
+    clip-path: none!important;margin-top:6%;margin-bottom:5%}
+	.header.top:after {
+    bottom: -105px;}
+.our-clints {
+    margin-bottom: 10%;
+}
+.international img {
+    margin-left: auto;
+margin-right: auto;}
+.model-contact {
+    margin-bottom: 25%;
+	padding: 3% 3% 20%;
+}	
+.model-contact:after {
+bottom: 19%;}
+.systems{padding:5% 0}
+.left-pic1 {
+position: static;margin: 1% auto;}
+.up-load {
+    margin-top: 2%;
+}
+.contact .contact-btn {
+    left: 3%;
+}
+}
+
+@media (min-width: 768px) and (max-width: 990px) {
+.trin.one {
+       display:none}	
+.about{margin-top:-3%;height: 633px;}
+
+.about .pic img {
+   
+top: 13%;}
+.about .bg-pic{
+    height: 805px; margin-left: -9%;}
+	.about.two .bg-pic {
+    height: 862px;
+    margin-left: -13%;
+}
+.left-pic {
+right: -20%;}
+.left-pic1 img {
+    height: 505px;
+}
+.servess {
+height: 1820px;margin-top: -2%;}
+.servess h3 {
+    margin-top: 12%!important;
+}
+.vision h3 {
+    margin-top: 20%;
+}
+.contact li p {
+    right: auto;
+    left: 22%;
+}
+#carousel-example-generic .carousel-indicators {
+    bottom: -40%;
+}
+.teamss.all-team h3{ margin-top: 10%;}
+.left-pic1 {
+right: -50%;width: 93%;}
+.vision {
+margin-top: -25%;}
+.serv {
+    margin-top: 23%;
+}
+}
+
+@media (min-width: 991px) and (max-width: 1024px) {
+	.header.home {
+    height: 820px;
+}
+.header.top {
+    height: auto;
+}
+.trin.one {
+    
+    top: -10%;-webkit-transform: rotate(-1deg);
+    -ms-transform: rotate(-1deg);
+    transform: rotate(-1deg);
+    webkit-clip-path: polygon(100% 76%, 0% 100%, 100% 100%);
+    clip-path: polygon(100% 76%, 0% 100%, 100% 100%);}
+.about {
+margin-top: -1%;}
+.servess {
+   
+    margin-top: -3%;
+}
+.servess h3 {
+    margin-top: 9%;
+}
+.about.two .bg-pic {
+    height: 700px;
+}
+.vision{margin-top:-15%}
+
+
+}
+@media (min-width:1370px) and (max-width:1920px){
+.contact .contact-btn {
+    bottom: 25%;
+    right: auto;
+    left: 20%;
+}
+.navbar > .container .navbar-brand {
+  
+margin-left: 2%;}
+}

@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'DroidKufiRegular';
+    src: url('fonts/DroidKufiRegular.eot');
+    src: url('fonts/DroidKufiRegular.eot') format('embedded-opentype'),
+         url('fonts/DroidKufiRegular.woff2') format('woff2'),
+         url('fonts/DroidKufiRegular.woff') format('woff'),
+         url('fonts/DroidKufiRegular.ttf') format('truetype'),
+         url('fonts/DroidKufiRegular.svg#DroidKufiRegular') format('svg');
+}
