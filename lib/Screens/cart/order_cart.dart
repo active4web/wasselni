@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/endOrderScreen/endOrderScreen.dart';
 import 'package:wassalny/model/cartProvider.dart';
@@ -319,7 +318,9 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                               });
                                                               _updateIndex(
                                                                   2,
-                                                                  1,
+                                                                  allProducts[
+                                                                          index]
+                                                                      .quantity,
                                                                   allProducts[
                                                                           index]
                                                                       .idOrder);
@@ -346,7 +347,8 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                           });
                                                           _updateIndex(
                                                               1,
-                                                              1,
+                                                              allProducts[index]
+                                                                  .quantity,
                                                               allProducts[index]
                                                                   .idOrder);
                                                         }),

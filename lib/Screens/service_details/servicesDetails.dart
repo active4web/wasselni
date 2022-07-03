@@ -1,14 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_pro/carousel_pro.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
 import 'package:wassalny/Screens/Branches/view.dart';
@@ -17,13 +19,9 @@ import 'package:wassalny/Screens/min/view.dart';
 import 'package:wassalny/Screens/service_details/services_offer.dart';
 import 'package:wassalny/model/addRatingModel.dart';
 import 'package:wassalny/model/addToFavourite.dart';
-import 'package:wassalny/model/cartProvider.dart';
 import 'package:wassalny/model/itemServicesDetail.dart';
 import 'package:wassalny/model/sentLocation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ServicesDetails extends StatefulWidget {
   final int id;
@@ -143,14 +141,15 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     } catch (e) {}
   }
 
-  Future<void> getQr(int qr,var qrId) async {
+  Future<void> getQr(int qr, var qrId) async {
     try {
       await Provider.of<ItemServicesDetail>(context, listen: false)
-          .qr(qr, qrId,lang);
+          .qr(qr, qrId, lang);
       final provider = Provider.of<ItemServicesDetail>(context, listen: false);
-      qrDaialog(provider.number == 0 ?"" :provider.number.toString(), context, provider.message);
+      qrDaialog(provider.number == 0 ? "" : provider.number.toString(), context,
+          provider.message);
     } catch (e) {
-     print(e.toString());
+      print(e.toString());
     }
   }
 
@@ -377,17 +376,16 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                         fit: BoxFit.fill,
                       ),
                       onTap: () {
-                            counter().then((value) {
+                        counter().then((value) {
                           print("hello" + value);
                           if (value == "-1") {
                             print('object');
                           } else {
-                        print(widget.id);
-                            getQr(widget.id,value);
+                            print(widget.id);
+                            getQr(widget.id, value);
                           }
                         });
-                      }
-                    ),
+                      }),
             ],
           ),
           centerTitle: true,
@@ -631,62 +629,70 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                       color: Colors.white),
                                   maxLines: 1,
                                 ),
-                                onPressed: info.rateView != "0" ? () {
-                                  Get.defaultDialog(
-                                    title: "rate".tr,
-                                    content: Container(
-                                      height: higt * 0.24,
-                                      child: Column(
-                                        children: [
-                                          RatingBar.builder(
-                                            initialRating: 0,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: true,
-                                            itemCount: 5,
-                                            itemSize: 25,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            itemBuilder: (context, _) => Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
+                                onPressed: info.rateView != "0"
+                                    ? () {
+                                        Get.defaultDialog(
+                                          title: "rate".tr,
+                                          content: Container(
+                                            height: higt * 0.24,
+                                            width: width * 0.8,
+                                            child: Column(
+                                              children: [
+                                                RatingBar.builder(
+                                                  initialRating: 0,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: true,
+                                                  itemCount: 5,
+                                                  itemSize: 25,
+                                                  itemPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 4.0),
+                                                  itemBuilder: (context, _) =>
+                                                      Icon(
+                                                    Icons.star,
+                                                    color: Colors.amber,
+                                                  ),
+                                                  onRatingUpdate: (rating) {
+                                                    rate = rating;
+                                                  },
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                ProfileTextField(
+                                                  hint: "addComment".tr,
+                                                  controller: addComment,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                SizedBox(
+                                                  width: width * 0.35,
+                                                  child: RaisedButton(
+                                                      color: Colors.blue,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      child: AutoSizeText(
+                                                        "rate".tr,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white),
+                                                        maxLines: 1,
+                                                      ),
+                                                      onPressed: _submit),
+                                                ),
+                                              ],
                                             ),
-                                            onRatingUpdate: (rating) {
-                                              rate = rating;
-                                            },
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          ProfileTextField(
-                                            hint: "addComment".tr,
-                                            controller: addComment,
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.35,
-                                            child: RaisedButton(
-                                                color: Colors.blue,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                ),
-                                                child: AutoSizeText(
-                                                  "rate".tr,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                  maxLines: 1,
-                                                ),
-                                                onPressed: _submit),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }:null,
+                                        );
+                                      }
+                                    : null,
                               ),
                             ),
                             RatingBar.builder(
@@ -733,6 +739,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Container(
                                         height: higt * 0.5,
+                                        width: width * 0.9,
                                         child: info.allRate.isEmpty
                                             ? Text(
                                                 'لا يوجد تعليقات',
@@ -938,7 +945,9 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                         : Colors.blue,
                                     onPressed: info.viewBranches == "0"
                                         ? null
-                                        : () {Get.to(Branches(info.idd));},
+                                        : () {
+                                            Get.to(Branches(info.idd));
+                                          },
                                     child: AutoSizeText(
                                       "Branches".tr,
                                       style: TextStyle(
@@ -1249,7 +1258,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                                 await launch(url());
                                               },
                                             ),
-                                     info.shareView == "0"
+                                      info.shareView == "0"
                                           ? Container()
                                           : VerticalDivider(
                                               color: Colors.black,

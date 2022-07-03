@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/endOrderScreen/endOrderScreen.dart';
 import 'package:wassalny/model/cartProvider.dart';
@@ -44,13 +43,18 @@ class _CartScreenState extends State<CartScreen> {
     int productId,
     int quan,
     int id,
+    int idForProduct,
   }) async {
     // bool auth =
     //     Provider.of<UpdateIndexOfCartProvider>(context, listen: false).deleted;
     try {
       await Provider.of<UpdateIndexOfCartProvider>(context, listen: false)
           .updateIndex(
-              lang: lang, idKey: productId, idOrder: id, quantity: quan);
+              lang: lang,
+              idKey: productId,
+              idOrder: id,
+              quantity: quan,
+              productID: idForProduct);
 
       // ignore: unused_catch_clause
     } on HttpExeption catch (error) {
@@ -59,8 +63,8 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
-  int totalPrice(List<AllProduct> allProducts) {
-    int sum = 0;
+  double totalPrice(List<AllProduct> allProducts) {
+    double sum = 0;
     setState(() {
       for (var i = 0; i < allProducts.length; i++) {
         print('${allProducts[i].price} price');
@@ -148,6 +152,7 @@ class _CartScreenState extends State<CartScreen> {
     final width = (MediaQuery.of(context).size.width);
     final hieght = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top);
+    // TextEditingController counterController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -220,7 +225,6 @@ class _CartScreenState extends State<CartScreen> {
                           child: ListView.builder(
                               itemCount: allProducts.length,
                               itemBuilder: (BuildContext context, int index) {
-                                print(allProducts[index].image);
                                 return Dismissible(
                                   background: Container(
                                     width: width,
@@ -339,13 +343,23 @@ class _CartScreenState extends State<CartScreen> {
                                                                     .quantity--;
                                                               });
                                                               _updateIndex(
+                                                                  idForProduct:
+                                                                      allProducts[
+                                                                              index]
+                                                                          .idProduct,
                                                                   productId: 2,
-                                                                  quan: 1,
+                                                                  quan: allProducts[
+                                                                          index]
+                                                                      .quantity,
                                                                   id: allProducts[
                                                                           index]
                                                                       .idOrder);
                                                             },
                                                     ),
+                                                    // TextField(
+                                                    //   controller:
+                                                    //       counterController,
+                                                    // ),
                                                     Text(
                                                       allProducts[index]
                                                           .quantity
@@ -366,8 +380,14 @@ class _CartScreenState extends State<CartScreen> {
                                                                 .quantity++;
                                                           });
                                                           _updateIndex(
+                                                              idForProduct:
+                                                                  allProducts[
+                                                                          index]
+                                                                      .idProduct,
                                                               productId: 1,
-                                                              quan: 1,
+                                                              quan: allProducts[
+                                                                      index]
+                                                                  .quantity,
                                                               id: allProducts[
                                                                       index]
                                                                   .idOrder);

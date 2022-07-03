@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
 import 'package:wassalny/Components/networkExeption.dart';
@@ -61,6 +61,10 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
     } on HttpExeption catch (error) {
       Navigator.of(context).pop();
       showErrorDaialog(error.message, context);
+    } on DioError catch (e) {
+      print('*' * 10);
+      print(e);
+      print('*' * 10);
     } catch (e) {
       print(e);
       Navigator.of(context).pop();
