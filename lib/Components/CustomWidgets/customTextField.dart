@@ -16,6 +16,7 @@ class CustomTextField extends StatefulWidget {
   final IconData suffixIcon;
   final bool isPassword;
   final Function suffixPress;
+
   CustomTextField(
       {this.focusNode,
       this.valid,
@@ -70,6 +71,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
             hintText: widget.hint,
+
             hintStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
@@ -101,19 +103,22 @@ class ProfileTextField extends StatefulWidget {
   final Function(String) onSaved;
   final String Function(String) validator;
   final int maxLi;
-  ProfileTextField(
-      {this.maxLi,
-      this.focusNode,
-      this.controller,
-      this.type,
-      this.hint,
-      this.textDirection,
-      this.onTap,
-      this.icon,
-      this.intialval,
-      this.onChanged,
-      this.onSaved,
-      this.validator});
+  final bool isEnabled;
+  ProfileTextField({
+    this.maxLi,
+    this.focusNode,
+    this.controller,
+    this.type,
+    this.hint,
+    this.textDirection,
+    this.onTap,
+    this.icon,
+    this.intialval,
+    this.onChanged,
+    this.onSaved,
+    this.validator,
+    this.isEnabled = true,
+  });
 
   @override
   _ProfileTextFieldState createState() => _ProfileTextFieldState();
@@ -141,6 +146,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
           onSaved: widget.onSaved,
           validator: widget.validator,
           obscureText: false,
+          enabled: widget.isEnabled,
           textDirection: (widget.textDirection == null &&
                       currentLanguage.languageCode == "ar") ||
                   widget.textDirection == TextDirection.rtl

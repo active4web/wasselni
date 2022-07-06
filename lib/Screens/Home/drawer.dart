@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,6 @@ import 'package:wassalny/Screens/About/view.dart';
 import 'package:wassalny/Screens/ContactUs/view.dart';
 import 'package:wassalny/Screens/Language/view.dart';
 import 'package:wassalny/Screens/Notif/view.dart';
-import 'package:wassalny/Screens/Offerss/view.dart';
 import 'package:wassalny/Screens/Profile/view.dart';
 import 'package:wassalny/Screens/Subscirbe/view.dart';
 import 'package:wassalny/Screens/Tickets/view.dart';
@@ -18,10 +19,6 @@ import 'package:wassalny/Screens/cart/cart.dart';
 import 'package:wassalny/Screens/login/view.dart';
 import 'package:wassalny/Screens/myFavourite/myFavouriteScreen.dart';
 import 'package:wassalny/Screens/myOrders/myOrders.dart';
-import 'package:wassalny/model/categoriseDetails.dart';
-
-import 'dart:io' show Platform;
-
 import 'package:wassalny/model/home.dart';
 import 'package:wassalny/network/auth/auth.dart';
 
@@ -118,10 +115,13 @@ class _MyDrawer extends State<MyDrawer> {
       // ignore: unused_catch_clause
     } catch (error) {
       print(error);
+
       Navigator.of(context).pop();
       showErrorDaialog('No internet connection', context);
-    } finally {}
+    }
     if (auth) {
+      // Navigator.pushAndRemoveUntil(context,
+      //     MaterialPageRoute(builder: (context) => Login()), (route) => false);
       Get.offAll(Login());
     }
   }

@@ -22,16 +22,20 @@ class User {
   String nameEdaite;
 
   Map<String, dynamic> sentEdaitProfile(
-      String token, String lang, String city, String cityId) {
+    String token,
+    String lang,
+    // String city,
+    // String cityId
+  ) {
     return {
       'key': 1234567890,
-      'phone': phoneEdaite,
+      // 'phone': phoneEdaite,
       'name': nameEdaite,
       'address': adressEdaite,
       'lang': lang,
       'token_id': token,
-      'country_name': city,
-      'country_id': cityId
+      // 'country_name': city,
+      // 'country_id': cityId
     };
   }
 

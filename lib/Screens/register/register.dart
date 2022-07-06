@@ -92,6 +92,7 @@ class _RegisterState extends State<Register> {
       // ignore: unused_catch_clause
     } on HttpExeption catch (error) {
       Navigator.of(context).pop();
+      print(error);
       showErrorDaialog("FoundedUser".tr, context);
     } catch (error) {
       print(error);
@@ -167,7 +168,8 @@ class _RegisterState extends State<Register> {
                         user.newphone = val;
                       },
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-z A-Z 0-9]'))
                       ],
                       valid: (val) {
                         if (val.isEmpty) {
@@ -243,7 +245,8 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 10),
                   CustomTextField(
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))
+                        FilteringTextInputFormatter.allow(
+                            RegExp('[a-z A-Z 0-9]'))
                       ],
                       isPassword: isPassword,
                       suffixIcon: icon,
@@ -257,9 +260,7 @@ class _RegisterState extends State<Register> {
                       onSaved: (val) {
                         print(val);
                         user.password = val;
-
                       },
-
                       valid: (val) {
                         if (val.isEmpty) {
                           return "Thisfieldisrequired".tr;

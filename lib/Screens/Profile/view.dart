@@ -43,8 +43,8 @@ class _ProfileState extends State<Profile> {
       phone = Provider.of<Auth>(context, listen: false).phoneNumber;
       address = Provider.of<Auth>(context, listen: false).adress;
       nameController = TextEditingController(text: name);
-       phoneController = TextEditingController(text: phone);
-       addressController = TextEditingController(text: address);
+      phoneController = TextEditingController(text: phone);
+      addressController = TextEditingController(text: address);
       setState(() {
         loader = false;
       });
@@ -64,8 +64,11 @@ class _ProfileState extends State<Profile> {
     // ignore: unused_element
 
     try {
-      done = await Provider.of<Auth>(context, listen: false)
-          .edaitProfile(user, lang, city, cityId);
+      done = await Provider.of<Auth>(context, listen: false).edaitProfile(
+        user, lang,
+        // city,
+        // cityId
+      );
       Navigator.of(context).pop();
     } catch (e) {
       print(e);
@@ -74,7 +77,7 @@ class _ProfileState extends State<Profile> {
     }
 
     if (done) {
-      Navigator.of(context).pop();
+      // Navigator.of(context).pop();
       Get.to(
         BottomNavyView(),
       );
@@ -131,7 +134,6 @@ class _ProfileState extends State<Profile> {
                           user.nameEdaite = val;
                           print(val);
                         },
-
                         onChanged: (val) {
                           user.nameEdaite = val;
                         },
@@ -149,6 +151,7 @@ class _ProfileState extends State<Profile> {
                       SizedBox(height: 20),
                       ProfileTextField(
                         controller: phoneController,
+                        isEnabled: false,
                         onSaved: (val) {
                           user.phoneEdaite = val;
                         },
@@ -168,7 +171,6 @@ class _ProfileState extends State<Profile> {
                       ),
                       SizedBox(height: 20),
                       ProfileTextField(
-
                         controller: addressController,
                         onSaved: (val) {
                           user.adressEdaite = val;
@@ -236,59 +238,80 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                       ),
-                      TextButton(onPressed: (){
-                        Get.to((()=> ChangePasswordScreen()));
-                      }, child: Text("changePassword".tr)),
-                      TextButton(onPressed: ()async{
-                        showCupertinoDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              var currentLanguage = Localizations.localeOf(context);
-                              return CupertinoAlertDialog(
-                                  title: Text(
-                                    "ايقاف الحساب",
-                                    style: TextStyle(
-                                      fontFamily: "Cairo",
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                  content:
-                                  Text("هل انت متاكد من ايقاف الحساب ؟", style: TextStyle(fontFamily: "Cairo", fontSize: 13)),
-                                  actions: <Widget>[
-                                    CupertinoButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text(
-                                            currentLanguage.languageCode == 'ar' ? "الغاء" : "Cancel",
-                                            style: TextStyle(fontFamily: "Cairo", fontSize: 13))),
-                                    CupertinoButton(
-                                        onPressed: () async{
-
-                                          bool auth =
-                                              Provider.of<Auth>(context, listen: false).deleteAccBool;
-                                          showDaialogLoader(context);
-                                          try {
-                                            auth = await Provider.of<Auth>(context, listen: false)
-                                                .deleteAcc(
-                                                phoneNumber: phone);
-                                            // ignore: unused_catch_clause
-                                          } catch (error) {
-                                            print(error);
-                                            Navigator.of(context).pop();
-                                            showErrorDaialog('No internet connection', context);
-                                          }
-                                          if (auth) {
-                                            Get.offAll((() => Login() ));
-                                          }
-                                        },
-                                        child: Text(
-                                            currentLanguage.languageCode == 'ar'
-                                                ? "ايقاف الحساب"
-                                                : "Delete Account",
-                                            style: TextStyle(fontFamily: "Cairo", fontSize: 13)))
-                                  ]);
-                            });
-                        
-                      }, child: Text("deleteAccount".tr)),
+                      TextButton(
+                          onPressed: () {
+                            Get.to((() => ChangePasswordScreen()));
+                          },
+                          child: Text("changePassword".tr)),
+                      TextButton(
+                          onPressed: () async {
+                            showCupertinoDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  var currentLanguage =
+                                      Localizations.localeOf(context);
+                                  return CupertinoAlertDialog(
+                                      title: Text(
+                                        "ايقاف الحساب",
+                                        style: TextStyle(
+                                          fontFamily: "Cairo",
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      content: Text(
+                                          "هل انت متاكد من ايقاف الحساب ؟",
+                                          style: TextStyle(
+                                              fontFamily: "Cairo",
+                                              fontSize: 13)),
+                                      actions: <Widget>[
+                                        CupertinoButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                                currentLanguage.languageCode ==
+                                                        'ar'
+                                                    ? "الغاء"
+                                                    : "Cancel",
+                                                style: TextStyle(
+                                                    fontFamily: "Cairo",
+                                                    fontSize: 13))),
+                                        CupertinoButton(
+                                            onPressed: () async {
+                                              bool auth = Provider.of<Auth>(
+                                                      context,
+                                                      listen: false)
+                                                  .deleteAccBool;
+                                              showDaialogLoader(context);
+                                              try {
+                                                auth = await Provider.of<Auth>(
+                                                        context,
+                                                        listen: false)
+                                                    .deleteAcc(
+                                                        phoneNumber: phone);
+                                                // ignore: unused_catch_clause
+                                              } catch (error) {
+                                                print(error);
+                                                Navigator.of(context).pop();
+                                                showErrorDaialog(
+                                                    'No internet connection',
+                                                    context);
+                                              }
+                                              if (auth) {
+                                                Get.offAll((() => Login()));
+                                              }
+                                            },
+                                            child: Text(
+                                                currentLanguage.languageCode ==
+                                                        'ar'
+                                                    ? "ايقاف الحساب"
+                                                    : "Delete Account",
+                                                style: TextStyle(
+                                                    fontFamily: "Cairo",
+                                                    fontSize: 13)))
+                                      ]);
+                                });
+                          },
+                          child: Text("deleteAccount".tr)),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                       ),
@@ -296,7 +319,7 @@ class _ProfileState extends State<Profile> {
                           backgroundColor: Colors.blue,
                           borderColor: Colors.blue,
                           isShadow: 1,
-                          onTap: (){
+                          onTap: () {
                             user.phoneEdaite = phoneController.text;
                             user.nameEdaite = nameController.text;
                             user.adressEdaite = addressController.text;

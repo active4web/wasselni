@@ -1,27 +1,25 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
-import 'package:location/location.dart';
 import 'package:wassalny/Screens/cart/cart.dart';
-import 'package:wassalny/Screens/searchLatAndLag/searchLatAndLagScreen.dart';
 import 'package:wassalny/Screens/searchScreen/searchScreen.dart' as Search;
 import 'package:wassalny/model/addToFavourite.dart';
 import 'package:wassalny/model/cartProvider.dart' as Cart;
 import 'package:wassalny/model/home.dart';
 import 'package:wassalny/model/homeSearch.dart';
+
+import '../searchLatAndLag/searchLatAndLagScreen.dart';
 import 'drawer.dart';
 import 'gridWidget.dart';
 
@@ -155,7 +153,6 @@ class _HomeState extends State<Home> {
         Provider.of<HomeLists>(context, listen: false).sliderImageInMain;
     sliderImageInMain.shuffle();
 
-
     return Padding(
       padding: EdgeInsets.only(
           top: hight * 0.048, left: width * 0.048, right: width * 0.048),
@@ -234,7 +231,7 @@ class _HomeState extends State<Home> {
                       (e) {
                         return InkWell(
                           onTap:
-                          e.link.isEmpty || e.link == null || e.link == ''
+                              e.link.isEmpty || e.link == null || e.link == ''
                                   ? () {}
                                   : () async {
                                       await launch('http:${e.link}');
@@ -266,7 +263,7 @@ class _HomeState extends State<Home> {
         Provider.of<HomeLists>(context, listen: false).recomended;
     AllRecommended selected = allrecommended.firstWhere(
         (element) => element.recommendedPosition == position,
-        orElse: () => null);
+        orElse: () => AllRecommended());
     return selected;
   }
 
@@ -413,9 +410,7 @@ class _HomeState extends State<Home> {
                               child: CachedNetworkImage(
                                 placeholder: (context, url) =>
                                     Image.asset('assets/images/logo.png'),
-                                imageUrl: chonsenOne(1).recommendedImage == null
-                                    ? SizedBox()
-                                    : chonsenOne(1).recommendedImage,
+                                imageUrl: chonsenOne(1).recommendedImage,
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -446,10 +441,7 @@ class _HomeState extends State<Home> {
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
                                         Image.asset('assets/images/logo.png'),
-                                    imageUrl:
-                                        chonsenOne(2).recommendedImage == null
-                                            ? SizedBox()
-                                            : chonsenOne(2).recommendedImage,
+                                    imageUrl: chonsenOne(2).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -472,10 +464,7 @@ class _HomeState extends State<Home> {
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
                                         Image.asset('assets/images/logo.png'),
-                                    imageUrl:
-                                        chonsenOne(6).recommendedImage == null
-                                            ? SizedBox()
-                                            : chonsenOne(6).recommendedImage,
+                                    imageUrl: chonsenOne(6).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -512,11 +501,8 @@ class _HomeState extends State<Home> {
                                           placeholder: (context, url) =>
                                               Image.asset(
                                                   'assets/images/logo.png'),
-                                          imageUrl: chonsenOne(3)
-                                                      .recommendedImage ==
-                                                  null
-                                              ? SizedBox()
-                                              : chonsenOne(3).recommendedImage,
+                                          imageUrl:
+                                              chonsenOne(3).recommendedImage,
                                           fit: BoxFit.fill,
                                         ),
                                         width: width * 0.1,
@@ -539,11 +525,8 @@ class _HomeState extends State<Home> {
                                           placeholder: (context, url) =>
                                               Image.asset(
                                                   'assets/images/logo.png'),
-                                          imageUrl: chonsenOne(4)
-                                                      .recommendedImage ==
-                                                  null
-                                              ? SizedBox()
-                                              : chonsenOne(4).recommendedImage,
+                                          imageUrl:
+                                              chonsenOne(4).recommendedImage,
                                           fit: BoxFit.fill,
                                         ),
                                         width: width * 0.1,
@@ -570,10 +553,7 @@ class _HomeState extends State<Home> {
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
                                         Image.asset('assets/images/logo.png'),
-                                    imageUrl:
-                                        chonsenOne(5).recommendedImage == null
-                                            ? SizedBox()
-                                            : chonsenOne(5).recommendedImage,
+                                    imageUrl: chonsenOne(5).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),
                                 ),

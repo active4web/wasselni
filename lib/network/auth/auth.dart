@@ -2,19 +2,17 @@
 import 'package:dio/dio.dart' as Dio;
 import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/model/registerModel.dart';
 import 'package:wassalny/model/user.dart';
 import 'package:wassalny/model/userdata.dart';
 
-import '../../notification_helper.dart';
 import './dio.dart';
+import '../../notification_helper.dart';
 
 class Auth with ChangeNotifier {
-
   int id;
   String token;
   String lang;
@@ -40,7 +38,7 @@ class Auth with ChangeNotifier {
           await FCMConfig.instance.messaging.getToken(),
         )),
       );
-     print(response);
+      print(response);
       if (response.data['status']) {
         x = userDataFromJson(response.toString()).result.clientData;
         for (var i = 0; i < x.length; i++) {
@@ -98,13 +96,21 @@ class Auth with ChangeNotifier {
 
   bool doneEdaite = false;
   Future<bool> edaitProfile(
-      User user, String language, String city, String cityID) async {
+    User user,
+    String language,
+    // String city,
+    // String cityID
+  ) async {
     try {
       print('object');
       Dio.Response response = await dio().post(
         'pages/edit_profile',
         data: Dio.FormData.fromMap(
-          user.sentEdaitProfile(token, language, city, cityID),
+          user.sentEdaitProfile(
+            token, language,
+            // city,
+            // cityID
+          ),
         ),
       );
 
@@ -222,11 +228,11 @@ class Auth with ChangeNotifier {
   bool sendCode = false;
   Future<bool> forgetPassword(String phoneNumber) async {
     try {
-     var token =  await FCMConfig.instance.messaging.getToken();
+      var token = await FCMConfig.instance.messaging.getToken();
       Dio.Response response = await dio().post(
         '/user_api/forget_password',
         data: Dio.FormData.fromMap(
-          {"phone": phoneNumber, 'key': 1234567890 , "token" : token},
+          {"phone": phoneNumber, 'key': 1234567890, "token": token},
         ),
       );
       print(response);
@@ -251,7 +257,7 @@ class Auth with ChangeNotifier {
   Future<dynamic> changePassword(
       {String phoneNumber, String password, String confirmPassword}) async {
     try {
-      var token =  await FCMConfig.instance.messaging.getToken();
+      var token = await FCMConfig.instance.messaging.getToken();
       Dio.Response response = await dio().post(
         '/user_api/change_password',
         data: Dio.FormData.fromMap(
@@ -269,9 +275,8 @@ class Auth with ChangeNotifier {
     }
   }
 
-
   Future<dynamic> updatePassword(
-      {String password, String confirmPassword , String oldPassword}) async {
+      {String password, String confirmPassword, String oldPassword}) async {
     try {
       Dio.Response response = await dio().post(
         '/user_api/edit_password',
@@ -286,15 +291,14 @@ class Auth with ChangeNotifier {
         ),
       );
       print(response);
-     return response.data;
+      return response.data;
     } catch (e) {
       throw (e);
     }
   }
 
   bool deleteAccBool = false;
-  Future<bool> deleteAcc(
-      {String phoneNumber}) async {
+  Future<bool> deleteAcc({String phoneNumber}) async {
     try {
       Dio.Response response = await dio().post(
         '/user_api/stop_myaccount',
