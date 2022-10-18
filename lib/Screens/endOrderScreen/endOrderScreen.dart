@@ -359,7 +359,7 @@ qrWithFunctionDaialog(
             fontSize: 18,
           ),
         ),
-        actions: [FlatButton(onPressed: function, child: Text('ok'.tr))],
+        actions: [MaterialButton(onPressed: function, child: Text('ok'.tr))],
       );
     },
   );

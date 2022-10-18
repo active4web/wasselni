@@ -23,7 +23,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "assets/images/logo.png",
+                "assets/images/img.png",
               ),
               SizedBox(
                 height: 20,

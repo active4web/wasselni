@@ -350,7 +350,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
               // IconButton(onPressed: (){
               //   Navigator.pop(context);
               // }, icon: Icon(Icons.arrow_back_ios)),
-              Image.asset('assets/images/logo.png', width: 50),
+              Image.asset('assets/images/img.png', width: 50),
               // SizedBox(width: 20,),
               Spacer(),
               IconButton(
@@ -437,7 +437,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                   children: [
                                     SizedBox(
                                       width: width * 0.35,
-                                      child: RaisedButton(
+                                      child: MaterialButton(
                                         color: Colors.blue,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -495,7 +495,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                                     radius: 15,
                                                   ),
                                                 )
-                                              : RaisedButton(
+                                              : MaterialButton(
                                                   onPressed:
                                                       info.viewCobon == '0'
                                                           ? null
@@ -549,7 +549,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                     ),
                                     SizedBox(
                                       width: width * 0.35,
-                                      child: RaisedButton(
+                                      child: MaterialButton(
                                         color: Colors.blue,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -617,7 +617,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                           children: [
                             SizedBox(
                               width: width * 0.35,
-                              child: RaisedButton(
+                              child: MaterialButton(
                                 color: Colors.blue,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
@@ -668,7 +668,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                                 ),
                                                 SizedBox(
                                                   width: width * 0.35,
-                                                  child: RaisedButton(
+                                                  child: MaterialButton(
                                                       color: Colors.blue,
                                                       shape:
                                                           RoundedRectangleBorder(
@@ -719,7 +719,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                         ),
                         SizedBox(
                           width: width * 0.35,
-                          child: RaisedButton(
+                          child: MaterialButton(
                             color: Colors.blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -936,7 +936,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                               children: [
                                 SizedBox(
                                   width: width * 0.3,
-                                  child: RaisedButton(
+                                  child: MaterialButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -960,7 +960,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                 ),
                                 SizedBox(
                                   width: width * 0.3,
-                                  child: RaisedButton(
+                                  child: MaterialButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1003,7 +1003,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                               children: [
                                 SizedBox(
                                   width: width * 0.3,
-                                  child: RaisedButton(
+                                  child: MaterialButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1031,7 +1031,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                 ),
                                 SizedBox(
                                   width: width * 0.3,
-                                  child: RaisedButton(
+                                  child: MaterialButton(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1071,7 +1071,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                             children: [
                               SizedBox(
                                 width: width * 0.3,
-                                child: RaisedButton(
+                                child: MaterialButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),

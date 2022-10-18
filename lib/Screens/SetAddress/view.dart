@@ -118,7 +118,7 @@ class _SetAddressState extends State<SetAddress> {
               children: [
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60),
-                    child: Image.asset('assets/images/logo.png', width: 100)),
+                    child: Image.asset('assets/images/img.png', width: 100)),
                 SizedBox(height: 20),
                 Row(
                   children: [

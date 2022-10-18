@@ -251,7 +251,7 @@ class _MinState extends State<Min> {
                                     if(info[index].newPrice.isNotEmpty)
                                     SizedBox(
                                       width: width * 0.3,
-                                      child: RaisedButton(
+                                      child: MaterialButton(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),

@@ -49,7 +49,7 @@ class _SubsectionsState extends State<Subsections> {
                   imageUrl: widget.banner,
                   fit: BoxFit.fill,
                   placeholder: (context, url) =>
-                      Image.asset('assets/images/logo.png'),
+                      Image.asset('assets/images/img.png'),
                 ),
               ),
             ),
@@ -90,7 +90,7 @@ class _SubsectionsState extends State<Subsections> {
                             borderRadius: BorderRadius.circular(15),
                             child: CachedNetworkImage(
                               placeholder: (context, url) =>
-                                  Image.asset('assets/images/logo.png'),
+                                  Image.asset('assets/images/img.png'),
                               imageUrl: widget.items[index].departmentImage,
                               fit: BoxFit.fill,
                               fadeInDuration: Duration(seconds: 2),

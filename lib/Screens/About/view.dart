@@ -42,7 +42,7 @@ class _AboutState extends State<About> {
           SizedBox(height: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 60),
-            child: Image.asset('assets/images/logo.png'),
+            child: Image.asset('assets/images/img.png'),
           ),
           SizedBox(height: 30),
           loader

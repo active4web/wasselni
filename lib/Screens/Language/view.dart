@@ -68,7 +68,7 @@ class _LanguageState extends State<Language> {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 60),
                 child: Image.asset(
-                  'assets/images/logo.png',
+                  'assets/images/img.png',
                   width: 100,
                 )),
             SizedBox(height: 15),

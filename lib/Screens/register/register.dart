@@ -146,7 +146,7 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 50),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 60),
-                      child: Image.asset('assets/images/logo.png')),
+                      child: Image.asset('assets/images/img.png')),
                   SizedBox(height: 80),
                   // dropList(),
                   // SizedBox(height: 10),

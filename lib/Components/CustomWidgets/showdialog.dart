@@ -84,7 +84,7 @@ qrDaialog(String masseage, BuildContext context, String title) {
           ),
         ),
         actions: [
-          FlatButton(
+          ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },

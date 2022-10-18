@@ -150,7 +150,7 @@ class _CategoryListState extends State<CategoryList> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FlatButton(
+                        MaterialButton(
                           onPressed: () {
                             showDialog(context: context, builder: (context) =>  AlertDialog(
                               content: Column(
@@ -189,7 +189,7 @@ class _CategoryListState extends State<CategoryList> {
                                           child: Center(child: Text("كم")))
                                     ],
                                   ),
-                                  RaisedButton(
+                                  MaterialButton(
                                      child: Text("متابعة"),
                                     onPressed: (){
                                       if(distanceController.text.isNotEmpty)
@@ -230,7 +230,7 @@ class _CategoryListState extends State<CategoryList> {
                               setState(() {});
                             },
                             icon: Icon(FontAwesomeIcons.sort)),
-                        FlatButton(
+                        MaterialButton(
                           onPressed: () {
                             Get.to(SetAddress(
                               vategory: widget.id,
@@ -260,7 +260,7 @@ class _CategoryListState extends State<CategoryList> {
                         imageUrl: info.categoryBanner,
                         fit: BoxFit.fill,
                         placeholder: (context, url) =>
-                            Image.asset('assets/images/logo.png'),
+                            Image.asset('assets/images/img.png'),
                       ),
                     ),
                   ),

@@ -357,12 +357,7 @@ class _HomeState extends State<Home> {
       drawer: MyDrawer(
         products: allProducts,
       ),
-      body: loader
-          ? Center(
-              child: CircularProgressIndicator(
-              strokeWidth: 8,
-            ))
-          : ListView(
+      body:  ListView(
               padding: EdgeInsets.only(bottom: 100),
               children: <Widget>[
                 SizedBox(
@@ -392,24 +387,24 @@ class _HomeState extends State<Home> {
                               horizontal: width * 0.02, vertical: hight * 0.01),
                           child: GestureDetector(
                             onTap: () {
-                              if (chonsenOne(1).depId != null)
-                                Get.to(
-                                    // ServicesDetails(
-                                    //   id: chonsenOne(1).serviceId,
-                                    // ),
-                                    SearchLatAndLagScreen(
-                                  catId: chonsenOne(1).depId,
-                                  lat: currentLat,
-                                  lag: currentLong,
-                                  distance: "10",
-                                  searchType: 2,
-                                ));
+                              // if (chonsenOne(1).depId != null)
+                              //   Get.to(
+                              //       // ServicesDetails(
+                              //       //   id: chonsenOne(1).serviceId,
+                              //       // ),
+                              //       SearchLatAndLagScreen(
+                              //     catId: chonsenOne(1).depId,
+                              //     lat: currentLat,
+                              //     lag: currentLong,
+                              //     distance: "10",
+                              //     searchType: 2,
+                              //   ));
                             },
                             child: Container(
                               width: width * 0.4,
                               child: CachedNetworkImage(
                                 placeholder: (context, url) =>
-                                    Image.asset('assets/images/logo.png'),
+                                    Image.asset('assets/images/img.png'),
                                 imageUrl: chonsenOne(1).recommendedImage,
                                 fit: BoxFit.fill,
                               ),
@@ -426,21 +421,21 @@ class _HomeState extends State<Home> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  if (chonsenOne(2).depId != null)
-                                    Get.to(SearchLatAndLagScreen(
-                                      catId: chonsenOne(2).depId,
-                                      lat: currentLat,
-                                      distance: "10",
-                                      lag: currentLong,
-                                      searchType: 2,
-                                    ));
+                                  // if (chonsenOne(2).depId != null)
+                                  //   Get.to(SearchLatAndLagScreen(
+                                  //     catId: chonsenOne(2).depId,
+                                  //     lat: currentLat,
+                                  //     distance: "10",
+                                  //     lag: currentLong,
+                                  //     searchType: 2,
+                                  //   ));
                                 },
                                 child: Container(
                                   height: hight * 0.06,
                                   width: width * 0.20,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/logo.png'),
+                                        Image.asset('assets/images/img.png'),
                                     imageUrl: chonsenOne(2).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),
@@ -448,14 +443,14 @@ class _HomeState extends State<Home> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if (chonsenOne(6).depId != null)
-                                    Get.to(SearchLatAndLagScreen(
-                                      catId: chonsenOne(6).depId,
-                                      lat: currentLat,
-                                      distance: "10",
-                                      lag: currentLong,
-                                      searchType: 2,
-                                    ));
+                                  // if (chonsenOne(6).depId != null)
+                                  //   Get.to(SearchLatAndLagScreen(
+                                  //     catId: chonsenOne(6).depId,
+                                  //     lat: currentLat,
+                                  //     distance: "10",
+                                  //     lag: currentLong,
+                                  //     searchType: 2,
+                                  //   ));
                                 },
                                 child: Container(
                                   color: Colors.red,
@@ -463,7 +458,7 @@ class _HomeState extends State<Home> {
                                   width: width * 0.20,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/logo.png'),
+                                        Image.asset('assets/images/img.png'),
                                     imageUrl: chonsenOne(6).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),
@@ -487,20 +482,20 @@ class _HomeState extends State<Home> {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        if (chonsenOne(3).depId != null)
-                                          Get.to(SearchLatAndLagScreen(
-                                            catId: chonsenOne(3).depId,
-                                            lat: currentLat,
-                                            lag: currentLong,
-                                            distance: "10",
-                                            searchType: 2,
-                                          ));
+                                        // if (chonsenOne(3).depId != null)
+                                        //   Get.to(SearchLatAndLagScreen(
+                                        //     catId: chonsenOne(3).depId,
+                                        //     lat: currentLat,
+                                        //     lag: currentLong,
+                                        //     distance: "10",
+                                        //     searchType: 2,
+                                        //   ));
                                       },
                                       child: Container(
                                         child: CachedNetworkImage(
                                           placeholder: (context, url) =>
                                               Image.asset(
-                                                  'assets/images/logo.png'),
+                                                  'assets/images/img.png'),
                                           imageUrl:
                                               chonsenOne(3).recommendedImage,
                                           fit: BoxFit.fill,
@@ -511,20 +506,20 @@ class _HomeState extends State<Home> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        if (chonsenOne(4).depId != null)
-                                          Get.to(SearchLatAndLagScreen(
-                                            catId: chonsenOne(4).depId,
-                                            lat: currentLat,
-                                            lag: currentLong,
-                                            distance: "10",
-                                            searchType: 2,
-                                          ));
+                                        // if (chonsenOne(4).depId != null)
+                                        //   Get.to(SearchLatAndLagScreen(
+                                        //     catId: chonsenOne(4).depId,
+                                        //     lat: currentLat,
+                                        //     lag: currentLong,
+                                        //     distance: "10",
+                                        //     searchType: 2,
+                                        //   ));
                                       },
                                       child: Container(
                                         child: CachedNetworkImage(
                                           placeholder: (context, url) =>
                                               Image.asset(
-                                                  'assets/images/logo.png'),
+                                                  'assets/images/img.png'),
                                           imageUrl:
                                               chonsenOne(4).recommendedImage,
                                           fit: BoxFit.fill,
@@ -538,21 +533,21 @@ class _HomeState extends State<Home> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if (chonsenOne(5).depId != null)
-                                    Get.to(SearchLatAndLagScreen(
-                                      catId: chonsenOne(5).depId,
-                                      lat: currentLat,
-                                      lag: currentLong,
-                                      distance: "10",
-                                      searchType: 1,
-                                    ));
+                                  // if (chonsenOne(5).depId != null)
+                                  //   Get.to(SearchLatAndLagScreen(
+                                  //     catId: chonsenOne(5).depId,
+                                  //     lat: currentLat,
+                                  //     lag: currentLong,
+                                  //     distance: "10",
+                                  //     searchType: 1,
+                                  //   ));
                                 },
                                 child: Container(
                                   height: hight * 0.06,
                                   width: width * 0.22,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/logo.png'),
+                                        Image.asset('assets/images/img.png'),
                                     imageUrl: chonsenOne(5).recommendedImage,
                                     fit: BoxFit.fill,
                                   ),

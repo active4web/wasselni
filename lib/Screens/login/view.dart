@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
           SizedBox(height: 50),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: Image.asset('assets/images/logo.png')),
+              child: Image.asset('assets/images/img.png')),
           SizedBox(height: 20),
           // CustomTextField(controller: _name, hint: 'name'.tr),
           SizedBox(height: 10),

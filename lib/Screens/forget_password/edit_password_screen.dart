@@ -44,7 +44,7 @@ class _EditPasswordState extends State<EditPassword> {
                 Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    "assets/images/logo.png",
+                    "assets/images/img.png",
                     width: 80,
                   ),
                 ),

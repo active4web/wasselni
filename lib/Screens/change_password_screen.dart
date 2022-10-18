@@ -45,7 +45,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    "assets/images/logo.png",
+                    "assets/images/img.png",
                     width: 80,
                   ),
                 ),

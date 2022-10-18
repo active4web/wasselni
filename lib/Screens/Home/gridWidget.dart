@@ -47,7 +47,7 @@ Widget customGridView(BuildContext context, List<AllCategories> items) {
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
                   placeholder: (context, url) =>
-                      Image.asset('assets/images/logo.png'),
+                      Image.asset('assets/images/img.png'),
                   imageUrl: items[index].categoryImage,
                   fit: BoxFit.fill,
                   fadeInDuration: Duration(seconds: 2),

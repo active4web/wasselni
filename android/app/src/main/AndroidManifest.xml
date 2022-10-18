@@ -1,13 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.waselnni">
+    package="com.Bosr3a">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
-        android:label="وصلني"
-        android:icon="@mipmap/launcher_icon">
+        android:label="Bosr3a"
+        android:icon="@mipmap/ic_launcher">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCrsTVja4leOLfOxV6EfP1oSyQv_bpj7yg"/>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

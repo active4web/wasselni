@@ -87,7 +87,7 @@ class SplashScreenState extends State<SplashScreen> {
           Center(
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60),
-                  child: Image.asset('assets/images/logo.png')))
+                  child: Image.asset('assets/images/img.png')))
         ],
       ),
     );

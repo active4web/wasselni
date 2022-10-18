@@ -151,7 +151,7 @@ class _OfferssState extends State<Offerss> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FlatButton(
+                        MaterialButton(
                           onPressed: () {
                             showDialog(context: context, builder: (context) =>  AlertDialog(
                               content: Column(
@@ -191,7 +191,7 @@ class _OfferssState extends State<Offerss> {
                                           child: Center(child: Text("كم")))
                                     ],
                                   ),
-                                  RaisedButton(
+                                  MaterialButton(
                                     child: Text("متابعة"),
                                     onPressed:(){
                                       if(distanceController.text.isNotEmpty)
@@ -236,7 +236,7 @@ class _OfferssState extends State<Offerss> {
                               setState(() {});
                             },
                             icon: Icon(FontAwesomeIcons.sort)),
-                        FlatButton(
+                        MaterialButton(
                           onPressed: () {
                             Get.to(SetOffersAddress());
                           },

@@ -248,7 +248,7 @@ class _ServicesOffersState extends State<ServicesOffers> {
                                                   errorBuilder: (context, error,
                                                           stackTrace) =>
                                                       Image.asset(
-                                                          'assets/images/logo.png'),
+                                                          'assets/images/img.png'),
                                                 ),
                                               )),
                                         ),
