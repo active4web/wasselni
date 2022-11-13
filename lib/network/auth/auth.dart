@@ -24,6 +24,19 @@ class Auth with ChangeNotifier {
   String fireBaseToken;
   String city;
   String cityId;
+
+  String support_phone;
+  String support_email;
+String  terms_conditions;
+  String  hotline;
+  String  name_site;
+  String  address;
+  String  whatsapp;
+  String facebook;
+  String twitter;
+
+
+
   Future<String> getToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     token = preferences.getString('bool');
@@ -62,7 +75,9 @@ class Auth with ChangeNotifier {
       Dio.Response response = await dio().post(
         'pages/preparation_profile',
         data: Dio.FormData.fromMap(
-          {'key': 1234567890, 'token_id': token, 'lang': language},
+          {'key': 1234567890,
+            'token_id': token,
+            'lang': language},
         ),
       );
       print(response);
@@ -71,6 +86,31 @@ class Auth with ChangeNotifier {
       phoneNumber = response.data['result']['customer_info']['phone'];
       city = response.data['result']['customer_info']['country_name'];
       cityId = response.data['result']['customer_info']['country_id'];
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future<void> condition(String language) async {
+    try {
+      Dio.Response response = await dio().post(
+        '/pages/get_contact_info',
+        data: Dio.FormData.fromMap(
+          {'key': 1234567890,
+            'token_id': token,
+            'lang': language},
+        ),
+      );
+      print(response);
+      terms_conditions = response.data['result']['terms_conditions '];
+      address = response.data['result']['address'];
+      hotline = response.data['result']['hotline'];
+      name_site = response.data['result']['name_site'];
+      support_email = response.data['result']['support_email'];
+      support_phone = response.data['result']['support_phone'];
+      whatsapp = response.data['result']['whatsapp'];
+      facebook = response.data['result']['facebook'];
+      twitter = response.data['result']['twitter'];
     } catch (error) {
       throw (error);
     }

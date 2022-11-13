@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:wassalny/model/myOrdersProvider.dart';
 import 'package:get/get.dart';
 
+import '../../network/auth/provider/condition.dart';
+
 class MyOrdersScreen extends StatefulWidget {
   @override
   _MyOrdersScreenState createState() => _MyOrdersScreenState();
@@ -37,9 +39,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
+
           "MyOrders".tr,
           style: TextStyle(
             color: Colors.white,
