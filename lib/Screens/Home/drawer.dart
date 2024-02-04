@@ -21,11 +21,13 @@ import 'package:wassalny/Screens/myFavourite/myFavouriteScreen.dart';
 import 'package:wassalny/Screens/myOrders/myOrders.dart';
 import 'package:wassalny/model/home.dart';
 import 'package:wassalny/network/auth/auth.dart';
+import 'package:badges/badges.dart' as badges;
+
 
 import '../al_points_screen.dart';
 
 class MyDrawer extends StatefulWidget {
-  final String name;
+  final String? name;
   final userData;
   final products;
 
@@ -38,14 +40,14 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawer extends State<MyDrawer> {
-  String name;
+  String? name;
   bool isUser = false;
-  String token;
-  bool isAuth;
+  String? token;
+  bool? isAuth;
   var userData;
 
-  String url;
-  String chevk() {
+  String? url;
+  String? chevk() {
     if (Platform.isAndroid) {
       url = 'https://play.google.com/store/apps/details?id=com.waselnni';
     } else if (Platform.isIOS) {
@@ -71,7 +73,7 @@ class _MyDrawer extends State<MyDrawer> {
     }
   }
 
-  Widget menuTitle(String title, Function onTap, {bool cart = false}) {
+  Widget menuTitle(String title, void Function()? onTap, {bool cart = false}) {
     return Container(
       margin: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0, top: 0),
       padding: EdgeInsets.only(right: 0.0, left: 0.0, bottom: 10.0, top: 10),
@@ -89,7 +91,8 @@ class _MyDrawer extends State<MyDrawer> {
                   weight: FontWeight.w600,
                   size: 15),
               if (cart)
-                Badge(
+
+                badges.Badge(
                   badgeContent: Text(
                     widget.products.length.toString(),
                     style: TextStyle(
@@ -105,7 +108,7 @@ class _MyDrawer extends State<MyDrawer> {
     );
   }
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _submit() async {
     bool auth = Provider.of<Auth>(context, listen: false).doneLogOut;
@@ -146,7 +149,7 @@ class _MyDrawer extends State<MyDrawer> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.start, children: []),
               ),
-              // SizedBox(height: 30),
+              // SizedBox(height: 30.h),
               menuTitle("Profile".tr, () {
                 Get.to(Profile());
               }),
@@ -180,7 +183,7 @@ class _MyDrawer extends State<MyDrawer> {
                 Get.to(Subscribe());
               }),
               menuTitle("ShareApp".tr, () async {
-                await Share.share(url);
+                await Share.share(url??'');
               }),
               menuTitle("aboutApp".tr, () {
                 Get.to(About());

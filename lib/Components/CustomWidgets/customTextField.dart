@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType type;
-  final FocusNode focusNode;
-  final String hint;
-  final TextDirection textDirection;
-  final Function onTap;
-  final Widget icon;
-  List<TextInputFormatter> inputFormatters;
-  final Function onChanged;
-  final Function(String) onSaved;
-  final String Function(String) valid;
-  final IconData suffixIcon;
-  final bool isPassword;
-  final Function suffixPress;
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String? hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
+  List<TextInputFormatter>? inputFormatters;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final String? Function(String?)? valid;
+  final IconData? suffixIcon;
+  final bool? isPassword;
+  final void Function()? suffixPress;
 
   CustomTextField(
       {this.focusNode,
@@ -55,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           keyboardType: widget.type,
           inputFormatters: widget.inputFormatters,
-          obscureText: widget.isPassword,
+          obscureText: widget.isPassword??false,
           textDirection: (widget.textDirection == null &&
                       currentLanguage.languageCode == "ar") ||
                   widget.textDirection == TextDirection.rtl
@@ -91,18 +92,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
 // TextField But Not Rounded
 class ProfileTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType type;
-  final FocusNode focusNode;
-  final String hint;
-  final TextDirection textDirection;
-  final Function onTap;
-  final Widget icon;
-  final String intialval;
-  final Function(String) onChanged;
-  final Function(String) onSaved;
-  final String Function(String) validator;
-  final int maxLi;
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String ?hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
+  final String? intialval;
+  final void Function(String)? onChanged;
+  final void Function(String?)? onSaved;
+  final String? Function(String?)? validator;
+  final int? maxLi;
   final bool isEnabled;
   ProfileTextField({
     this.maxLi,
@@ -129,7 +130,7 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
   Widget build(BuildContext context) {
     var currentLanguage = Localizations.localeOf(context);
     return Container(
-      height: 50,
+      height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.grey.withOpacity(.3),
@@ -175,18 +176,18 @@ class _ProfileTextFieldState extends State<ProfileTextField> {
 }
 
 class ProfileTextField1 extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType type;
-  final FocusNode focusNode;
-  final String hint;
-  final TextDirection textDirection;
-  final Function onTap;
-  final Widget icon;
-  final String intialval;
-  final Function(String) onChanged;
-  final Function(String) onSaved;
-  final String Function(String) validator;
-  final int maxLi;
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String? hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
+  final String? intialval;
+  final void Function(String?)? onChanged;
+  final void Function(String?)? onSaved;
+  final String? Function(String?)? validator;
+  final int? maxLi;
   ProfileTextField1(
       {this.maxLi,
       this.focusNode,
@@ -261,13 +262,13 @@ class _ProfileTextField1State extends State<ProfileTextField1> {
 // Transparent TextField Without Container
 
 class TransparentTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType type;
-  final FocusNode focusNode;
-  final String hint;
-  final TextDirection textDirection;
-  final Function onTap;
-  final Widget icon;
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String? hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
   TransparentTextField({
     this.focusNode,
     this.controller,
@@ -320,14 +321,14 @@ class _TransparentTextFieldState extends State<TransparentTextField> {
 // Transparent TextField Without Container And With Color Text
 
 class TransparentTextFieldColorText extends StatefulWidget {
-  final TextEditingController controller;
-  final TextInputType type;
-  final FocusNode focusNode;
-  final String hint;
-  final TextDirection textDirection;
-  final Function onTap;
-  final Widget icon;
-  final String Function(String) validator;
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String? hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
+  final String? Function(String?)? validator;
   TransparentTextFieldColorText({
     this.validator,
     this.focusNode,

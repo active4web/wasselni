@@ -21,10 +21,10 @@ class TicketsType {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory TicketsType.fromJson(Map<String, dynamic> json) => TicketsType(
         message: json["message"],
@@ -37,7 +37,7 @@ class TicketsType {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -46,7 +46,7 @@ class Result {
     this.ticketsTypes,
   });
 
-  List<TicketsTypeElement> ticketsTypes;
+  List<TicketsTypeElement>? ticketsTypes;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         ticketsTypes: List<TicketsTypeElement>.from(
@@ -55,7 +55,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "tickets_types":
-            List<dynamic>.from(ticketsTypes.map((x) => x.toJson())),
+            List<dynamic>.from(ticketsTypes!.map((x) => x.toJson())),
       };
 }
 
@@ -66,9 +66,9 @@ class TicketsTypeElement {
     this.color,
   });
 
-  int id;
-  String name;
-  String color;
+  int? id;
+  String? name;
+  String? color;
 
   factory TicketsTypeElement.fromJson(Map<String, dynamic> json) =>
       TicketsTypeElement(
@@ -85,7 +85,7 @@ class TicketsTypeElement {
 }
 
 class TicketsTypeProvider with ChangeNotifier {
-  String token;
+  String? token;
   TicketsTypeProvider({this.token});
 
   List<TicketsTypeElement> type = [];
@@ -98,7 +98,7 @@ class TicketsTypeProvider with ChangeNotifier {
         ),
       );
       print(response);
-      type = ticketsTypeFromJson(response.toString()).result.ticketsTypes;
+      type = ticketsTypeFromJson(response.toString()).result?.ticketsTypes??[];
     } catch (err) {}
   }
 }

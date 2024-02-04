@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/CategoryList/view.dart';
 import 'package:wassalny/Screens/Subsections/view.dart';
 import 'package:wassalny/model/home.dart';
@@ -21,7 +23,7 @@ Widget customGridView(BuildContext context, List<AllCategories> items) {
     itemBuilder: (context, index) {
       return InkWell(
         onTap: () {
-          if (items[index].totalDepartment > 0) {
+          if (items[index].totalDepartment! > 0) {
             Get.to(
               Subsections(
                   items: items[index].allDepartment,
@@ -30,7 +32,7 @@ Widget customGridView(BuildContext context, List<AllCategories> items) {
             );
           } else {
             print(items[index].catId);
-            Get.to(CategoryList(items[index].catId, 1, 1));
+            Get.to(CategoryList(items[index].catId!, 1, 1));
           }
         },
         child: Column(
@@ -41,14 +43,14 @@ Widget customGridView(BuildContext context, List<AllCategories> items) {
                 color: Colors.blue.withAlpha(40),
               ),
               margin: EdgeInsets.only(right: 5),
-              height: 100,
-              width: 100,
+              height: 100.h,
+              width: 100.w,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: CachedNetworkImage(
                   placeholder: (context, url) =>
-                      Image.asset('assets/images/img.png'),
-                  imageUrl: items[index].categoryImage,
+                      Image.asset(appLogo),
+                  imageUrl: items[index].categoryImage??'',
                   fit: BoxFit.fill,
                   fadeInDuration: Duration(seconds: 2),
                 ),
@@ -56,12 +58,12 @@ Widget customGridView(BuildContext context, List<AllCategories> items) {
             ),
             Container(
               child: Text(
-                items[index].categoryName,
+                items[index].categoryName??'',
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 15.sp,
                 ),
               ),
             ),

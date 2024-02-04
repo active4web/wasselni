@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'package:turkish/turkish.dart';
@@ -7,6 +8,8 @@ import 'package:wassalny/Components/CustomWidgets/MyText.dart';
 import 'package:wassalny/Components/CustomWidgets/appBar.dart';
 import 'package:wassalny/Components/CustomWidgets/myColors.dart';
 import 'package:wassalny/Screens/BattomBar/view.dart';
+
+import '../../Components/constants.dart';
 
 class Language extends StatefulWidget {
   @override
@@ -19,19 +22,19 @@ class _LanguageState extends State<Language> {
     {"name": "English", "id": 1},
     {"name": "Türkçe", "id": 2}
   ];
-  String city = Get.locale.languageCode == "ar"
+  String city = Get.locale?.languageCode == "ar"
       ? "اللغة العربية"
-      : Get.locale.languageCode == 'en'
+      : Get.locale?.languageCode == 'en'
           ? "English"
           : "Türkçe";
-  int cityId = Get.locale.languageCode == "ar"
+  int cityId = Get.locale?.languageCode == "ar"
       ? 0
-      : Get.locale.languageCode == "en"
+      : Get.locale?.languageCode == "en"
           ? 1
           : 0;
 
   Widget filter(Widget widget) => Container(
-      height: 50,
+      height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.blue,
@@ -40,7 +43,7 @@ class _LanguageState extends State<Language> {
       ),
       child: widget);
 
-  Widget searchContainer(Function onTap, String title) => InkWell(
+  Widget searchContainer(void Function()? onTap, String title) => InkWell(
       onTap: onTap,
       child: Row(children: [
         Expanded(
@@ -61,57 +64,54 @@ class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: titleAppBar(context, "lang".tr),
-        body: WillPopScope(
-          onWillPop: () => Get.offAll(BottomNavyView()),
-          child: ListView(padding: EdgeInsets.all(20), children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 60),
-                child: Image.asset(
-                  'assets/images/img.png',
-                  width: 100,
-                )),
-            SizedBox(height: 15),
-            Row(children: [
-              Expanded(
-                  child: MyText(
-                      alien: TextAlign.center,
-                      title: turkish.toLowerCase("TextInLangScreen".tr),
-                      weight: FontWeight.w500,
-                      size: 25))
-            ]),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-            filter(InkWell(
-                onTap: () => _modalBottomSheetMenu(context),
-                child: Row(children: [
-                  Expanded(
-                      child: Text(
-                          Get.locale.languageCode == "ar"
-                              ? "اللغة العربية"
-                              : Get.locale.languageCode == "en"
-                                  ? "English"
-                                  : 'Türkçe',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17))),
-                  Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 30)
-                ]))),
-            SizedBox(height: 20),
-            CustomButton(
-                backgroundColor: Colors.blue,
-                borderColor: Colors.blue,
-                isShadow: 0,
-                onTap: () {
-                  Get.offAll(BottomNavyView());
-                },
-                textColor: Colors.white,
-                label: "save".tr)
+        appBar: TitleAppBar(title: "lang".tr),
+        body: ListView(padding: EdgeInsets.all(20), children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 60),
+              child: Image.asset(
+                appLogo,
+                width: 100,
+              )),
+          SizedBox(height: 15),
+          Row(children: [
+            Expanded(
+                child: MyText(
+                    alien: TextAlign.center,
+                    title: turkish.toLowerCase("TextInLangScreen".tr),
+                    weight: FontWeight.w500,
+                    size: 25))
           ]),
-        ));
+          SizedBox(height: 20.h),
+          SizedBox(height: 20.h),
+          filter(InkWell(
+              onTap: () => _modalBottomSheetMenu(context),
+              child: Row(children: [
+                Expanded(
+                    child: Text(
+                        Get.locale?.languageCode == "ar"
+                            ? "اللغة العربية"
+                            : Get.locale?.languageCode == "en"
+                                ? "English"
+                                : 'Türkçe',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17))),
+                Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 30)
+              ]))),
+          SizedBox(height: 20.h),
+          CustomButton(
+              backgroundColor: Colors.blue,
+              borderColor: Colors.blue,
+              isShadow: 0,
+              onTap: () {
+                Get.offAll(BottomNavyView());
+              },
+              textColor: Colors.white,
+              label: "save".tr)
+        ]));
   }
 
   void _modalBottomSheetMenu(BuildContext context) {
@@ -147,7 +147,7 @@ class _LanguageState extends State<Language> {
                     : city == 'English'
                         ? Locale('en')
                         : Locale('tr'));
-                print(Get.locale.languageCode);
+                print(Get.locale?.languageCode);
                 // Navigator.pop(context);
               },
               child: Container(

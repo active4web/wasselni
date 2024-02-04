@@ -22,11 +22,11 @@ class SearchLagAndlat {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory SearchLagAndlat.fromJson(Map<String, dynamic> json) =>
       SearchLagAndlat(
@@ -42,7 +42,7 @@ class SearchLagAndlat {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -51,7 +51,7 @@ class Result {
     this.allProducts,
   });
 
-  List<AllProduct> allProducts;
+  List<AllProduct>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allProducts: List<AllProduct>.from(
@@ -59,7 +59,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
+        "all_products": List<dynamic>.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -74,13 +74,13 @@ class AllProduct {
     this.delivery,
   });
 
-  String productImage;
-  String productName;
-  int favExit;
-  String totalRate;
-  String phone;
-  int prodId;
-  int delivery;
+  String? productImage;
+  String? productName;
+  int? favExit;
+  String? totalRate;
+  String? phone;
+  int? prodId;
+  int? delivery;
 
   factory AllProduct.fromJson(Map<String, dynamic> json) => AllProduct(
         productImage: json["product_image"],
@@ -104,20 +104,20 @@ class AllProduct {
 }
 
 class SearchLatAndLagProvider with ChangeNotifier {
-  String token;
+  String? token;
   SearchLatAndLagProvider({this.token});
 
   List<AllProduct> searchLatAndLag = [];
   bool doneSearching = false;
   Future<bool> fetchSearch(
-      {int catId,
-      int limt,
-      int pageNumber,
-      double lat,
-      double lag,
-      String distance,
-      int searchType,
-      String lang}) async {
+      {int? catId,
+      int? limt,
+      int? pageNumber,
+      double? lat,
+      double? lag,
+      String? distance,
+      int? searchType,
+      String? lang}) async {
     print(lat);
     print(lag);
     print(catId);
@@ -144,7 +144,7 @@ class SearchLatAndLagProvider with ChangeNotifier {
       print(response);
       if (response.data['status'] == true) {
         searchLatAndLag =
-            searchLagAndlatFromJson(response.toString()).result.allProducts;
+            searchLagAndlatFromJson(response.toString()).result?.allProducts??[];
         doneSearching = true;
       }
       return doneSearching;
@@ -156,15 +156,15 @@ class SearchLatAndLagProvider with ChangeNotifier {
   }
 
   Future<bool> fetchFilerSearch(
-      {int catId,
-      int limt,
-      int pageNumber,
-      double lat,
-      double lag,
-      int searchType,
-      int city,
-      int state,
-      String lang}) async {
+      {int? catId,
+      int? limt,
+      int? pageNumber,
+      double? lat,
+      double? lag,
+      int? searchType,
+      int? city,
+      int? state,
+      String? lang}) async {
     print(lat);
     print(lag);
     print(catId);
@@ -192,7 +192,7 @@ class SearchLatAndLagProvider with ChangeNotifier {
       print(response);
       if (response.data['status'] == true) {
         searchLatAndLag =
-            searchLagAndlatFromJson(response.toString()).result.allProducts;
+            searchLagAndlatFromJson(response.toString()).result?.allProducts??[];
         doneSearching = true;
       }
       return doneSearching;

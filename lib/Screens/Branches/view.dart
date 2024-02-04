@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -52,7 +53,7 @@ class _BranchesState extends State<Branches> {
     List<AllProducts> branches =
         Provider.of<BranchesProvider>(context).branches;
     return Scaffold(
-      appBar: newAppBar(context, "Branches".tr),
+      appBar: NewAppBar(title: "Branches".tr),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : branches.isEmpty
@@ -60,7 +61,7 @@ class _BranchesState extends State<Branches> {
                   child: Text(
                     "NOBranches".tr,
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 30.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue),
                   ),
@@ -82,7 +83,7 @@ class _BranchesState extends State<Branches> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AutoSizeText(branches[index].productName),
+                                    AutoSizeText(branches[index].productName??''),
                                     InkWell(
                                       onTap: () async {
                                         await launch(
@@ -100,7 +101,7 @@ class _BranchesState extends State<Branches> {
                                     Container(
                                       width: width * 0.5,
                                       child: AutoSizeText(
-                                        branches[index].address,
+                                        branches[index].address??'',
                                         maxLines: 2,
                                       ),
                                     ),
@@ -114,7 +115,7 @@ class _BranchesState extends State<Branches> {
                                       image: DecorationImage(
                                         fit: BoxFit.fill,
                                         image: NetworkImage(
-                                          branches[index].productImage,
+                                          branches[index].productImage??'',
                                         ),
                                       ),
                                     ),
@@ -127,7 +128,7 @@ class _BranchesState extends State<Branches> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                              horizontal: 20,
+                              horizontal: 20.w,
                             ),
                             child: Divider(
                               color: Colors.blue,

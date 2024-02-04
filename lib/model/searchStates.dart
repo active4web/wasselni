@@ -21,10 +21,10 @@ class SearchCity {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory SearchCity.fromJson(Map<String, dynamic> json) => SearchCity(
         message: json["message"],
@@ -37,7 +37,7 @@ class SearchCity {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -46,7 +46,7 @@ class Result {
     this.allStates,
   });
 
-  List<AllState> allStates;
+  List<AllState>? allStates;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allStates: List<AllState>.from(
@@ -54,7 +54,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_states": List<dynamic>.from(allStates.map((x) => x.toJson())),
+        "all_states": List<dynamic>.from(allStates!.map((x) => x.toJson())),
       };
 }
 
@@ -65,9 +65,9 @@ class AllState {
     this.allCities,
   });
 
-  String stateName;
-  int stateId;
-  List<AllCity> allCities;
+  String? stateName;
+  int? stateId;
+  List<AllCity>? allCities;
 
   factory AllState.fromJson(Map<String, dynamic> json) => AllState(
         stateName: json["state_name"],
@@ -79,7 +79,7 @@ class AllState {
   Map<String, dynamic> toJson() => {
         "state_name": stateName,
         "state_id": stateId,
-        "all_cities": List<dynamic>.from(allCities.map((x) => x.toJson())),
+        "all_cities": List<dynamic>.from(allCities!.map((x) => x.toJson())),
       };
 }
 
@@ -89,8 +89,8 @@ class AllCity {
     this.cityId,
   });
 
-  String cityName;
-  int cityId;
+  String? cityName;
+  int? cityId;
 
   factory AllCity.fromJson(Map<String, dynamic> json) => AllCity(
         cityName: json["city_name"],
@@ -104,7 +104,7 @@ class AllCity {
 }
 
 class SearchStatesProvider with ChangeNotifier {
-  String token;
+  String? token;
   SearchStatesProvider({
     this.token,
   });
@@ -119,7 +119,7 @@ class SearchStatesProvider with ChangeNotifier {
         ),
       );
       print(response);
-      states = searchCityFromJson(response.toString()).result.allStates;
+      states = searchCityFromJson(response.toString()).result?.allStates??[];
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err} error from Search');

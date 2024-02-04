@@ -10,7 +10,7 @@ import 'package:wassalny/Screens/Home/view.dart';
 import 'package:wassalny/Screens/Offerss/view.dart';
 
 class BottomNavyView extends StatefulWidget {
-  final int index;
+  final int? index;
 
   BottomNavyView({
     this.index,
@@ -38,7 +38,7 @@ class _BottomNavyViewState extends State<BottomNavyView>
   void didChangeDependencies() {
     setState(
       () {
-        pageIndex = widget.index == null ? 0 : widget.index;
+        pageIndex = widget.index == null ? 0 : widget.index??0;
       },
     );
     super.didChangeDependencies();

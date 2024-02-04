@@ -22,11 +22,11 @@ class Notifications {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory Notifications.fromJson(Map<String, dynamic> json) => Notifications(
         message: json["message"],
@@ -41,7 +41,7 @@ class Notifications {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -50,7 +50,7 @@ class Result {
     this.allNotifications,
   });
 
-  List<AllNotification> allNotifications;
+  List<AllNotification>? allNotifications;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allNotifications: List<AllNotification>.from(
@@ -59,7 +59,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "all_notifications":
-            List<dynamic>.from(allNotifications.map((x) => x.toJson())),
+            List<dynamic>.from(allNotifications!.map((x) => x.toJson())),
       };
 }
 
@@ -74,13 +74,13 @@ class AllNotification {
     this.img,
   });
 
-  String title;
-  int id;
-  String body;
-  int type;
-  int isRead;
-  DateTime createdAt;
-  String img;
+  String? title;
+  int? id;
+  String? body;
+  int? type;
+  int? isRead;
+  DateTime? createdAt;
+  String? img;
 
   factory AllNotification.fromJson(Map<String, dynamic> json) =>
       AllNotification(
@@ -100,13 +100,13 @@ class AllNotification {
         "is_read": isRead,
         "type": type,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
         "img": img,
       };
 }
 
 class NotificationsProvider with ChangeNotifier {
-  String token;
+  String? token;
 
   NotificationsProvider({this.token});
 
@@ -127,8 +127,8 @@ class NotificationsProvider with ChangeNotifier {
       );
       print(response);
       allNotification.addAll(
-          notificationsFromJson(response.toString()).result.allNotifications);
-      total = notificationsFromJson(response.toString()).total;
+          notificationsFromJson(response.toString()).result?.allNotifications as Iterable<AllNotification>);
+      total = notificationsFromJson(response.toString()).total!;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err} error from offers list');

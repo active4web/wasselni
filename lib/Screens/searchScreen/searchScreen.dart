@@ -7,9 +7,9 @@ import 'package:wassalny/model/homeSearch.dart';
 import '../service_details/servicesDetails.dart';
 
 class SearchScreen extends StatefulWidget {
-  final List<AllProductss> search;
-  final String name;
-  final String searchText;
+  final List<AllProductss>? search;
+  final String? name;
+  final String? searchText;
   const SearchScreen({this.search, this.name, this.searchText});
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-        child: widget.search.isEmpty
+        child: widget.search!.isEmpty
             ? Center(
                 child: Text(
                   "NoSearch".tr,
@@ -83,14 +83,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 0,
                 ),
-                itemCount: widget.search.length,
+                itemCount: widget.search?.length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
                       InkWell(
                         onTap: () {
                           Get.to(ServicesDetails(
-                            id: widget.search[index].prodId,
+                            id: widget.search?[index].prodId,
                           ));
                         },
                         child: Container(
@@ -100,13 +100,13 @@ class _SearchScreenState extends State<SearchScreen> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                    widget.search[index].productImage),
+                                    widget.search?[index].productImage??''),
                               ),
                             ),
                             height: hight * 0.2,
                             width: MediaQuery.of(context).size.width * .3),
                       ),
-                      AutoSizeText(widget.search[index].productName,
+                      AutoSizeText(widget.search?[index].productName??'',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(

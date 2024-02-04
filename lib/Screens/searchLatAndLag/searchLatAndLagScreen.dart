@@ -11,11 +11,11 @@ import 'package:wassalny/model/searchLAndLat.dart';
 // package:wasalny/Screens/service_details/servicesDetails.dart
 
 class SearchLatAndLagScreen extends StatefulWidget {
-  final int catId;
-  final double lat;
-  final double lag;
-  final String distance;
-  final int searchType;
+  final int? catId;
+  final double? lat;
+  final double? lag;
+  final String? distance;
+  final int? searchType;
   const SearchLatAndLagScreen(
       {this.catId, this.lag, this.lat, this.searchType, this.distance});
 
@@ -26,8 +26,8 @@ class SearchLatAndLagScreen extends StatefulWidget {
 class _SearchLatAndLagScreenState extends State<SearchLatAndLagScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  bool loader;
-  String lang = Get.locale.languageCode;
+  bool loader=false;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _sentFav(int isFav, int productId) async {
     bool done =
@@ -157,7 +157,7 @@ class _SearchLatAndLagScreenState extends State<SearchLatAndLagScreen> {
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: NetworkImage(
-                                          list[index].productImage),
+                                          list[index].productImage??''),
                                     ),
                                   ),
                                   height: hight * 0.2,
@@ -168,8 +168,8 @@ class _SearchLatAndLagScreenState extends State<SearchLatAndLagScreen> {
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        _sentFav(list[index].favExit,
-                                            list[index].prodId);
+                                        _sentFav(list[index].favExit!,
+                                            list[index].prodId!);
                                         setState(() {});
                                       },
                                       icon: list[index].favExit == 0
@@ -191,10 +191,10 @@ class _SearchLatAndLagScreenState extends State<SearchLatAndLagScreen> {
                                   list[index].totalRate == '' ||
                                           list[index].totalRate == null
                                       ? Text('0')
-                                      : Text(list[index].totalRate),
+                                      : Text(list[index].totalRate??''),
                                 ],
                               ),
-                              Text(list[index].productName,
+                              Text(list[index].productName??'',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(

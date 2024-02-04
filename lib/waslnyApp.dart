@@ -1,18 +1,14 @@
 import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:provider/provider.dart';
 import 'package:wassalny/Screens/Offerss/view.dart';
-import 'package:wassalny/customNoti.dart';
-import 'package:wassalny/main.dart';
 import 'package:wassalny/model/addRatingModel.dart';
 import 'package:wassalny/model/addToCart.dart';
 import 'package:wassalny/model/addToFavourite.dart';
@@ -25,7 +21,6 @@ import 'Components/CustomWidgets/myColors.dart';
 import 'Components/Language/getLanguage.dart';
 import 'Screens/Notif/view.dart';
 import 'Screens/Tickets/view.dart';
-import 'Screens/cart/cart.dart';
 import 'Screens/myOrders/myOrders.dart';
 import 'Screens/register/county/list.dart';
 import 'model/aboutandcontact.dart';
@@ -52,7 +47,6 @@ import 'model/searchLAndLat.dart';
 import 'model/sirv_offers.dart';
 import 'model/updateCartProvider.dart';
 import 'network/auth/auth.dart';
-import 'notification_helper.dart';
 
 class WaslnyApp extends StatefulWidget {
   @override
@@ -120,7 +114,7 @@ class _WaslnyAppState extends State<WaslnyApp> with WidgetsBindingObserver {
           create: (context) => CityDropDownProvider(),
         ),
         ChangeNotifierProxyProvider<Auth, AllOffersProvider>(
-          create: null,
+          create:(context) =>AllOffersProvider(),
           update: (context, auth, alOffersProvider) => AllOffersProvider(
             id: auth.id,
             lang: auth.lang,
@@ -129,7 +123,7 @@ class _WaslnyAppState extends State<WaslnyApp> with WidgetsBindingObserver {
         ),
 
         ChangeNotifierProxyProvider<Auth, HomeLists>(
-          create: null,
+          create: (context)=>HomeLists(),
           update: (context, auth, homelist) => HomeLists(
             id: auth.id,
             lang: auth.lang,
@@ -137,114 +131,114 @@ class _WaslnyAppState extends State<WaslnyApp> with WidgetsBindingObserver {
           ),
         ),
         ChangeNotifierProxyProvider<Auth, AboutAndContactUS>(
-          create: null,
+          create: (context) => AboutAndContactUS(),
           update: (context, auth, aboutAndContactUS) => AboutAndContactUS(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, ContactUsModel>(
-          create: null,
+          create: (context) => ContactUsModel(),
           update: (context, auth, contactUs) => ContactUsModel(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, TicketsTypeProvider>(
-          create: null,
+          create: (context) =>TicketsTypeProvider() ,
           update: (context, auth, contactUs) => TicketsTypeProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, OfferDetailsProvider>(
-          create: null,
+          create: (context) => OfferDetailsProvider(),
           update: (context, auth, offerDetailsProvider) => OfferDetailsProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, DetailsOfServicesProvider>(
-          create: null,
+          create: (context) =>DetailsOfServicesProvider() ,
           update: (context, auth, offerDetailsProvider) =>
               DetailsOfServicesProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, ItemServicesDetail>(
-          create: null,
+          create: (context) => ItemServicesDetail(),
           update: (context, auth, offerDetailsProvider) => ItemServicesDetail(
-            auth.token,
+            token:auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, x.TicketsLisstProvider>(
-          create: null,
+          create: (context) => x.TicketsLisstProvider(),
           update: (context, auth, offerDetailsProvider) =>
               x.TicketsLisstProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, NotificationsProvider>(
-          create: null,
+          create: (context) =>NotificationsProvider() ,
           update: (context, auth, offerDetailsProvider) =>
               NotificationsProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, BranchesProvider>(
-          create: null,
+          create: (context) => BranchesProvider(),
           update: (context, auth, branchesProvider) => BranchesProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, SearchName>(
-          create: null,
+          create: (context) => SearchName(),
           update: (context, auth, searchName) => SearchName(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, TicketsDetailsProvider>(
-          create: null,
+          create: (context) =>TicketsDetailsProvider() ,
           update: (context, auth, ticketsDetailsProvider) =>
               TicketsDetailsProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SearchCity>(
-          create: null,
+          create:  (context) => SearchCity(),
           update: (context, auth, searchCity) => SearchCity(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SearchOffersByCity>(
-          create: null,
+          create: (context) => SearchOffersByCity(),
           update: (context, auth, searchOfferCity) =>
               SearchOffersByCity(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, y.SearchStatesProvider>(
-          create: null,
+          create:(context) => y.SearchStatesProvider() ,
           update: (context, auth, searchCity) =>
               y.SearchStatesProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, NotificationDetailsProvider>(
-          create: null,
+          create: (context) => NotificationDetailsProvider(),
           update: (context, auth, searchCity) =>
               NotificationDetailsProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, AddRatingProvider>(
-          create: null,
+          create: (context) =>AddRatingProvider() ,
           update: (context, auth, searchCity) =>
               AddRatingProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SearchLatAndLagProvider>(
-          create: null,
+          create: (context) =>SearchLatAndLagProvider() ,
           update: (context, auth, searchCity) =>
               SearchLatAndLagProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SearchLatAndLagOffersProvider>(
-          create: null,
+          create: (context) =>SearchLatAndLagOffersProvider() ,
           update: (context, auth, searchCity) =>
               SearchLatAndLagOffersProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, AllMinProvider>(
-          create: null,
+          create: (context) => AllMinProvider(),
           update: (context, auth, searchCity) =>
               AllMinProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SirvOfferProvider>(
-          create: null,
+          create: (context) => SirvOfferProvider(),
           update: (context, auth, searchCity) =>
               SirvOfferProvider(token: auth.token),
         ),
@@ -255,87 +249,92 @@ class _WaslnyAppState extends State<WaslnyApp> with WidgetsBindingObserver {
         //   ),
         // ),
         ChangeNotifierProxyProvider<Auth, RemoveFromCartProvider>(
-          create: null,
+          create: (context) =>RemoveFromCartProvider() ,
           update: (context, auth, offerDetailsProvider) =>
               RemoveFromCartProvider(
             token: auth.token,
           ),
         ),
         ChangeNotifierProxyProvider<Auth, CartListProvider>(
-          create: null,
+          create: (context) => CartListProvider(),
           update: (context, auth, searchCity) =>
               CartListProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, UpdateIndexOfCartProvider>(
-          create: null,
+          create: (context) =>UpdateIndexOfCartProvider() ,
           update: (context, auth, searchCity) =>
               UpdateIndexOfCartProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, UpdateFavProvider>(
-          create: null,
+          create: (context) => UpdateFavProvider(),
           update: (context, auth, searchCity) =>
               UpdateFavProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, FavouriteListProvider>(
-          create: null,
+          create: (context) => FavouriteListProvider(),
           update: (context, auth, searchCity) =>
               FavouriteListProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, AddProductProvider>(
-          create: null,
+          create: (context) =>AddProductProvider() ,
           update: (context, auth, searchCity) =>
               AddProductProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, SentLocationgProvider>(
-          create: null,
+          create: (context) => SentLocationgProvider(),
           update: (context, auth, searchCity) =>
               SentLocationgProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, MyOrdersProvider>(
-          create: null,
+          create: (context) =>MyOrdersProvider() ,
           update: (context, auth, searchCity) =>
               MyOrdersProvider(token: auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, EndOrderProvider>(
-          create: null,
+          create: (context) => EndOrderProvider(),
           update: (context, auth, searchCity) =>
               EndOrderProvider(token: auth.token),
         ),
       ],
-      child: GetMaterialApp(
-        translations: Messages(),
-        // your translations
-        locale: Locale(savedLang.read('lang') == null
-            ? 'ar'
-            : savedLang
-                .read('lang')), // translations will be displayed in that locale
-        fallbackLocale: Locale(
-            savedLang.read('lang') == null ? 'ar' : savedLang.read('lang')),
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          DefaultCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [Locale('ar'), Locale('en'), Locale('tr')],
-        theme: ThemeData(
-          cupertinoOverrideTheme: CupertinoThemeData(
-              textTheme: CupertinoTextThemeData(
-            dateTimePickerTextStyle:
-                TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          )),
-          brightness: Brightness.light,
-          primaryColor: MyColors.primary,
-          accentColor: MyColors.primary,
-          fontFamily: "GE-Snd-Book",
-          backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-          canvasColor: Color.fromRGBO(250, 250, 250, 1),
-          textTheme: TextTheme(
-            headline1: TextStyle(fontFamily: 'GE-Snd-Book'),
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        child: GetMaterialApp(
+          translations: Messages(),
+          // your translations
+          locale: Locale(savedLang.read('lang') == null
+              ? 'ar'
+              : savedLang
+                  .read('lang')), // translations will be displayed in that locale
+          fallbackLocale: Locale(
+              savedLang.read('lang') == null ? 'ar' : savedLang.read('lang')),
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [Locale('ar'), Locale('en'), Locale('tr')],
+          theme: ThemeData(
+            cupertinoOverrideTheme: CupertinoThemeData(
+                textTheme: CupertinoTextThemeData(
+              dateTimePickerTextStyle:
+                  TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            )),
+            brightness: Brightness.light,
+            primaryColor: MyColors.primary,
+            hintColor: MyColors.primary,
+            fontFamily: "GE-Snd-Book",
+            backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+            canvasColor: Color.fromRGBO(250, 250, 250, 1),
+            textTheme: TextTheme(
+              headline1: TextStyle(fontFamily: 'GE-Snd-Book'),
+            ),
           ),
+          home: SplashScreen(),
         ),
-        home: SplashScreen(),
       ),
     );
   }

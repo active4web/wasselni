@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:wassalny/network/auth/dio.dart';
 
 class UpdateIndexOfCartProvider with ChangeNotifier {
-  String token;
+  String? token;
   UpdateIndexOfCartProvider({this.token});
 
   Future<void> updateIndex(
-      {String lang,
-      int idKey,
-      int idOrder,
-      int quantity,
-      int productID}) async {
+      {String? lang,
+      int? idKey,
+      int? idOrder,
+      int? quantity,
+      int? productID}) async {
     Map<String, dynamic> map = {
       'key': 1234567890,
       'token_id': token,

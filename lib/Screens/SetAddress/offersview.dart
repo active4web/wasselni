@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,8 @@ import 'package:wassalny/model/searchByCity.dart';
 import 'package:wassalny/model/searchByCityOffers.dart';
 import 'package:wassalny/model/searchStates.dart' as states;
 
+import '../../Components/constants.dart';
+
 // ignore: must_be_immutable
 class SetOffersAddress extends StatefulWidget {
   @override
@@ -21,16 +24,16 @@ class SetOffersAddress extends StatefulWidget {
 }
 
 class _SetOffersAddressState extends State<SetOffersAddress> {
-  String city;
-  int cityId;
-  String category;
-  int categoryId;
-  String government;
-  int governmentId;
-  String department;
-  String departmentId;
-  List<AllDepartment> allDepartment;
-  String lang = Get.locale.languageCode;
+  String? city;
+  int? cityId;
+  String? category;
+  int? categoryId;
+  String? government;
+  int? governmentId;
+  String? department;
+  String? departmentId;
+  List<AllDepartment>? allDepartment;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _submit() async {
     bool doneSearching =
@@ -73,7 +76,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
 
   bool loader = false;
   Future<void> getStates() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<states.SearchStatesProvider>(context, listen: false)
@@ -91,7 +94,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
     super.initState();
   }
 
-  Widget searchContainer(Function onTap, String title) => InkWell(
+  Widget searchContainer(void Function()? onTap, String title) => InkWell(
         onTap: onTap,
         child: Row(
           children: [
@@ -121,7 +124,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
         state.where((element) => element.stateId == cityId).toList();
     List<states.AllCity> finalcity = [];
     for (var i = 0; i < goverment.length; i++) {
-      finalcity = goverment[i].allCities;
+      finalcity = goverment[i].allCities??[];
     }
 
     List<AllCategories> allCategories =
@@ -129,7 +132,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
     List<AllCategories> cities = allCategories;
 
     return Scaffold(
-      appBar: titleAppBar(context, "Selecttheaddress".tr),
+      appBar: TitleAppBar(title: "Selecttheaddress".tr),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : ListView(
@@ -137,8 +140,8 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
               children: [
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60),
-                    child: Image.asset('assets/images/img.png', width: 100)),
-                SizedBox(height: 20),
+                    child: Image.asset(appLogo, width: 100)),
+                SizedBox(height: 20.h),
                 Row(
                   children: [
                     Expanded(
@@ -150,7 +153,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -186,7 +189,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                       children: [
                         Expanded(
                           child: Text(
-                            category == null ? "categories".tr : category,
+                            category == null ? "categories".tr : category??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -221,7 +224,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                                       width: MediaQuery.of(context).size.width *
                                           0.8,
                                       child: sectionsWidget(
-                                          context, allDepartment),
+                                          context, allDepartment!),
                                     ),
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -241,7 +244,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                       children: [
                         Expanded(
                           child: Text(
-                            department == null ? "Subsections".tr : department,
+                            department == null ? "Subsections".tr : department??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -292,7 +295,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                       children: [
                         Expanded(
                           child: Text(
-                            city == null ? "SelectState".tr : city,
+                            city == null ? "SelectState".tr : city??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -408,7 +411,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                           child: Text(
                             government == null || finalcity.isEmpty
                                 ? "Selectcity".tr
-                                : government,
+                                : government??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -425,7 +428,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
                 ),
                 SizedBox(height: 10),
                 // filter(street == null ? "اختر الحي" : street),
-                // SizedBox(height: 50),
+                // SizedBox(height: 50.h),
                 CustomButton(
                     backgroundColor: Colors.red,
                     borderColor: Colors.red,
@@ -654,7 +657,7 @@ class _SetOffersAddressState extends State<SetOffersAddress> {
   }
 
   Widget filter(Widget widget) => Container(
-      height: 50,
+      height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.blue,

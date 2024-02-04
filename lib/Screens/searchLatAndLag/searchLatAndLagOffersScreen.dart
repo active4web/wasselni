@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +15,11 @@ import 'package:wassalny/model/searchoffersLAndLat.dart';
 // package:wasalny/Screens/service_details/servicesDetails.dart
 
 class SearchLatAndLagOffersScreen extends StatefulWidget {
-  final int catId;
-  final double lat;
-  final double lag;
-  final String distance;
-  final int searchType;
+  final int? catId;
+  final double? lat;
+  final double? lag;
+  final String? distance;
+  final int? searchType;
   const SearchLatAndLagOffersScreen(
       {this.catId, this.lag, this.lat, this.searchType, this.distance});
 
@@ -33,8 +32,8 @@ class _SearchLatAndLagOffersScreenState
     extends State<SearchLatAndLagOffersScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  bool loader;
-  String lang = Get.locale.languageCode;
+  bool loader=false;
+  String lang = Get.locale?.languageCode??'';
 
   Future<void> future() async {
     loader = true;
@@ -157,10 +156,10 @@ class _SearchLatAndLagOffersScreenState
                                       onTap: () {
                                         Get.to(
                                           ServicesOffers(
-                                              list1[index].serviceImage,
+                                              list1[index].serviceImage??'',
                                               int.parse(
-                                                  list1[index].serviceId),
-                                              list1[index].serviceName),
+                                                  list1[index].serviceId??''),
+                                              list1[index].serviceName??''),
                                         );
                                       },
                                       child: Container(
@@ -174,14 +173,14 @@ class _SearchLatAndLagOffersScreenState
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Image.network(
-                                            list1[index].serviceImage,
+                                            list1[index].serviceImage??'',
                                             fit: BoxFit.fill,
                                           ),
                                         ),
                                       ),
                                     ),
                                     Text(
-                                      list1[index].serviceName,
+                                      list1[index].serviceName??'',
                                     ),
                                     SizedBox(
                                       height: hight * 0.01,
@@ -202,7 +201,7 @@ class _SearchLatAndLagOffersScreenState
                                                         2.5),
                                                 child: AutoSizeText(
                                                     list1[index]
-                                                        .description),
+                                                        .description??''),
                                               ),
                                               Container(
                                                 child: Row(
@@ -212,7 +211,7 @@ class _SearchLatAndLagOffersScreenState
                                                       children: [
                                                         Text(
                                                           list1[index]
-                                                              .oldPrice,
+                                                              .oldPrice??'',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -229,7 +228,7 @@ class _SearchLatAndLagOffersScreenState
                                                                 0.03),
                                                         Text(
                                                           list1[index]
-                                                              .newPrice,
+                                                              .newPrice??'',
                                                           style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight
@@ -266,36 +265,36 @@ class _SearchLatAndLagOffersScreenState
                                           ),
                                           child: InkWell(
                                             onTap: () {
-                                              return showDialog(
-                                                useSafeArea: true,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Carousel(
-                                                    images: allGalleries
-                                                        .map((e) => Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .all(
-                                                                      8.0),
-                                                              child:
-                                                                  Container(
-                                                                child: Image
-                                                                    .network(
-                                                                  e.offersImage,
-                                                                ),
-                                                              ),
-                                                            ))
-                                                        .toList(),
-                                                    autoplay: false,
-                                                  );
-                                                },
-                                              );
+                                              //  showDialog(
+                                              //   useSafeArea: true,
+                                              //   context: context,
+                                              //   builder: (context) {
+                                              //     return Carousel(
+                                              //       images: allGalleries
+                                              //           .map((e) => Padding(
+                                              //                 padding:
+                                              //                     const EdgeInsets
+                                              //                             .all(
+                                              //                         8.0),
+                                              //                 child:
+                                              //                     Container(
+                                              //                   child: Image
+                                              //                       .network(
+                                              //                     e.offersImage,
+                                              //                   ),
+                                              //                 ),
+                                              //               ))
+                                              //           .toList(),
+                                              //       autoplay: false,
+                                              //     );
+                                              //   },
+                                              // );
                                             },
                                             child: Image.network(
-                                                list1[index].offerImage),
+                                                list1[index].offerImage??''),
                                           )),
                                     ),
-                                    Text(list1[index].offerName),
+                                    Text(list1[index].offerName??''),
                                     SizedBox(
                                       height: hight * 0.02,
                                     ),

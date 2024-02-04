@@ -16,10 +16,10 @@ class RegisterModel {
         this.result,
     });
 
-    String message;
-    int codenum;
-    bool status;
-    Result result;
+    String? message;
+    int? codenum;
+    bool? status;
+    Result? result;
 
     factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
         message: json["message"],
@@ -32,7 +32,7 @@ class RegisterModel {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
     };
 }
 
@@ -41,14 +41,14 @@ class Result {
         this.clientData,
     });
 
-    List<ClientDatumR> clientData;
+    List<ClientDatumR>? clientData;
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
         clientData: List<ClientDatumR>.from(json["client_data"].map((x) => ClientDatumR.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "client_data": List<dynamic>.from(clientData.map((x) => x.toJson())),
+        "client_data": List<dynamic>.from(clientData!.map((x) => x.toJson())),
     };
 }
 
@@ -62,12 +62,12 @@ class ClientDatumR {
         this.token,
     });
 
-    String name;
-    String phone;
-    int id;
-    String fullname;
-    String lang;
-    String token;
+    String? name;
+    String? phone;
+    int? id;
+    String? fullname;
+    String? lang;
+    String? token;
 
     factory ClientDatumR.fromJson(Map<String, dynamic> json) => ClientDatumR(
         name: json["name"],

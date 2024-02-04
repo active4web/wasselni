@@ -73,8 +73,8 @@ class _EditPasswordState extends State<EditPassword> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))
                     ],
-                    valid: (String  value){
-                      if(value.isEmpty){
+                    valid: (  value){
+                      if(value!.isEmpty){
                         return "يجب ادخال كلمة السر";
                       }else{
                         return null;
@@ -99,7 +99,7 @@ class _EditPasswordState extends State<EditPassword> {
                           : icon2 = Icons.visibility_off_outlined;
                       setState(() {});
                     },
-                    valid: (String  value){
+                    valid: (  value){
                       if(confirmNewPassword.text != newPassword.text){
                         return " كلمة السر لا تطابق";
                       }else{
@@ -115,7 +115,7 @@ class _EditPasswordState extends State<EditPassword> {
                     borderColor: Colors.blue,
                     isShadow: 1,
                     onTap: () async {
-                      if(_formKey.currentState.validate()){
+                      if(_formKey.currentState!.validate()){
                         showDaialogLoader(context);
                         try {
                           var auth = await Provider.of<Auth>(context, listen: false)

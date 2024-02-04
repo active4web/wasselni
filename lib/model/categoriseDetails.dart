@@ -22,11 +22,11 @@ class DetailsOfServices {
     this.result,
   });
 
-  String message;
-  int messageid;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? messageid;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory DetailsOfServices.fromJson(Map<String, dynamic> json) =>
       DetailsOfServices(
@@ -42,7 +42,7 @@ class DetailsOfServices {
         "Messageid": messageid,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -52,8 +52,8 @@ class Result {
     this.allProducts,
   });
 
-  CategoryDetails categoryDetails;
-  List<AllProduct> allProducts;
+  CategoryDetails? categoryDetails;
+  List<AllProduct>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         categoryDetails: CategoryDetails.fromJson(json["category_details"]),
@@ -62,9 +62,9 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "category_details": categoryDetails.toJson(),
+        "category_details": categoryDetails?.toJson(),
         "all_products":
-            List.from(allProducts.map((x) => x.toJson())),
+            List.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -79,13 +79,13 @@ class AllProduct {
     this.delivery,
   });
 
-  int favExit;
-  String totalRate;
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
-  int delivery;
+  int? favExit;
+  String? totalRate;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
+  int? delivery;
 
   factory AllProduct.fromJson(Map<String, dynamic> json) => AllProduct(
         favExit: json["fav_exit"],
@@ -116,10 +116,10 @@ class CategoryDetails {
     this.catId,
   });
 
-  String categoryManbanner;
-  String categoryImage;
-  String categoryName;
-  int catId;
+  String? categoryManbanner;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   factory CategoryDetails.fromJson(Map<String, dynamic> json) =>
       CategoryDetails(
@@ -138,29 +138,29 @@ class CategoryDetails {
 }
 
 class CachedServices{
-  String catId;
-  CategoryDetails categoryDetails;
+  String? catId;
+  CategoryDetails? categoryDetails;
 
   CachedServices({this.catId, this.categoryDetails});
 }
 
 class DetailsOfServicesProvider with ChangeNotifier {
-  String token;
-  int departmentId;
+  String? token;
+  int? departmentId;
 
   DetailsOfServicesProvider({
     this.token,
   });
   GetStorage storage = GetStorage();
-  CategoryDetails categoryDetail;
-  String categoryImage;
-  String categoryName;
-  String categoryBanner;
-  List<AllProduct> allProduct = [];
-  String productName;
-  String productImage;
-  int id;
-  int total;
+  CategoryDetails? categoryDetail;
+  String? categoryImage;
+  String? categoryName;
+  String? categoryBanner;
+  List<AllProduct>? allProduct = [];
+  String? productName;
+  String? productImage;
+  int? id;
+  int? total;
   Future<void> fetchAllCategories(
       String lang, int id, int limt, int pageNumber, int main) async {
     Map m = {
@@ -189,7 +189,7 @@ class DetailsOfServicesProvider with ChangeNotifier {
         ),
       );
         response.data['result']['all_products'].forEach((product){
-          allProduct.add(AllProduct.fromJson(product));
+          allProduct?.add(AllProduct.fromJson(product));
         });
         print(response.data);
 
@@ -210,7 +210,7 @@ class DetailsOfServicesProvider with ChangeNotifier {
       int hasId = 0;
         List cachedServices = storage.read("allServices");
         cachedServices.forEach((element) {
-          if(categoryDetail.catId.toString()==element['category_details']['cat_id'].toString()){
+          if(categoryDetail?.catId.toString()==element['category_details']['cat_id'].toString()){
             hasId=1;
           }
         });
@@ -233,17 +233,17 @@ class DetailsOfServicesProvider with ChangeNotifier {
           print("biuygyu ${element}");
           if (id == element['category_details']['cat_id']) {
             element['all_products'].forEach((e){
-              allProduct.add(AllProduct.fromJson(e));
+              allProduct?.add(AllProduct.fromJson(e));
             });
             categoryDetail = CategoryDetails.fromJson(element['category_details']);
           }
         });
 
         if(categoryDetail!=null) {
-          categoryImage = categoryDetail.categoryImage;
-          categoryBanner = categoryDetail.categoryManbanner;
-          categoryName = categoryDetail.categoryName;
-          print("${allProduct.length} " + "numberrrr");
+          categoryImage = categoryDetail?.categoryImage;
+          categoryBanner = categoryDetail?.categoryManbanner;
+          categoryName = categoryDetail?.categoryName;
+          print("${allProduct?.length} " + "numberrrr");
         }else{
           categoryImage = "";
           categoryBanner = "";

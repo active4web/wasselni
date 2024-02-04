@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
@@ -12,9 +15,9 @@ import 'package:wassalny/model/states_model.dart';
 import 'package:wassalny/network/auth/auth.dart';
 
 class EndOrderScreen extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const EndOrderScreen({Key key, this.id}) : super(key: key);
+  const EndOrderScreen({Key? key, this.id}) : super(key: key);
   @override
   _EndOrderScreenState createState() => _EndOrderScreenState();
 }
@@ -24,26 +27,26 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
   TextEditingController phone = TextEditingController();
   TextEditingController adress = TextEditingController();
   TextEditingController anotherAdress = TextEditingController();
-  String addresss;
-  double lat;
-  double lng;
+  String? addresss;
+  double? lat;
+  double? lng;
   bool infoLoader = false;
   int cityId = 0;
   final GlobalKey<FormState> key = GlobalKey<FormState>();
-  String lang = Get.locale.languageCode;
-  List<CityDetails> cityDetails;
-  CityDetails dropValue;
+  String lang = Get.locale?.languageCode??'ar';
+  List<CityDetails>? cityDetails;
+  CityDetails? dropValue;
   bool showCurrency = false;
-  String city;
+  String? city;
 
   var currencyValue = "";
   var stateId = "";
   Future<void> _submit() async {
     bool done = Provider.of<EndOrderProvider>(context, listen: false).doneSub;
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState!.save();
     showDaialogLoader(context);
 
     try {
@@ -102,8 +105,8 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
   Future<void> future() async {
     loader = true;
     try {
-      cityDetails = await Provider.of<EndOrderProvider>(context, listen: false)
-          .getStates(lang);
+      cityDetails = (await Provider.of<EndOrderProvider>(context, listen: false)
+          .getStates(lang)) as List<CityDetails>?;
 
       setState(() {
         loader = false;
@@ -159,7 +162,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                             hint: "name".tr,
                             controller: name,
                             validator: (val) {
-                              if (val.isEmpty) {
+                              if (val!.isEmpty) {
                                 return "Thisfieldisrequired".tr;
                               } else if (val.length <= 4) {
                                 return "NameMust4Cracters".tr;
@@ -175,7 +178,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                             hint: "phone".tr,
                             controller: phone,
                             validator: (val) {
-                              if (val.isEmpty) {
+                              if (val!.isEmpty) {
                                 return "Thisfieldisrequired".tr;
                               } else if (val.length <= 7) {
                                 return "PhoneMust7Cracters".tr;
@@ -191,7 +194,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                             hint: "address".tr,
                             controller: adress,
                             validator: (val) {
-                              if (val.isEmpty) {
+                              if (val!.isEmpty) {
                                 return "Thisfieldisrequired".tr;
                               } else if (val.length <= 7) {
                                 return "AdressMust7Cracters".tr;
@@ -221,10 +224,10 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                                 lng = location.lng;
                                 print('$addresss adress ++++++++++++');
                                 setState(() {});
-                              });
+                              } as FutureOr Function(LocationModel? value));
                             },
                             child: Container(
-                              height: 50,
+                              height: 50.h,
                               width: MediaQuery.of(context).size.width,
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               decoration: BoxDecoration(
@@ -245,7 +248,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                                             fontFamily: 'GE-Snd-Book'),
                                       )
                                     : Text(
-                                        addresss,
+                                        addresss??'',
                                         textDirection: TextDirection.ltr,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -261,7 +264,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
                           ),
                           // if (cityDetails != null)
                           //   Container(
-                          //     height: 50,
+                          //     height: 50.h,
                           //     width: MediaQuery.of(context).size.width,
                           //     padding: EdgeInsets.symmetric(horizontal: 20),
                           //     decoration: BoxDecoration(
@@ -337,7 +340,7 @@ class _EndOrderScreenState extends State<EndOrderScreen> {
 }
 
 qrWithFunctionDaialog(
-    String masseage, BuildContext context, String title, Function function) {
+    String masseage, BuildContext context, String title, void Function()?  function) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -366,9 +369,9 @@ qrWithFunctionDaialog(
 }
 
 class LocationModel {
-  final double lat;
-  final double lng;
-  final String address;
+  final double? lat;
+  final double? lng;
+  final String? address;
   const LocationModel({
     this.lat,
     this.lng,

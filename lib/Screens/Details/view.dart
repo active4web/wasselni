@@ -10,9 +10,9 @@ import 'package:wassalny/Screens/service_details/servicesDetails.dart';
 import 'package:wassalny/model/offerDetails.dart';
 
 class Details extends StatefulWidget {
-  final int id;
-  final String name;
-  final String image;
+  final int? id;
+  final String? name;
+  final String? image;
   const Details({this.id, this.name, this.image});
   @override
   _DetailsState createState() => _DetailsState();
@@ -20,7 +20,7 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   bool loader = false;
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   // Completer<GoogleMapController> _controller = Completer();
   // Set<Marker> marker = {};
   // ignore: override_on_non_overriding_member
@@ -29,7 +29,7 @@ class _DetailsState extends State<Details> {
     loader = true;
     try {
       await Provider.of<OfferDetailsProvider>(context, listen: false)
-          .orderDeatails(lang, widget.id);
+          .orderDeatails(lang, widget.id!);
       setState(() {
         loader = false;
       });
@@ -56,7 +56,7 @@ class _DetailsState extends State<Details> {
     final info = Provider.of<OfferDetailsProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: newAppBar(context, "OffersDetails".tr),
+      appBar: NewAppBar(title:"OffersDetails".tr),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : Padding(
@@ -94,7 +94,7 @@ class _DetailsState extends State<Details> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
                                     child: Image.network(
-                                      widget.image,
+                                      widget.image??'',
                                       fit: BoxFit.fill,
                                     ),
                                   ),

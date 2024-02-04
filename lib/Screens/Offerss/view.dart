@@ -1,7 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -20,8 +19,8 @@ import 'package:wassalny/Screens/service_details/services_offer.dart';
 import 'package:wassalny/model/offers.dart';
 
 class Offerss extends StatefulWidget {
-  final int id;
-  final int searchType;
+  final int? id;
+  final int? searchType;
   const Offerss({this.id, this.searchType});
   @override
   _OfferssState createState() => _OfferssState();
@@ -40,18 +39,18 @@ class _OfferssState extends State<Offerss> {
           height: 300,
           child: Stack(
             children: <Widget>[
-              Carousel(
-                  boxFit: BoxFit.fill,
-                  images: list.map(
-                    (e) {
-                      return NetworkImage(e.image);
-                    },
-                  ).toList(),
-                  autoplay: true,
-                  dotSize: 7.0,
-                  dotColor: Colors.red,
-                  indicatorBgPadding: 1.0,
-                  dotBgColor: Colors.transparent)
+              // Carousel(
+              //     boxFit: BoxFit.fill,
+              //     images: list.map(
+              //       (e) {
+              //         return NetworkImage(e.image);
+              //       },
+              //     ).toList(),
+              //     autoplay: true,
+              //     dotSize: 7.0,
+              //     dotColor: Colors.red,
+              //     indicatorBgPadding: 1.0,
+              //     dotBgColor: Colors.transparent)
             ],
           ),
         ),
@@ -74,7 +73,7 @@ class _OfferssState extends State<Offerss> {
                   height: 30,
                   child: TransparentTextFieldColorText(
                       icon: InkWell(
-                        onTap: () => _scafold.currentState.openDrawer(),
+                        onTap: () => _scafold.currentState?.openDrawer(),
                         child: Icon(Icons.menu, color: Colors.blue),
                       ),
                       controller: _search,
@@ -97,7 +96,7 @@ class _OfferssState extends State<Offerss> {
 
   bool loader = false;
   // ignore: override_on_non_overriding_member
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'';
 
   Future<void> future() async {
     loader = true;
@@ -230,9 +229,9 @@ class _OfferssState extends State<Offerss> {
                               isSorted = !isSorted;
                               isSorted
                                   ? list1.sort((a, b) =>
-                                      a.startDate.compareTo(b.startDate))
+                                      a.startDate!.compareTo(b.startDate!))
                                   : list1.sort((a, b) =>
-                                      b.startDate.compareTo(a.startDate));
+                                      b.startDate!.compareTo(a.startDate!));
                               setState(() {});
                             },
                             icon: Icon(FontAwesomeIcons.sort)),
@@ -311,7 +310,7 @@ class _OfferssState extends State<Offerss> {
                                               // );
                                               Get.to(() => ServicesDetails(
                                                     id: int.parse(list1[index]
-                                                        .serviceId),
+                                                        .serviceId??''),
                                                   ));
                                             },
                                             child: Container(
@@ -325,14 +324,14 @@ class _OfferssState extends State<Offerss> {
                                                 borderRadius:
                                                     BorderRadius.circular(15),
                                                 child: Image.network(
-                                                  list1[index].serviceImage,
+                                                  list1[index].serviceImage??'',
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
                                             ),
                                           ),
                                           Text(
-                                            list1[index].serviceName,
+                                            list1[index].serviceName??'',
                                           ),
                                           SizedBox(
                                             height: hight * 0.01,
@@ -353,7 +352,7 @@ class _OfferssState extends State<Offerss> {
                                                               .all(2.5),
                                                       child: AutoSizeText(
                                                           list1[index]
-                                                              .description),
+                                                              .description??''),
                                                     ),
                                                     Container(
                                                       child: Row(
@@ -363,7 +362,7 @@ class _OfferssState extends State<Offerss> {
                                                             children: [
                                                               Text(
                                                                 list1[index]
-                                                                    .oldPrice,
+                                                                    .oldPrice??'',
                                                                 style: TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
@@ -381,7 +380,7 @@ class _OfferssState extends State<Offerss> {
                                                                       0.03),
                                                               Text(
                                                                 list1[index]
-                                                                    .newPrice,
+                                                                    .newPrice??'',
                                                                 style:
                                                                     TextStyle(
                                                                   fontWeight:
@@ -421,38 +420,38 @@ class _OfferssState extends State<Offerss> {
                                                 ),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    return showDialog(
-                                                      useSafeArea: true,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return Carousel(
-                                                          images: list1[index]
-                                                              .allGalleries
-                                                              .map(
-                                                                  (e) =>
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(8.0),
-                                                                        child:
-                                                                            Container(
-                                                                          child:
-                                                                              Image.network(
-                                                                            e.offersImage,
-                                                                          ),
-                                                                        ),
-                                                                      ))
-                                                              .toList(),
-                                                          autoplay: false,
-                                                        );
-                                                      },
-                                                    );
+                                                    //  showDialog(
+                                                    //   useSafeArea: true,
+                                                    //   context: context,
+                                                    //   builder: (context) {
+                                                    //     return Carousel(
+                                                    //       images: list1[index]
+                                                    //           .allGalleries
+                                                    //           .map(
+                                                    //               (e) =>
+                                                    //                   Padding(
+                                                    //                     padding:
+                                                    //                         const EdgeInsets.all(8.0),
+                                                    //                     child:
+                                                    //                         Container(
+                                                    //                       child:
+                                                    //                           Image.network(
+                                                    //                         e.offersImage,
+                                                    //                       ),
+                                                    //                     ),
+                                                    //                   ))
+                                                    //           .toList(),
+                                                    //       autoplay: false,
+                                                    //     );
+                                                    //   },
+                                                    // );
                                                   },
                                                   child: Image.network(
                                                       list1[index]
-                                                          .offerImage),
+                                                          .offerImage??''),
                                                 )),
                                           ),
-                                          Text(list1[index].offerName),
+                                          Text(list1[index].offerName??''),
                                           SizedBox(
                                             height: hight * 0.02,
                                           ),
@@ -512,7 +511,7 @@ class _OfferssState extends State<Offerss> {
 //                                         child: MyText(
 //                                             title: list[index].offerName,
 //                                             weight: FontWeight.bold,
-//                                             size: 25,
+//                                             size: 25.r,
 //                                             color: Colors.white),
 //                                       ),
 //                                     ),

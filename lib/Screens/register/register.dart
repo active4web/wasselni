@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -58,13 +59,13 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'';
   bool isPassword = true;
   IconData icon = Icons.visibility;
-  String token;
-  String token_id;
-  String city;
-  String cityId;
+  String? token;
+  String? token_id;
+  String? city;
+  String? cityId;
   bool loader = false;
   Future<void> future() async {
     loader = true;
@@ -89,22 +90,23 @@ class _RegisterState extends State<Register> {
   Future<void> _submit() async {
     bool auth = Provider.of<Auth>(context, listen: false).doneSentRegister;
 
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState?.save();
     showDaialogLoader(context);
     try {
       auth = await Provider.of<Auth>(context, listen: false)
-          .register(user, lang, cityId);
-      Get.updateLocale(Locale(lang));
+          .register(user, lang, cityId??'');
+      Get.updateLocale(Locale('ar'));
       // ignore: unused_catch_clause
     } on HttpExeption catch (error) {
       Navigator.of(context).pop();
       print(error);
       showErrorDaialog("FoundedUser".tr, context);
     } catch (error) {
-      print(error);
+      print("1111111111111111111111111111111111111111111111111111");
+      print(error.toString());
       Navigator.of(context).pop();
       showErrorDaialog('NoInternet'.tr, context);
     } finally {
@@ -129,7 +131,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
 
     print(lang);
-    List<ListCountry> list =
+    List<ListCountry>? list =
         Provider.of<CityDropDownProvider>(context, listen: false).list;
     print(list);
     return  Scaffold(
@@ -157,10 +159,10 @@ class _RegisterState extends State<Register> {
                     )),
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 50.h),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 60),
-                child: Image.asset('assets/images/img.png')),
+                child: Image.asset(appLogo)),
             SizedBox(height: 80),
             // dropList(),
             // SizedBox(height: 10),
@@ -169,7 +171,7 @@ class _RegisterState extends State<Register> {
                   user.newname = val;
                 },
                 valid: (val) {
-                  if (val.isEmpty) {
+                  if (val!.isEmpty) {
                     return "Thisfieldisrequired".tr;
                   } else {
                     return null;
@@ -186,7 +188,7 @@ class _RegisterState extends State<Register> {
                       RegExp('[a-z A-Z 0-9]'))
                 ],
                 valid: (val) {
-                  if (val.isEmpty) {
+                  if (val!.isEmpty) {
                     return "Thisfieldisrequired".tr;
                   } else {
                     return null;
@@ -201,7 +203,7 @@ class _RegisterState extends State<Register> {
                   user.newAdress = val;
                 },
                 valid: (val) {
-                  if (val.isEmpty) {
+                  if (val!.isEmpty) {
                     return "Thisfieldisrequired".tr;
                   } else {
                     return null;
@@ -226,7 +228,7 @@ class _RegisterState extends State<Register> {
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: citiesWidget(
                           context,
-                          list,
+                          list!,
                         ),
                       ),
                       shape: RoundedRectangleBorder(
@@ -243,7 +245,7 @@ class _RegisterState extends State<Register> {
                 child: Row(
                   children: [
                     Expanded(
-                        child: Text(city == null ? "country".tr : city,
+                        child: Text(city == null ? "country".tr : city??'',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -276,7 +278,7 @@ class _RegisterState extends State<Register> {
                   user.password = val;
                 },
                 valid: (val) {
-                  if (val.isEmpty) {
+                  if (val!.isEmpty) {
                     return "Thisfieldisrequired".tr;
                   } else {
                     return null;
@@ -295,7 +297,7 @@ class _RegisterState extends State<Register> {
                           value: isChecked,
                           onChanged: (check){
                             setState(() {
-                              isChecked = check;
+                              isChecked = check!;
                             });
                           }),
                     ),
@@ -458,7 +460,7 @@ class _RegisterState extends State<Register> {
                       child: MyText(
                           title: "اللغة العربية", weight: FontWeight.bold)),
                   Offstage(
-                    offstage: Get.locale.languageCode == 'ar' ? false : true,
+                    offstage: Get.locale?.languageCode == 'ar' ? false : true,
                     child: Icon(Icons.check_circle, color: MyColors.primary),
                   ),
                 ],
@@ -481,7 +483,7 @@ class _RegisterState extends State<Register> {
                   Expanded(
                       child: MyText(title: "Türkçe", weight: FontWeight.bold)),
                   Offstage(
-                    offstage: Get.locale.languageCode == 'tr' ? false : true,
+                    offstage: Get.locale?.languageCode == 'tr' ? false : true,
                     child: Icon(Icons.check_circle, color: MyColors.primary),
                   ),
                 ],
@@ -507,7 +509,7 @@ class _RegisterState extends State<Register> {
                   child: MyText(title: "English", weight: FontWeight.bold),
                 ),
                 Offstage(
-                  offstage: Get.locale.languageCode == 'en' ? false : true,
+                  offstage: Get.locale?.languageCode == 'en' ? false : true,
                   child: Icon(Icons.check_circle, color: MyColors.primary),
                 )
               ],

@@ -24,10 +24,10 @@ class Offers {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory Offers.fromJson(Map<String, dynamic> json) => Offers(
         message: json["message"],
@@ -40,7 +40,7 @@ class Offers {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -49,7 +49,7 @@ class Result {
     this.allOffers,
   });
 
-  List<AllOffer> allOffers;
+  List<AllOffer>? allOffers;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allOffers: List<AllOffer>.from(
@@ -57,7 +57,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_offers": List<dynamic>.from(allOffers.map((x) => x.toJson())),
+        "all_offers": List<dynamic>.from(allOffers!.map((x) => x.toJson())),
       };
 }
 
@@ -79,20 +79,20 @@ class AllOffer {
     this.offerId,
   });
 
-  List<AllGallery> allGalleries;
-  String offerImage;
-  String serviceImage;
-  String serviceId;
-  String serviceName;
-  String offerName;
-  String description;
-  String phone;
-  String whatsapp;
-  String oldPrice;
-  String newPrice;
-  String startDate;
-  String endDate;
-  int offerId;
+  List<AllGallery>? allGalleries;
+  String? offerImage;
+  String? serviceImage;
+  String? serviceId;
+  String? serviceName;
+  String? offerName;
+  String? description;
+  String? phone;
+  String? whatsapp;
+  String? oldPrice;
+  String? newPrice;
+  String? startDate;
+  String? endDate;
+  int? offerId;
 
   factory AllOffer.fromJson(Map<String, dynamic> json) => AllOffer(
         allGalleries: List<AllGallery>.from(
@@ -114,7 +114,7 @@ class AllOffer {
 
   Map<String, dynamic> toJson() => {
         "all_galleries":
-            List<dynamic>.from(allGalleries.map((x) => x.toJson())),
+            List<dynamic>.from(allGalleries!.map((x) => x.toJson())),
         "offer_image": offerImage,
         "service_image": serviceImage,
         "service_id": serviceId,
@@ -137,8 +137,8 @@ class AllGallery {
     this.offersId,
   });
 
-  String offersImage;
-  String offersId;
+  String? offersImage;
+  String? offersId;
 
   factory AllGallery.fromJson(Map<String, dynamic> json) => AllGallery(
         offersImage: json["offers_image"],
@@ -164,11 +164,11 @@ class SearchC {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  ProductResult result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  ProductResult? result;
 
   factory SearchC.fromJson(Map<String, dynamic> json) => SearchC(
     message: json["message"],
@@ -183,7 +183,7 @@ class SearchC {
     "codenum": codenum,
     "status": status,
     "total": total,
-    "result": result.toJson(),
+    "result": result?.toJson(),
   };
 }
 
@@ -192,7 +192,7 @@ class ProductResult {
     this.allProductsCC,
   });
 
-  List<AllProducts> allProductsCC;
+  List<AllProducts>? allProductsCC;
 
   factory ProductResult.fromJson(Map<String, dynamic> json) => ProductResult(
     allProductsCC: List<AllProducts>.from(
@@ -201,7 +201,7 @@ class ProductResult {
 
   Map<String, dynamic> toJson() => {
     "all_products":
-    List<dynamic>.from(allProductsCC.map((x) => x.toJson())),
+    List<dynamic>.from(allProductsCC!.map((x) => x.toJson())),
   };
 }
 
@@ -216,13 +216,13 @@ class AllProducts {
     this.delivery,
   });
 
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
-  int delivery;
-  String totalRate;
-  int favExit;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
+  int? delivery;
+  String? totalRate;
+  int? favExit;
 
   factory AllProducts.fromJson(Map<String, dynamic> json) => AllProducts(
     productImage: json["product_image"],
@@ -246,7 +246,7 @@ class AllProducts {
 }
 
 class SearchOffersByCity with ChangeNotifier {
-  String token;
+  String? token;
   SearchOffersByCity({this.token});
 
   List<AllOffer> searchName = [];
@@ -256,14 +256,14 @@ class SearchOffersByCity with ChangeNotifier {
   bool doneSearching = false;
 
   Future<bool> fetchSearch(
-      {String name,
-      int limt,
-      int pageNumber,
-      int city,
-      String departmentId,
-      int catId,
-      int state,
-      String lang}) async {
+      {String? name,
+      int? limt,
+      int? pageNumber,
+      int? city,
+      String? departmentId,
+      int? catId,
+      int? state,
+      String? lang}) async {
     print('$city city');
     print("$state state");
 
@@ -284,9 +284,9 @@ class SearchOffersByCity with ChangeNotifier {
           },
         ),
       );
-      searchName = offersFromJson(response.toString()).result.allOffers;
+      searchName = offersFromJson(response.toString()).result?.allOffers??[];
       for (var i = 0; i < searchName.length; i++) {
-        allGalery = searchName[i].allGalleries;
+        allGalery = searchName[i].allGalleries??[];
       }
       print(response);
       if (response.data['status'] == true) {
@@ -302,14 +302,14 @@ class SearchOffersByCity with ChangeNotifier {
 
   bool doneCitySearching = false;
   Future<bool> fetchCitySearch(
-      {String name,
-      int limt,
-      int pageNumber,
-      int city,
-      String departmentId,
-      int catId,
-      int state,
-      String lang}) async {
+      {String? name,
+      int? limt,
+      int? pageNumber,
+      int? city,
+      String? departmentId,
+      int? catId,
+      int? state,
+      String? lang}) async {
     print('$city city');
     print("$state state");
 
@@ -330,7 +330,7 @@ class SearchOffersByCity with ChangeNotifier {
           },
         ),
       );
-      searchProductName = searchCFromJson(response.toString()).result.allProductsCC;
+      searchProductName = searchCFromJson(response.toString()).result?.allProductsCC??[];
 
       print(response);
       if (response.data['status'] == true) {

@@ -22,10 +22,10 @@ class NotificationDetails {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory NotificationDetails.fromJson(Map<String, dynamic> json) =>
       NotificationDetails(
@@ -39,7 +39,7 @@ class NotificationDetails {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -48,7 +48,7 @@ class Result {
     this.notificationDetails,
   });
 
-  NotificationDetailsClass notificationDetails;
+  NotificationDetailsClass? notificationDetails;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         notificationDetails:
@@ -56,7 +56,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "notification_details": notificationDetails.toJson(),
+        "notification_details": notificationDetails?.toJson(),
       };
 }
 
@@ -70,12 +70,12 @@ class NotificationDetailsClass {
     this.img,
   });
 
-  String title;
-  int id;
-  String body;
-  int isRead;
-  DateTime createdAt;
-  String img;
+  String? title;
+  int? id;
+  String? body;
+  int? isRead;
+  DateTime? createdAt;
+  String? img;
 
   factory NotificationDetailsClass.fromJson(Map<String, dynamic> json) =>
       NotificationDetailsClass(
@@ -93,13 +93,13 @@ class NotificationDetailsClass {
         "body": body,
         "is_read": isRead,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
         "img": img,
       };
 }
 
 class NotificationDetailsProvider with ChangeNotifier {
-  String token;
+  String? token;
   NotificationDetailsProvider({this.token});
   String tilte = '';
   String body = '';

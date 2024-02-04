@@ -8,12 +8,12 @@ class NotificationHelper {
 
   initializeNotification() async {
     //tz.initializeTimeZones();
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsIOS =
+    DarwinInitializationSettings(
             requestSoundPermission: false,
             requestBadgePermission: false,
             requestAlertPermission: false,
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+            onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {});
 
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings("logo");
@@ -23,8 +23,7 @@ class NotificationHelper {
       iOS: initializationSettingsIOS,
       android: initializationSettingsAndroid,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,);
   }
 
   Future onDidReceiveLocalNotification(
@@ -74,12 +73,12 @@ class NotificationHelper {
   }
 
   Future displayNotification(
-      {@required String title, @required String body}) async {
+      {@required String? title, @required String? body}) async {
     print("doing test");
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', channelDescription: 'your channel description',
         importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics =  DarwinNotificationDetails ();
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);

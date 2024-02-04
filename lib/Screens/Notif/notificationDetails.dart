@@ -6,7 +6,7 @@ import 'package:wassalny/Components/CustomWidgets/appBar.dart';
 import 'package:wassalny/model/notifDetails.dart';
 
 class NotificationsDetails extends StatefulWidget {
-  final int id;
+  final int? id;
 
   const NotificationsDetails({this.id});
 
@@ -20,7 +20,7 @@ class _NotificationsDetailsState extends State<NotificationsDetails> {
     loader = true;
     try {
       await Provider.of<NotificationDetailsProvider>(context, listen: false)
-          .fetchDetails(widget.id);
+          .fetchDetails(widget.id!);
 
       setState(() {
         loader = false;
@@ -42,7 +42,7 @@ class _NotificationsDetailsState extends State<NotificationsDetails> {
     final higt = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top);
     return Scaffold(
-      appBar: newAppBar(context, "NotificationDetails".tr),
+      appBar: NewAppBar(title: "NotificationDetails".tr),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : Container(

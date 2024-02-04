@@ -6,7 +6,7 @@ import 'package:wassalny/model/states_model.dart';
 import 'package:wassalny/network/auth/dio.dart';
 
 class EndOrderProvider with ChangeNotifier {
-  String token;
+  String? token;
 
   EndOrderProvider({
     this.token,
@@ -14,15 +14,15 @@ class EndOrderProvider with ChangeNotifier {
 
   bool doneSub = false;
   Future<bool> subscribtion({
-    String name,
-    String language,
-    String adress,
-    String anotherAdress,
-    String phone,
-    double lat,
-    double lng,
-    int orderId,
-    int stateId,
+    String? name,
+    String? language,
+    String? adress,
+    String? anotherAdress,
+    String? phone,
+    double? lat,
+    double? lng,
+    int? orderId,
+    int? stateId,
   }) async {
     try {
       Dio.Response response = await dio().post(
@@ -58,7 +58,7 @@ class EndOrderProvider with ChangeNotifier {
     }
   }
 
-  Future<List<CityDetails>> getStates(String lang) async {
+  Future<Object?> getStates(String lang) async {
     try {
       Dio.Response response = await dio().post(
         'store/preperation_order_details',
@@ -71,7 +71,7 @@ class EndOrderProvider with ChangeNotifier {
         ),
       );
       print(response.data);
-      return StatesModel.fromJson(response.data).result.cityDetails;
+      return StatesModel.fromJson(response.data).result?.cityDetails;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print(err);

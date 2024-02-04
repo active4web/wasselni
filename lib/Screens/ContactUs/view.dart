@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class ContactUs extends StatefulWidget {
 class _ContactUsState extends State<ContactUs> {
   bool loader = false;
   Future<void> getContacts() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<ContactUsModel>(context, listen: false)
@@ -37,10 +38,10 @@ class _ContactUsState extends State<ContactUs> {
         MediaQuery.of(context).padding.top);
     final width = (MediaQuery.of(context).size.width);
     var provider = Provider.of<ContactUsModel>(context, listen: false);
-    ResultContact info = provider.contacts;
-    String site = provider.site;
+    ResultContact? info = provider.contacts;
+    String? site = provider.site;
     return Scaffold(
-      appBar: newAppBar(context, "ContactUs".tr),
+      appBar: NewAppBar(title: "ContactUs".tr),
       body: loader
           ? Center(
               child: CircularProgressIndicator(),
@@ -55,40 +56,40 @@ class _ContactUsState extends State<ContactUs> {
                     children: [
                       Text(
                         "ContactUs".tr,
-                        style: TextStyle(color: Colors.blue, fontSize: 25),
+                        style: TextStyle(color: Colors.blue, fontSize: 25.sp),
                       ),
-                      info.supportPhone == null
+                      info?.supportPhone == null
                           ? Text('')
                           : InkWell(
                               onTap: () async {
-                                await launch('tel:${info.supportPhone}');
+                                await launch('tel:${info?.supportPhone}');
                               },
                               child: Text(
-                                info.supportPhone,
+                                info?.supportPhone??'',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 22),
                                 textAlign: TextAlign.left,
                               ),
                             ),
-                      info.hotline == null
+                      info?.hotline == null
                           ? Text('')
                           : InkWell(
                               onTap: () async {
-                                await launch('tel:${info.hotline}');
+                                await launch('tel:${info?.hotline}');
                               },
                               child: Text(
-                                '${info.hotline}',
+                                '${info?.hotline}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 22),
                                 textAlign: TextAlign.end,
                               ),
                             ),
                       SizedBox(
-                        height: 50,
+                        height: 50.h,
                       ),
                       Text(
                         "ADRESSES".tr,
-                        style: TextStyle(color: Colors.blue, fontSize: 25),
+                        style: TextStyle(color: Colors.blue, fontSize: 25.sp),
                       ),
                       site == null
                           ? Text('')
@@ -99,24 +100,24 @@ class _ContactUsState extends State<ContactUs> {
                               },
                               child: Text(site, style: TextStyle(fontSize: 22)),
                             ),
-                      info.supportEmail == null
+                      info?.supportEmail == null
                           ? Text('')
                           : InkWell(
                               onTap: () async {
-                                await launch('mailto:${info.supportEmail}');
+                                await launch('mailto:${info?.supportEmail}');
                               },
-                              child: Text(info.supportEmail,
+                              child: Text(info?.supportEmail??'',
                                   style: TextStyle(fontSize: 22)),
                             ),
-                      info.address == null
+                      info?.address == null
                           ? Text('')
-                          : Text(info.address, style: TextStyle(fontSize: 22)),
+                          : Text(info?.address??'', style: TextStyle(fontSize: 22)),
                       SizedBox(
                         height: 30,
                       ),
-                      info.infoEmail == null
+                      info?.infoEmail == null
                           ? Text('')
-                          : Text(info.infoEmail,
+                          : Text(info?.infoEmail??'',
                               style: TextStyle(fontSize: 22)),
                       SizedBox(
                         height: 30,
@@ -149,7 +150,7 @@ class _ContactUsState extends State<ContactUs> {
                                         color: Colors.blue[900],
                                       ),
                                       onPressed: () async {
-                                        await launch('http:${info.facebook}');
+                                        await launch('http:${info?.facebook}');
                                       },
                                     ),
                                     IconButton(
@@ -159,7 +160,7 @@ class _ContactUsState extends State<ContactUs> {
                                         color: Colors.red,
                                       ),
                                       onPressed: () async {
-                                        await launch('http:${info.instagram}');
+                                        await launch('http:${info?.instagram}');
                                       },
                                     ),
                                     IconButton(
@@ -169,7 +170,7 @@ class _ContactUsState extends State<ContactUs> {
                                         color: Colors.blue,
                                       ),
                                       onPressed: () async {
-                                        await launch('http:${info.twitter}');
+                                        await launch('http:${info?.twitter}');
                                       },
                                     ),
                                     IconButton(
@@ -180,7 +181,7 @@ class _ContactUsState extends State<ContactUs> {
                                       ),
                                       onPressed: () async {
                                         await launch(
-                                            'tel:${info.supportPhone}');
+                                            'tel:${info?.supportPhone}');
                                       },
                                     ),
                                     IconButton(
@@ -190,7 +191,7 @@ class _ContactUsState extends State<ContactUs> {
                                         color: Colors.green,
                                       ),
                                       onPressed: () async {
-                                        await launch('tel:${info.whatsapp}');
+                                        await launch('tel:${info?.whatsapp}');
                                       },
                                     ),
                                   ],

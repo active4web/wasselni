@@ -1,5 +1,5 @@
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -72,7 +72,7 @@ class _ServicesOffersState extends State<ServicesOffers> {
                         'NoOffres'.tr,
                         style: TextStyle(
                             color: Colors.blue,
-                            fontSize: 25,
+                            fontSize:25.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     )
@@ -146,7 +146,7 @@ class _ServicesOffersState extends State<ServicesOffers> {
                                                       horizontal: 2.5),
                                                   child: AutoSizeText(
                                                       offers[index]
-                                                          .description),
+                                                          .description??''),
                                                 ),
                                                 Container(
                                                   child: Row(
@@ -158,7 +158,7 @@ class _ServicesOffersState extends State<ServicesOffers> {
                                                         children: [
                                                           Text(
                                                             offers[index]
-                                                                .oldPrice,
+                                                                .oldPrice??'',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -175,7 +175,7 @@ class _ServicesOffersState extends State<ServicesOffers> {
                                                                   width * 0.03),
                                                           Text(
                                                             offers[index]
-                                                                .newPrice,
+                                                                .newPrice??'',
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -201,58 +201,58 @@ class _ServicesOffersState extends State<ServicesOffers> {
                                     // ),
                                     Column(
                                       children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.4,
-                                              width: width * 0.5,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  showDialog(
-                                                    useSafeArea: true,
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return Carousel(
-                                                        images: offers[index]
-                                                            .allGalleries
-                                                            .map((e) => Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          8.0),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Image
-                                                                        .network(
-                                                                      e.offersImage,
-                                                                    ),
-                                                                  ),
-                                                                ))
-                                                            .toList(),
-                                                        autoplay: false,
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: Image.network(
-                                                  offers[index].offerImage,
-                                                  fit: BoxFit.fill,
-                                                  errorBuilder: (context, error,
-                                                          stackTrace) =>
-                                                      Image.asset(
-                                                          'assets/images/img.png'),
-                                                ),
-                                              )),
-                                        ),
-                                        Text(offers[index].offerName)
+                                        // ClipRRect(
+                                        //   borderRadius:
+                                        //       BorderRadius.circular(15),
+                                        //   child: Container(
+                                        //       height: MediaQuery.of(context)
+                                        //               .size
+                                        //               .height *
+                                        //           0.4,
+                                        //       width: width * 0.5,
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(15),
+                                        //       ),
+                                        //       child: InkWell(
+                                        //         onTap: () {
+                                        //           showDialog(
+                                        //             useSafeArea: true,
+                                        //             context: context,
+                                        //             builder: (context) {
+                                        //               return Carousel(
+                                        //                 images: offers[index]
+                                        //                     .allGalleries
+                                        //                     .map((e) => Padding(
+                                        //                           padding:
+                                        //                               const EdgeInsets
+                                        //                                       .all(
+                                        //                                   8.0),
+                                        //                           child:
+                                        //                               Container(
+                                        //                             child: Image
+                                        //                                 .network(
+                                        //                               e.offersImage,
+                                        //                             ),
+                                        //                           ),
+                                        //                         ))
+                                        //                     .toList(),
+                                        //                 autoplay: false,
+                                        //               );
+                                        //             },
+                                        //           );
+                                        //         },
+                                        //         child: Image.network(
+                                        //           offers[index].offerImage??'',
+                                        //           fit: BoxFit.fill,
+                                        //           errorBuilder: (context, error,
+                                        //                   stackTrace) =>
+                                        //               Image.asset(
+                                        //                   appLogo),
+                                        //         ),
+                                        //       )),
+                                        // ),
+                                        Text(offers[index].offerName??'')
                                       ],
                                     )
                                   ],

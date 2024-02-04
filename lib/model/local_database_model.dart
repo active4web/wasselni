@@ -19,11 +19,11 @@ class LocalDatabaseModel {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
+  String? message;
+  int? codenum;
+  bool? status;
   dynamic lang;
-  Result result;
+  Result? result;
 
   factory LocalDatabaseModel.fromJson(Map<String, dynamic> json) =>
       LocalDatabaseModel(
@@ -39,7 +39,7 @@ class LocalDatabaseModel {
         "codenum": codenum,
         "status": status,
         "\u0024lang": lang,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -53,12 +53,12 @@ class Result {
     this.allFeatures,
   });
 
-  List<Offer> mainOffers;
-  String titleRecommended;
-  List<Offer> secondOffer;
-  List<AllRecommended> allRecommended;
-  List<AllCategory> allCategories;
-  List<AllFeature> allFeatures;
+  List<Offer>? mainOffers;
+  String? titleRecommended;
+  List<Offer>? secondOffer;
+  List<AllRecommended>? allRecommended;
+  List<AllCategory>? allCategories;
+  List<AllFeature>? allFeatures;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         mainOffers:
@@ -75,14 +75,14 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "main_offers": List<dynamic>.from(mainOffers.map((x) => x.toJson())),
+        "main_offers": List<dynamic>.from(mainOffers!.map((x) => x.toJson())),
         "title_recommended": titleRecommended,
-        "second_offer": List<dynamic>.from(secondOffer.map((x) => x.toJson())),
+        "second_offer": List<dynamic>.from(secondOffer!.map((x) => x.toJson())),
         "all_recommended":
-            List<dynamic>.from(allRecommended.map((x) => x.toJson())),
+            List<dynamic>.from(allRecommended!.map((x) => x.toJson())),
         "all_categories":
-            List<dynamic>.from(allCategories.map((x) => x.toJson())),
-        "all_features": List<dynamic>.from(allFeatures.map((x) => x.toJson())),
+            List<dynamic>.from(allCategories!.map((x) => x.toJson())),
+        "all_features": List<dynamic>.from(allFeatures!.map((x) => x.toJson())),
       };
 }
 
@@ -96,12 +96,12 @@ class AllCategory {
     this.catId,
   });
 
-  List<AllDepartment> allDepartment;
-  int totalDepartment;
-  String categoryManbanner;
-  String categoryImage;
-  String categoryName;
-  int catId;
+  List<AllDepartment>? allDepartment;
+  int? totalDepartment;
+  String? categoryManbanner;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   factory AllCategory.fromJson(Map<String, dynamic> json) => AllCategory(
         allDepartment: List<AllDepartment>.from(
@@ -115,7 +115,7 @@ class AllCategory {
 
   Map<String, dynamic> toJson() => {
         "all_department":
-            List<dynamic>.from(allDepartment.map((x) => x.toJson())),
+            List<dynamic>.from(allDepartment!.map((x) => x.toJson())),
         "total_department": totalDepartment,
         "category_manbanner": categoryManbanner,
         "category_image": categoryImage,
@@ -132,10 +132,10 @@ class AllDepartment {
     this.departmentImage,
   });
 
-  String departmentName;
-  String catId;
-  String departmentId;
-  String departmentImage;
+  String? departmentName;
+  String? catId;
+  String? departmentId;
+  String? departmentImage;
 
   factory AllDepartment.fromJson(Map<String, dynamic> json) => AllDepartment(
         departmentName: json["department_name"],
@@ -164,14 +164,14 @@ class AllFeature {
     this.allProducts,
   });
 
-  int categoryTotalDepartment;
-  int categoryTotalDepartmentKey;
-  String categoryManbanner;
-  String categoryImage;
-  String categoryName;
-  int catId;
-  String imgBanner;
-  List<AllProduct> allProducts;
+  int? categoryTotalDepartment;
+  int? categoryTotalDepartmentKey;
+  String? categoryManbanner;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
+  String? imgBanner;
+  List<AllProduct>? allProducts;
 
   factory AllFeature.fromJson(Map<String, dynamic> json) => AllFeature(
         categoryTotalDepartment: json["category_total_department"],
@@ -193,7 +193,7 @@ class AllFeature {
         "category_name": categoryName,
         "cat_id": catId,
         "img_banner": imgBanner,
-        "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
+        "all_products": List<dynamic>.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -207,12 +207,12 @@ class AllProduct {
     this.prodId,
   });
 
-  int favExit;
-  String totalRate;
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
+  int? favExit;
+  String? totalRate;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
 
   factory AllProduct.fromJson(Map<String, dynamic> json) => AllProduct(
         favExit: json["fav_exit"],
@@ -244,13 +244,13 @@ class AllRecommended {
     this.enddate,
   });
 
-  String recommendedImage;
-  int recommendedPosition;
-  int serviceId;
-  int depId;
-  int catId;
-  int id;
-  DateTime enddate;
+  String? recommendedImage;
+  int? recommendedPosition;
+  int? serviceId;
+  int? depId;
+  int? catId;
+  int? id;
+  DateTime? enddate;
 
   factory AllRecommended.fromJson(Map<String, dynamic> json) => AllRecommended(
         recommendedImage: json["recommended_image"],
@@ -270,7 +270,7 @@ class AllRecommended {
         "cat_id": catId,
         "id": id,
         "enddate":
-            "${enddate.year.toString().padLeft(4, '0')}-${enddate.month.toString().padLeft(2, '0')}-${enddate.day.toString().padLeft(2, '0')}",
+            "${enddate?.year.toString().padLeft(4, '0')}-${enddate?.month.toString().padLeft(2, '0')}-${enddate?.day.toString().padLeft(2, '0')}",
       };
 }
 
@@ -281,9 +281,9 @@ class Offer {
     this.serviceId,
   });
 
-  String image;
-  String link;
-  String serviceId;
+  String? image;
+  String? link;
+  String? serviceId;
 
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
         image: json["image"],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -6,9 +7,9 @@ import 'package:wassalny/model/addToCart.dart';
 import 'package:wassalny/model/min_sirv.dart';
 
 class Min extends StatefulWidget {
-  final int id;
-  final String title;
-  const Min({Key key, this.id, this.title}) : super(key: key);
+  final int? id;
+  final String? title;
+  const Min({Key? key, this.id, this.title}) : super(key: key);
   @override
   _MinState createState() => _MinState();
 }
@@ -16,14 +17,14 @@ class Min extends StatefulWidget {
 class _MinState extends State<Min> {
   bool loader = false;
   // ignore: override_on_non_overriding_member
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> future() async {
     print(widget.id);
     loader = true;
     try {
       await Provider.of<AllMinProvider>(context, listen: false)
-          .fetchAllMin(lang, widget.id);
+          .fetchAllMin(lang, widget.id!);
       setState(() {
         loader = false;
       });
@@ -133,7 +134,7 @@ class _MinState extends State<Min> {
                     "NoProducts".tr,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                        fontSize:25.sp,
                         color: Colors.blue),
                   ),
                 )
@@ -161,7 +162,7 @@ class _MinState extends State<Min> {
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: AutoSizeText(
-                                        info[index].name,
+                                        info[index].name??'',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -184,7 +185,7 @@ class _MinState extends State<Min> {
                                       child: ListView(
                                         children: [
                                           AutoSizeText(
-                                            info[index].description,
+                                            info[index].description??'',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 13,
@@ -197,12 +198,12 @@ class _MinState extends State<Min> {
                                     SizedBox(
                                       height: higt * 0.01,
                                     ),
-                                    if(info[index].newPrice.isNotEmpty)
+                                    if(info[index].newPrice!.isNotEmpty)
                                     Container(
                                       width: width * 0.3,
                                       decoration: BoxDecoration(
-                                          color: info[index].oldPrice.isEmpty &&
-                                                  info[index].newPrice.isEmpty
+                                          color: info[index].oldPrice!.isEmpty &&
+                                                  info[index].newPrice!.isEmpty
                                               ? Colors.white10
                                               : Colors.red,
                                           borderRadius:
@@ -213,13 +214,13 @@ class _MinState extends State<Min> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          info[index].oldPrice.isEmpty
+                                          info[index].oldPrice!.isEmpty
                                               ? SizedBox(
                                                   width: 0,
                                                   height: 0,
                                                 )
                                               : AutoSizeText(
-                                                  info[index].oldPrice,
+                                                  info[index].oldPrice??'',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontWeight:
@@ -229,7 +230,7 @@ class _MinState extends State<Min> {
                                                       decoration: TextDecoration
                                                           .lineThrough),
                                                 ),
-                                          info[index].oldPrice.isEmpty
+                                          info[index].oldPrice!.isEmpty
                                               ? SizedBox(
                                                   width: 0,
                                                   height: 0,
@@ -238,7 +239,7 @@ class _MinState extends State<Min> {
                                                   width: width * 0.05,
                                                 ),
                                           AutoSizeText(
-                                            info[index].newPrice,
+                                            info[index].newPrice??'',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -248,7 +249,7 @@ class _MinState extends State<Min> {
                                         ],
                                       ),
                                     ),
-                                    if(info[index].newPrice.isNotEmpty)
+                                    if(info[index].newPrice!.isNotEmpty)
                                     SizedBox(
                                       width: width * 0.3,
                                       child: MaterialButton(
@@ -258,7 +259,7 @@ class _MinState extends State<Min> {
                                         ),
                                         color: Colors.blue,
                                         onPressed: () {
-                                          add(info[index].id);
+                                          add(info[index].id!);
                                         },
                                         child: AutoSizeText(
                                           'اضافه الي السله',
@@ -283,7 +284,7 @@ class _MinState extends State<Min> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     child: Image.network(
-                                      info[index].image,
+                                      info[index].image??'',
                                       fit: BoxFit.fill,
                                     ),
                                   ),

@@ -13,31 +13,31 @@ import './dio.dart';
 import '../../notification_helper.dart';
 
 class Auth with ChangeNotifier {
-  int id;
-  String token;
-  String lang;
+  int? id;
+  String? token;
+  String? lang;
   String phoneNumber = '';
   String name = '';
   String adress = '';
-  List<ClientDatum> x;
-  List<ClientDatumR> registerList;
-  String fireBaseToken;
-  String city;
-  String cityId;
+  List<ClientDatum>? x;
+  List<ClientDatumR>? registerList;
+  String? fireBaseToken;
+  String? city;
+  String? cityId;
 
-  String support_phone;
-  String support_email;
-String  terms_conditions;
-  String  hotline;
-  String  name_site;
-  String  address;
-  String  whatsapp;
-  String facebook;
-  String twitter;
+  String? support_phone;
+  String? support_email;
+String ? terms_conditions;
+  String?  hotline;
+  String ? name_site;
+  String ? address;
+  String ? whatsapp;
+  String? facebook;
+  String? twitter;
 
 
 
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     token = preferences.getString('bool');
     return token;
@@ -48,19 +48,19 @@ String  terms_conditions;
       Dio.Response response = await dio().post(
         'pages/set_login',
         data: Dio.FormData.fromMap(user.sentPhoneToLogin(
-          await FCMConfig.instance.messaging.getToken(),
+          await FCMConfig.instance.messaging.getToken().toString(),
         )),
       );
       print(response);
       if (response.data['status']) {
-        x = userDataFromJson(response.toString()).result.clientData;
-        for (var i = 0; i < x.length; i++) {
-          token = x[i].token;
-          lang = x[i].lang;
-          id = x[i].id;
+        x = userDataFromJson(response.toString()).result?.clientData;
+        for (var i = 0; i < x!.length; i++) {
+          token = x?[i].token;
+          lang = x?[i].lang;
+          id = x?[i].id;
         }
         final preferences = await SharedPreferences.getInstance();
-        await preferences.setString('bool', token);
+        await preferences.setString('bool', token!);
         token = preferences.getString('bool');
       }
       notifyListeners();
@@ -147,7 +147,7 @@ String  terms_conditions;
         'pages/edit_profile',
         data: Dio.FormData.fromMap(
           user.sentEdaitProfile(
-            token, language,
+            token!, language,
             // city,
             // cityID
           ),
@@ -169,7 +169,7 @@ String  terms_conditions;
       Dio.Response response = await dio().post(
         'pages/set_subscribe',
         data: Dio.FormData.fromMap(
-          user.sentSub(token, language),
+          user.sentSub(token!, language),
         ),
       );
       print(response);
@@ -185,7 +185,7 @@ String  terms_conditions;
       Dio.Response response = await dio().post(
         'pages/new_ticket',
         data: Dio.FormData.fromMap(
-          user.sentTickets(token, language),
+          user.sentTickets(token!, language),
         ),
       );
       print(response.statusCode);
@@ -206,10 +206,10 @@ String  terms_conditions;
         'user_api/set_registration',
         data: Dio.FormData.fromMap(
           user.sentRegister(
-            token,
+            token??'',
             language,
             country,
-            await FCMConfig.instance.messaging.getToken(),
+            await FCMConfig.instance.messaging.getToken().toString(),
           ),
         ),
       );
@@ -221,16 +221,16 @@ String  terms_conditions;
       if (response.data['status'] == true) {
         doneSentRegister = true;
         registerList =
-            registerModelFromJson(response.toString()).result.clientData;
-        for (var i = 0; i < registerList.length; i++) {
-          token = registerList[i].token;
-          lang = registerList[i].lang;
-          id = registerList[i].id;
-          phoneNumber = registerList[i].phone;
-          name = registerList[i].fullname;
+            registerModelFromJson(response.toString()).result?.clientData;
+        for (var i = 0; i < registerList!.length; i++) {
+          token = registerList?[i].token;
+          lang = registerList?[i].lang;
+          id = registerList?[i].id;
+          phoneNumber = registerList![i].phone!;
+          name = registerList![i].fullname!;
         }
         final preferences = await SharedPreferences.getInstance();
-        await preferences.setString('bool', token);
+        await preferences.setString('bool', token!);
 
         token = preferences.getString('bool');
       }
@@ -295,7 +295,7 @@ String  terms_conditions;
   }
 
   Future<dynamic> changePassword(
-      {String phoneNumber, String password, String confirmPassword}) async {
+      {String? phoneNumber, String? password, String? confirmPassword}) async {
     try {
       var token = await FCMConfig.instance.messaging.getToken();
       Dio.Response response = await dio().post(
@@ -316,7 +316,7 @@ String  terms_conditions;
   }
 
   Future<dynamic> updatePassword(
-      {String password, String confirmPassword, String oldPassword}) async {
+      {String? password, String? confirmPassword, String? oldPassword}) async {
     try {
       Dio.Response response = await dio().post(
         '/user_api/edit_password',
@@ -338,7 +338,7 @@ String  terms_conditions;
   }
 
   bool deleteAccBool = false;
-  Future<bool> deleteAcc({String phoneNumber}) async {
+  Future<bool> deleteAcc({String? phoneNumber}) async {
     try {
       Dio.Response response = await dio().post(
         '/user_api/stop_myaccount',

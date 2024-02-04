@@ -21,11 +21,11 @@ class TicketsList {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory TicketsList.fromJson(Map<String, dynamic> json) => TicketsList(
         message: json["message"],
@@ -40,7 +40,7 @@ class TicketsList {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -49,7 +49,7 @@ class Result {
     this.myTickets,
   });
 
-  List<MyTicket> myTickets;
+  List<MyTicket>? myTickets;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         myTickets: List<MyTicket>.from(
@@ -57,7 +57,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "my_tickets": List<dynamic>.from(myTickets.map((x) => x.toJson())),
+        "my_tickets": List<dynamic>.from(myTickets!.map((x) => x.toJson())),
       };
 }
 
@@ -72,20 +72,20 @@ class MyTicket {
     this.createdAt,
   });
 
-  int id;
-  String title;
-  Type type;
-  String senderType;
-  Color color;
-  String content;
-  DateTime createdAt;
+  int? id;
+  String? title;
+  Type? type;
+  String? senderType;
+  Color? color;
+  String? content;
+  DateTime? createdAt;
 
   factory MyTicket.fromJson(Map<String, dynamic> json) => MyTicket(
         id: json["id"],
         title: json["title"],
-        type: typeValues.map[json["type"]],
+        type: typeValues.map?[json["type"]],
         senderType: json["sender_type"],
-        color: colorValues.map[json["color"]],
+        color: colorValues.map?[json["color"]],
         content: json["content"],
         createdAt: DateTime.parse(json["created_at"]),
       );
@@ -93,12 +93,12 @@ class MyTicket {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "type": typeValues.reverse[type],
+        "type": typeValues.reverse?[type],
         "sender_type": senderType,
-        "color": colorValues.reverse[color],
+        "color": colorValues.reverse?[color],
         "content": content,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
       };
 }
 
@@ -116,25 +116,25 @@ final typeValues = EnumValues(
     {"مشكلة": Type.EMPTY, "اقتراح": Type.PURPLE, "استفسار": Type.TYPE});
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
+  Map<T, String>? get reverse {
     if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
+      reverseMap = map?.map((k, v) => new MapEntry(v, k));
     }
     return reverseMap;
   }
 }
 
 class TicketsLisstProvider with ChangeNotifier {
-  String token;
+  String? token;
   TicketsLisstProvider({this.token});
   List<MyTicket> myTickets = [];
-  int total;
-  Future<void> fetchAllTickets(String lang, int limt, int pageNumber) async {
+  int? total;
+  Future<void> fetchAllTickets(String? lang, int? limt, int? pageNumber) async {
     try {
       Dio.Response response = await dio().post(
         'pages/tickets',
@@ -151,7 +151,7 @@ class TicketsLisstProvider with ChangeNotifier {
       print(response);
       total = ticketsListFromJson(response.toString()).total;
       myTickets
-          .addAll(ticketsListFromJson(response.toString()).result.myTickets);
+          .addAll(ticketsListFromJson(response.toString()).result?.myTickets as Iterable<MyTicket>);
     } catch (err) {
       throw (err);
     }

@@ -11,7 +11,7 @@ import 'package:wassalny/model/searchByCityOffers.dart';
 // package:wasalny/Screens/service_details/servicesDetails.dart
 
 class FilterCity extends StatefulWidget {
-  final List<AllProducts> search;
+  final List<AllProducts>? search;
   FilterCity({
     this.search,
   });
@@ -64,7 +64,7 @@ class _FilterCityState extends State<FilterCity> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-        child: widget.search.isEmpty
+        child: widget.search!.isEmpty
             ? Center(
                 child: Text(
                   "NoSearch".tr,
@@ -83,13 +83,13 @@ class _FilterCityState extends State<FilterCity> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 0,
                 ),
-                itemCount: widget.search.length,
+                itemCount: widget.search?.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
                       Get.to(
                         ServicesDetails(
-                          id: widget.search[index].prodId,
+                          id: widget.search![index].prodId,
                         ),
                       );
                     },
@@ -102,7 +102,7 @@ class _FilterCityState extends State<FilterCity> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                    widget.search[index].productImage),
+                                    widget.search?[index].productImage??''),
                               ),
                             ),
                             height: hight * 0.2,
@@ -112,11 +112,11 @@ class _FilterCityState extends State<FilterCity> {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  _sentFav(widget.search[index].favExit,
-                                      widget.search[index].prodId);
+                                  _sentFav(widget.search![index].favExit!,
+                                      widget.search![index].prodId!);
                                   setState(() {});
                                 },
-                                icon: widget.search[index].favExit == 0
+                                icon: widget.search![index].favExit == 0
                                     ? Icon(
                                         CupertinoIcons.heart,
                                         color: Colors.red,
@@ -132,13 +132,13 @@ class _FilterCityState extends State<FilterCity> {
                               Icons.star,
                               color: Colors.yellow,
                             ),
-                            widget.search[index].totalRate == '' ||
-                                    widget.search[index].totalRate == null
+                            widget.search![index].totalRate == '' ||
+                                    widget.search![index].totalRate == null
                                 ? Text('0')
-                                : Text(widget.search[index].totalRate),
+                                : Text(widget.search?[index].totalRate??''),
                           ],
                         ),
-                        Text(widget.search[index].productName,
+                        Text(widget.search?[index].productName??'',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(

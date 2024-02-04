@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 showDaialogLoader(BuildContext context) {
@@ -9,13 +10,13 @@ showDaialogLoader(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         content: SizedBox(
-          height: 32,
+          height: 32.h,
           child: Center(child: CircularProgressIndicator()),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(
-              20,
+              20.r,
             ),
           ),
         ),

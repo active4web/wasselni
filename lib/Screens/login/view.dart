@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
@@ -7,6 +8,7 @@ import 'package:wassalny/Components/CustomWidgets/MyText.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/myColors.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/BattomBar/view.dart';
 import 'package:wassalny/Screens/forget_password/forget_password_screen.dart';
@@ -24,7 +26,7 @@ class _LoginState extends State<Login> {
   TextEditingController _Password = TextEditingController();
 
   User user = User();
-  String language;
+  String? language;
   bool isPassword = true;
   IconData icon = Icons.visibility;
 
@@ -82,18 +84,18 @@ class _LoginState extends State<Login> {
       body: ListView(
         padding: EdgeInsets.all(30),
         children: [
-          SizedBox(height: 50),
+          SizedBox(height: 50.h),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: Image.asset('assets/images/img.png')),
-          SizedBox(height: 20),
+              child: Image.asset(appLogo)),
+          SizedBox(height: 20.h),
           // CustomTextField(controller: _name, hint: 'name'.tr),
           SizedBox(height: 10),
           CustomTextField(
               controller: _phone,
               hint: "phoneNumber".tr,
-              valid: (String value){
-                if(value.isEmpty){
+              valid: ( value){
+                if(value!.isEmpty){
                   return "ادخل رقم الجوال";
                 }
                 return "";
@@ -116,8 +118,8 @@ class _LoginState extends State<Login> {
                     : icon = Icons.visibility_off_outlined;
                 setState(() {});
               },
-              valid: (String value){
-                if(value.isEmpty){
+              valid: ( value){
+                if(value!.isEmpty){
                   return "ادخل كلمة السر";
                 }
                 return "";
@@ -130,7 +132,7 @@ class _LoginState extends State<Login> {
           // CustomTextField(controller: _address, hint: 'العنوان'),
           // SizedBox(height: 10),
           // dropList(),
-          SizedBox(height: 50),
+          SizedBox(height: 50.h),
           CustomButton(
               backgroundColor: Colors.blue,
               borderColor: Colors.blue,
@@ -212,7 +214,7 @@ class _LoginState extends State<Login> {
                       child: MyText(
                           title: "اللغة العربية", weight: FontWeight.bold)),
                   Offstage(
-                      offstage: Get.locale.languageCode == 'ar' ? false : true,
+                      offstage: Get.locale?.languageCode == 'ar' ? false : true,
                       child: Icon(Icons.check_circle, color: MyColors.primary)),
                 ]),
               )),
@@ -230,7 +232,7 @@ class _LoginState extends State<Login> {
                   Expanded(
                       child: MyText(title: "English", weight: FontWeight.bold)),
                   Offstage(
-                      offstage: Get.locale.languageCode == 'en' ? false : true,
+                      offstage: Get.locale?.languageCode == 'en' ? false : true,
                       child: Icon(Icons.check_circle, color: MyColors.primary))
                 ],
               ),

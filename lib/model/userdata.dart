@@ -16,10 +16,10 @@ class UserData {
         this.result,
     });
 
-    String message;
+    String? message;
     dynamic codenum;
-    bool status;
-    Result result;
+    bool? status;
+    Result? result;
 
     factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         message: json["message"],
@@ -32,7 +32,7 @@ class UserData {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
     };
 }
 
@@ -41,14 +41,14 @@ class Result {
         this.clientData,
     });
 
-    List<ClientDatum> clientData;
+    List<ClientDatum>? clientData;
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
         clientData: List<ClientDatum>.from(json["client_data"].map((x) => ClientDatum.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "client_data": List<dynamic>.from(clientData.map((x) => x.toJson())),
+        "client_data": List<dynamic>.from(clientData!.map((x) => x.toJson())),
     };
 }
 
@@ -61,11 +61,11 @@ class ClientDatum {
         this.token,
     });
 
-    String phone;
-    int id;
-    String fullname;
-    String lang;
-    String token;
+    String? phone;
+    int? id;
+    String? fullname;
+    String? lang;
+    String? token;
 
     factory ClientDatum.fromJson(Map<String, dynamic> json) => ClientDatum(
         phone: json["phone"],

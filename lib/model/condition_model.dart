@@ -1,8 +1,8 @@
 class ConditionModel {
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   ConditionModel({this.message, this.codenum, this.status, this.result});
 
@@ -20,25 +20,25 @@ class ConditionModel {
     data['codenum'] = this.codenum;
     data['status'] = this.status;
     if (this.result != null) {
-      data['result'] = this.result.toJson();
+      data['result'] = this.result?.toJson();
     }
     return data;
   }
 }
 
 class Result {
-  String termsConditions;
-  String hotline;
-  String nameSite;
-  String address;
-  String supportEmail;
-  String supportPhone;
-  String whatsapp;
-  String facebook;
-  String twitter;
-  String instagram;
-  String linkedin;
-  String websiteLink;
+  String? termsConditions;
+  String? hotline;
+  String? nameSite;
+  String? address;
+  String? supportEmail;
+  String? supportPhone;
+  String? whatsapp;
+  String? facebook;
+  String? twitter;
+  String? instagram;
+  String? linkedin;
+  String? websiteLink;
 
   Result(
       {this.termsConditions,

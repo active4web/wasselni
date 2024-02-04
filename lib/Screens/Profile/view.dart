@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
@@ -23,16 +24,16 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   bool loader = false;
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'';
   User user = User();
-  String city;
-  String cityId;
-  String name;
-  String phone;
-  String address;
-  TextEditingController nameController;
-  TextEditingController phoneController;
-  TextEditingController addressController;
+  String? city;
+  String? cityId;
+  String? name;
+  String? phone;
+  String? address;
+  TextEditingController? nameController;
+  TextEditingController? phoneController;
+  TextEditingController? addressController;
   Future<void> getinfo() async {
     loader = true;
     try {
@@ -55,10 +56,10 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _submit() async {
     bool done = Provider.of<Auth>(context, listen: false).doneEdaite;
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState!.save();
     showDaialogLoader(context);
 
     // ignore: unused_element
@@ -110,11 +111,11 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    List<ListCountry> list =
+    List<ListCountry>? list =
         Provider.of<CityDropDownProvider>(context, listen: false).list;
 
     return Scaffold(
-      appBar: titleAppBar(context, "Profile".tr),
+      appBar: TitleAppBar(title: "Profile".tr),
       body: loader
           ? Center(
               child: CircularProgressIndicator(),
@@ -138,7 +139,7 @@ class _ProfileState extends State<Profile> {
                           user.nameEdaite = val;
                         },
                         validator: (val) {
-                          if (val.isEmpty) {
+                          if (val!.isEmpty) {
                             return "Thisfieldisrequired".tr;
                           } else if (val.length <= 4) {
                             return "NameMust4Cracters".tr;
@@ -148,7 +149,7 @@ class _ProfileState extends State<Profile> {
                         },
                         hint: "name".tr,
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       ProfileTextField(
                         controller: phoneController,
                         isEnabled: false,
@@ -159,7 +160,7 @@ class _ProfileState extends State<Profile> {
                           user.phoneEdaite = val;
                         },
                         validator: (val) {
-                          if (val.isEmpty) {
+                          if (val!.isEmpty) {
                             return 'هذا الحقل مطلوب';
                           } else if (val.length <= 7) {
                             return 'يجب ان يكون رقم الهاتف علي الاقل 7 ارقام';
@@ -169,7 +170,7 @@ class _ProfileState extends State<Profile> {
                         },
                         hint: 'رقم التليفون',
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       ProfileTextField(
                         controller: addressController,
                         onSaved: (val) {
@@ -179,7 +180,7 @@ class _ProfileState extends State<Profile> {
                           user.adressEdaite = val;
                         },
                         validator: (val) {
-                          if (val.isEmpty) {
+                          if (val!.isEmpty) {
                             return "Thisfieldisrequired".tr;
                           } else if (val.length <= 10) {
                             return "AdressValidationCracters".tr;
@@ -189,7 +190,7 @@ class _ProfileState extends State<Profile> {
                         },
                         hint: "adress".tr,
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       Container(
                         height: 55,
                         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -207,7 +208,7 @@ class _ProfileState extends State<Profile> {
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: citiesWidget(
                                     context,
-                                    list,
+                                    list??[],
                                   ),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -225,7 +226,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Expanded(
                                   child: Text(
-                                      city == null ? "country".tr : city,
+                                      city == null ? "country".tr : city??'',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -320,9 +321,9 @@ class _ProfileState extends State<Profile> {
                           borderColor: Colors.blue,
                           isShadow: 1,
                           onTap: () {
-                            user.phoneEdaite = phoneController.text;
-                            user.nameEdaite = nameController.text;
-                            user.adressEdaite = addressController.text;
+                            user.phoneEdaite = phoneController?.text;
+                            user.nameEdaite = nameController?.text;
+                            user.adressEdaite = addressController?.text;
                             _submit();
                           },
                           textColor: Colors.white,

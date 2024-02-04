@@ -25,10 +25,10 @@ class OfferDetail {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory OfferDetail.fromJson(Map<String, dynamic> json) => OfferDetail(
         message: json["message"],
@@ -41,7 +41,7 @@ class OfferDetail {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -50,7 +50,7 @@ class Result {
     this.offerDetails,
   });
 
-  List<OfferDetailElement> offerDetails;
+  List<OfferDetailElement>? offerDetails;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         offerDetails: List<OfferDetailElement>.from(
@@ -59,7 +59,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "offer_details":
-            List<dynamic>.from(offerDetails.map((x) => x.toJson())),
+            List<dynamic>.from(offerDetails!.map((x) => x.toJson())),
       };
 }
 
@@ -80,19 +80,19 @@ class OfferDetailElement {
     this.offersId,
   });
 
-  String offersImage;
-  String facebook;
-  String phone;
-  String whatsapp;
-  String twitter;
-  String instagram;
-  String oldPrice;
-  String newPrice;
-  String serviceId;
+  String? offersImage;
+  String? facebook;
+  String? phone;
+  String? whatsapp;
+  String? twitter;
+  String? instagram;
+  String? oldPrice;
+  String? newPrice;
+  String? serviceId;
   dynamic serviceName;
-  String offersName;
-  String offersDescription;
-  int offersId;
+  String? offersName;
+  String? offersDescription;
+  int? offersId;
 
   factory OfferDetailElement.fromJson(Map<String, dynamic> json) =>
       OfferDetailElement(
@@ -129,7 +129,7 @@ class OfferDetailElement {
 }
 
 class OfferDetailsProvider with ChangeNotifier {
-  String token;
+  String? token;
 
   OfferDetailsProvider({this.token});
 
@@ -155,19 +155,19 @@ class OfferDetailsProvider with ChangeNotifier {
       );
       print(response);
       offerDetailsList =
-          offerDetailFromJson(response.toString()).result.offerDetails;
+          offerDetailFromJson(response.toString()).result?.offerDetails??[];
 
       for (var i = 0; i < offerDetailsList.length; i++) {
-        offerName = offerDetailsList[i].offersName;
+        offerName = offerDetailsList[i].offersName??'';
         serviceName = offerDetailsList[i].serviceName;
-        oldPrice = offerDetailsList[i].oldPrice;
-        newPrice = offerDetailsList[i].newPrice;
-        offersDescription = offerDetailsList[i].offersDescription;
-        phone = offerDetailsList[i].phone;
-        instagram = offerDetailsList[i].instagram;
-        twitter = offerDetailsList[i].twitter;
-        whatsapp = offerDetailsList[i].whatsapp;
-        serviceId = offerDetailsList[i].serviceId;
+        oldPrice = offerDetailsList[i].oldPrice??'';
+        newPrice = offerDetailsList[i].newPrice??'';
+        offersDescription = offerDetailsList[i].offersDescription??'';
+        phone = offerDetailsList[i].phone??'';
+        instagram = offerDetailsList[i].instagram??'';
+        twitter = offerDetailsList[i].twitter??'';
+        whatsapp = offerDetailsList[i].whatsapp??'';
+        serviceId = offerDetailsList[i].serviceId??'';
       }
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps

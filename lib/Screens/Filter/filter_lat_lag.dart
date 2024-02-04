@@ -11,12 +11,12 @@ import 'package:wassalny/model/searchLAndLat.dart';
 // package:wasalny/Screens/service_details/servicesDetails.dart
 
 class FilterSearchLatAndLagScreen extends StatefulWidget {
-  final int catId;
-  final double lat;
-  final double lag;
-  final int searchType;
-  final int cityId;
-  final int governmentId;
+  final int? catId;
+  final double? lat;
+  final double? lag;
+  final int? searchType;
+  final int? cityId;
+  final int? governmentId;
   const FilterSearchLatAndLagScreen(
       {this.catId,
       this.lag,
@@ -34,8 +34,8 @@ class _FilterSearchLatAndLagScreenState
     extends State<FilterSearchLatAndLagScreen> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  bool loader;
-  String lang = Get.locale.languageCode;
+  bool loader=false;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _sentFav(int isFav, int productId) async {
     bool done =
@@ -167,7 +167,7 @@ class _FilterSearchLatAndLagScreenState
                                     image: DecorationImage(
                                       fit: BoxFit.fill,
                                       image: NetworkImage(
-                                          list[index].productImage),
+                                          list[index].productImage??''),
                                     ),
                                   ),
                                   height: hight * 0.2,
@@ -178,8 +178,8 @@ class _FilterSearchLatAndLagScreenState
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        _sentFav(list[index].favExit,
-                                            list[index].prodId);
+                                        _sentFav(list[index].favExit!,
+                                            list[index].prodId!);
                                         setState(() {});
                                       },
                                       icon: list[index].favExit == 0
@@ -201,10 +201,10 @@ class _FilterSearchLatAndLagScreenState
                                   list[index].totalRate == '' ||
                                           list[index].totalRate == null
                                       ? Text('0')
-                                      : Text(list[index].totalRate),
+                                      : Text(list[index].totalRate??''),
                                 ],
                               ),
-                              Text(list[index].productName,
+                              Text(list[index].productName??'',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(

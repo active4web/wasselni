@@ -19,11 +19,11 @@ HomeModel homeModel(String str) {
 String localDatabaseModelToJson(HomeModel data) => json.encode(data.toJson());
 
 class HomeModel {
-  String message;
-  int codenum;
-  bool status;
-  String lang;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  String? lang;
+  Result? result;
 
   HomeModel({this.message, this.codenum, this.status, this.lang, this.result});
 
@@ -43,19 +43,19 @@ class HomeModel {
     data['status'] = this.status;
     data['$lang'] = this.lang;
     if (this.result != null) {
-      data['result'] = this.result.toJson();
+      data['result'] = this.result?.toJson();
     }
     return data;
   }
 }
 
 class Result {
-  List<MainOffers> mainOffers;
-  String titleRecommended;
-  List<MainOffers> secondOffer;
-  List<AllRecommended> allRecommended;
-  List<AllCategories> allCategories;
-  List<AllFeatures> allFeatures;
+  List<MainOffers>? mainOffers;
+  String? titleRecommended;
+  List<MainOffers>? secondOffer;
+  List<AllRecommended>? allRecommended;
+  List<AllCategories>? allCategories;
+  List<AllFeatures>? allFeatures;
 
   Result(
       {this.mainOffers,
@@ -67,34 +67,34 @@ class Result {
 
   Result.fromJson(Map<String, dynamic> json) {
     if (json['main_offers'] != null) {
-      mainOffers = new List<MainOffers>();
+      mainOffers = <MainOffers>[];
       json['main_offers'].forEach((v) {
-        mainOffers.add(new MainOffers.fromJson(v));
+        mainOffers?.add(MainOffers.fromJson(v));
       });
     }
     titleRecommended = json['title_recommended'];
     if (json['second_offer'] != null) {
-      secondOffer = new List<MainOffers>();
+      secondOffer = <MainOffers>[];
       json['second_offer'].forEach((v) {
-        secondOffer.add(new MainOffers.fromJson(v));
+        secondOffer?.add(new MainOffers.fromJson(v));
       });
     }
     if (json['all_recommended'] != null) {
-      allRecommended = new List<AllRecommended>();
+      allRecommended =  <AllRecommended>[];
       json['all_recommended'].forEach((v) {
-        allRecommended.add(new AllRecommended.fromJson(v));
+        allRecommended?.add( AllRecommended.fromJson(v));
       });
     }
     if (json['all_categories'] != null) {
-      allCategories = new List<AllCategories>();
+      allCategories = <AllCategories>[];
       json['all_categories'].forEach((v) {
-        allCategories.add(new AllCategories.fromJson(v));
+        allCategories?.add(new AllCategories.fromJson(v));
       });
     }
     if (json['all_features'] != null) {
-      allFeatures = new List<AllFeatures>();
+      allFeatures =  <AllFeatures>[];
       json['all_features'].forEach((v) {
-        allFeatures.add(new AllFeatures.fromJson(v));
+        allFeatures?.add(new AllFeatures.fromJson(v));
       });
     }
   }
@@ -102,31 +102,31 @@ class Result {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.mainOffers != null) {
-      data['main_offers'] = this.mainOffers.map((v) => v.toJson()).toList();
+      data['main_offers'] = this.mainOffers?.map((v) => v.toJson()).toList();
     }
     data['title_recommended'] = this.titleRecommended;
     if (this.secondOffer != null) {
-      data['second_offer'] = this.secondOffer.map((v) => v.toJson()).toList();
+      data['second_offer'] = this.secondOffer?.map((v) => v.toJson()).toList();
     }
     if (this.allRecommended != null) {
       data['all_recommended'] =
-          this.allRecommended.map((v) => v.toJson()).toList();
+          this.allRecommended?.map((v) => v.toJson()).toList();
     }
     if (this.allCategories != null) {
       data['all_categories'] =
-          this.allCategories.map((v) => v.toJson()).toList();
+          this.allCategories?.map((v) => v.toJson()).toList();
     }
     if (this.allFeatures != null) {
-      data['all_features'] = this.allFeatures.map((v) => v.toJson()).toList();
+      data['all_features'] = this.allFeatures?.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class MainOffers {
-  String image;
-  String link;
-  String serviceId;
+  String? image;
+  String? link;
+  String? serviceId;
 
   MainOffers({this.image, this.link, this.serviceId});
 
@@ -146,13 +146,13 @@ class MainOffers {
 }
 
 class AllRecommended {
-  String recommendedImage;
-  int recommendedPosition;
-  int serviceId;
+  String? recommendedImage;
+  int? recommendedPosition;
+  int? serviceId;
   // int depId;
   // int catId;
-  int id;
-  String enddate;
+  int? id;
+  String? enddate;
 
   AllRecommended(
       {this.recommendedImage,
@@ -187,12 +187,12 @@ class AllRecommended {
 }
 
 class AllCategories {
-  List<AllDepartment> allDepartment;
-  int totalDepartment;
-  String categoryManbanner;
-  String categoryImage;
-  String categoryName;
-  int catId;
+  List<AllDepartment>? allDepartment;
+  int? totalDepartment;
+  String? categoryManbanner;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   AllCategories(
       {this.allDepartment,
@@ -204,9 +204,9 @@ class AllCategories {
 
   AllCategories.fromJson(Map<String, dynamic> json) {
     if (json['all_department'] != null) {
-      allDepartment = new List<AllDepartment>();
+      allDepartment = <AllDepartment>[];
       json['all_department'].forEach((v) {
-        allDepartment.add(new AllDepartment.fromJson(v));
+        allDepartment?.add( AllDepartment.fromJson(v));
       });
     }
     totalDepartment = json['total_department'];
@@ -220,7 +220,7 @@ class AllCategories {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.allDepartment != null) {
       data['all_department'] =
-          this.allDepartment.map((v) => v.toJson()).toList();
+          this.allDepartment?.map((v) => v.toJson()).toList();
     }
     data['total_department'] = this.totalDepartment;
     data['category_manbanner'] = this.categoryManbanner;
@@ -232,10 +232,10 @@ class AllCategories {
 }
 
 class AllDepartment {
-  String departmentName;
-  String catId;
-  String departmentId;
-  String departmentImage;
+  String? departmentName;
+  String? catId;
+  String? departmentId;
+  String? departmentImage;
 
   AllDepartment(
       {this.departmentName,
@@ -261,14 +261,14 @@ class AllDepartment {
 }
 
 class AllFeatures {
-  int categoryTotalDepartment;
-  int categoryTotalDepartmentKey;
-  String categoryManbanner;
-  String categoryImage;
-  String categoryName;
-  int catId;
-  String imgBanner;
-  List<AllProducts> allProducts;
+  int? categoryTotalDepartment;
+  int? categoryTotalDepartmentKey;
+  String? categoryManbanner;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
+  String? imgBanner;
+  List<AllProducts>? allProducts;
 
   AllFeatures(
       {this.categoryTotalDepartment,
@@ -289,9 +289,9 @@ class AllFeatures {
     catId = json['cat_id'];
     imgBanner = json['img_banner'];
     if (json['all_products'] != null) {
-      allProducts = new List<AllProducts>();
+      allProducts = <AllProducts>[];
       json['all_products'].forEach((v) {
-        allProducts.add(new AllProducts.fromJson(v));
+        allProducts?.add(new AllProducts.fromJson(v));
       });
     }
   }
@@ -306,19 +306,19 @@ class AllFeatures {
     data['cat_id'] = this.catId;
     data['img_banner'] = this.imgBanner;
     if (this.allProducts != null) {
-      data['all_products'] = this.allProducts.map((v) => v.toJson()).toList();
+      data['all_products'] = this.allProducts?.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AllProducts {
-  int favExit;
-  String totalRate;
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
+  int? favExit;
+  String? totalRate;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
 
   AllProducts(
       {this.favExit,
@@ -352,9 +352,9 @@ class AllProducts {
 //{========================Get From server=======================}
 
 class HomeLists with ChangeNotifier {
-  String token;
-  String lang;
-  int id;
+  String? token;
+  String? lang;
+  int? id;
   HomeLists({
     this.id,
     this.token,
@@ -368,7 +368,7 @@ class HomeLists with ChangeNotifier {
   List<AllRecommended> recomended = [];
   String recommendedImage = '';
   int recommendedId = 0;
-  int recomendedBosition;
+  int? recomendedBosition;
   String recomendedString = '';
   Future<void> fetchHome(String lang) async {
     print('$token ===============================');
@@ -383,45 +383,44 @@ class HomeLists with ChangeNotifier {
       // print(response.data);
       storage.write("homeData", json.encode(response.data));
       print(storage.read("homeData"));
-      sliderImageInMain = homeModel(response.toString()).result.mainOffers;
-      secondSlider = homeModel(response.toString()).result.secondOffer;
-      allCategories = homeModel(response.toString()).result.allCategories;
+      sliderImageInMain = homeModel(response.toString()).result?.mainOffers??[];
+      secondSlider = homeModel(response.toString()).result?.secondOffer??[];
+      allCategories = homeModel(response.toString()).result?.allCategories??[];
 
-      allfeature = homeModel(response.toString()).result.allFeatures;
+      allfeature = homeModel(response.toString()).result?.allFeatures??[];
       print(allfeature);
-      recomended = homeModel(response.toString()).result.allRecommended;
+      recomended = homeModel(response.toString()).result?.allRecommended??[];
       for (var i = 0; i < recomended.length; i++) {
-        recommendedImage = recomended[i].recommendedImage;
-        recommendedId = recomended[i].id;
+        recommendedImage = recomended[i].recommendedImage??'';
+        recommendedId = recomended[i].id??0;
         recomendedBosition = recomended[i].recommendedPosition;
       }
       recomendedString = response.data['result']['title_recommended'];
     } catch (err) {
       var model = homeModel(storage.read("homeData"));
-      sliderImageInMain = model.result.mainOffers;
-      secondSlider = model.result.secondOffer;
-      allCategories = model.result.allCategories
+      sliderImageInMain = model.result?.mainOffers??[];
+      secondSlider = model.result?.secondOffer??[];
+      allCategories = model.result?.allCategories??[]
         ..forEach((element) {
           allCategories.add(element);
         });
-      allfeature = model.result.allFeatures.where((element) {
-        return element.allProducts.isNotEmpty;
+      allfeature = model.result!.allFeatures!.where((element) {
+        return element.allProducts!.isNotEmpty;
       }).toList();
-      recomended = model.result.allRecommended;
+      recomended = model.result?.allRecommended??[];
       for (var i = 0; i < recomended.length; i++) {
-        recommendedImage = recomended[i].recommendedImage;
-        recommendedId = recomended[i].id;
+        recommendedImage = recomended[i].recommendedImage??'';
+        recommendedId = recomended[i].id??0;
         recomendedBosition = recomended[i].recommendedPosition;
       }
-      recomendedString = model.result.titleRecommended;
+      recomendedString = model.result?.titleRecommended??'';
       print('${err} error from offersssssssssssss list');
     }
   }
 
-  Future<AllPointsModel> fetchAllPoints(
-      String lang, var page, var limit) async {
-    print('$token ===============================');
-    GetStorage storage = GetStorage();
+  AllPointsModel? allPointsModel;
+  Future<AllPointsModel?> fetchAllPoints(String? lang, var page, var limit) async {
+    // GetStorage? storage = GetStorage();
     try {
       Dio.Response response = await dio().post(
         'services/get_all_providers_coupons',
@@ -435,12 +434,14 @@ class HomeLists with ChangeNotifier {
           },
         ),
       );
+      allPointsModel=AllPointsModel.fromJson(response.data);
       print(response.data);
-      return AllPointsModel.fromJson(response.data);
+      return allPointsModel;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err} error from offersssssssssssss list');
     }
+    return null;
   }
 
   // Future<LocalDatabaseModel> fetchLocalDataBase(

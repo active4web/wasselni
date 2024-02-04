@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,14 +13,14 @@ import 'package:wassalny/Screens/searchLatAndLag/searchLatAndLagScreen.dart';
 import 'filter_lat_lag.dart';
 
 class FilterMapPage extends StatefulWidget {
-  final String type;
-  final int index;
-  final int id;
-  final int cityId;
-  final int governmentId;
-  final int searchType;
+  final String? type;
+  final int? index;
+  final int? id;
+  final int? cityId;
+  final int? governmentId;
+  final int? searchType;
   FilterMapPage(
-      {Key key,
+      {Key? key,
       this.type,
       this.id,
       this.index,
@@ -33,10 +33,10 @@ class FilterMapPage extends StatefulWidget {
 }
 
 class _FilterMapPageState extends State<FilterMapPage> {
-  BitmapDescriptor myIcon;
-  GoogleMapController myController;
-  double currentLat;
-  double currentLong;
+  BitmapDescriptor? myIcon;
+  GoogleMapController? myController;
+  double? currentLat;
+  double? currentLong;
   dynamic currentAddress;
 
   Completer<GoogleMapController> _controller = Completer();
@@ -45,7 +45,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
     markerId: MarkerId("1"),
   );
   Set<Marker> mark = Set();
-  BitmapDescriptor pinLocationIcon;
+  BitmapDescriptor? pinLocationIcon;
   bool _loader = false;
   var location = Location();
   _setAddMarker(position) async {
@@ -54,20 +54,20 @@ class _FilterMapPageState extends State<FilterMapPage> {
         onTap: () {},
         markerId: MarkerId(mark.length.toString()),
         icon: BitmapDescriptor.defaultMarker,
-        position: LatLng(currentLat, currentLong),
+        position: LatLng(currentLat!, currentLong!),
       ));
     });
   }
 
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
   Future _getCurrentLocation() async {
     _loader = true;
     _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
+    if (!_serviceEnabled!) {
       _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+      if (!_serviceEnabled!) {
         return;
       }
     }
@@ -82,16 +82,16 @@ class _FilterMapPageState extends State<FilterMapPage> {
 
     _locationData = await location.getLocation();
     final coordinates =
-        new Coordinates(_locationData.latitude, _locationData.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    print(
-        'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
+        new Coordinates(latitude:_locationData?.latitude,longitude: _locationData?.longitude);
+    // var addresses =
+    //     await coordinates.;
+    // var first = addresses.first;
+    // print(
+    //     'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
     setState(() {
-      currentLat = _locationData.latitude;
-      currentLong = _locationData.longitude;
-      currentAddress = first.addressLine;
+      currentLat = _locationData?.latitude;
+      currentLong = _locationData?.longitude;
+      // currentAddress = first.addressLine;
     });
     _loader = false;
   }
@@ -116,7 +116,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
             ));
       },
       child: Container(
-        height: 50,
+        height: 50.h,
         margin: EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -139,7 +139,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
     );
   }
 
-  Position updatedPosition;
+  Position? updatedPosition;
   String address = "";
   getLocationAddress(position, lat, lng) async {
     LatLng loc = position;
@@ -147,16 +147,16 @@ class _FilterMapPageState extends State<FilterMapPage> {
       currentLat = loc.latitude;
       currentLong = loc.longitude;
     });
-    final coordinates = new Coordinates(currentLat, currentLong);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    // print(
+    final coordinates = new Coordinates(latitude:currentLat, longitude:currentLong);
+    // var addresses =
+    //     await GeoCode.local.findAddressesFromCoordinates(coordinates);
+    // var first = addresses.first;
+    // // print(
     //     'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-    print('locationsss: ${first.thoroughfare}');
-    setState(() {
-      currentAddress = first.addressLine;
-    });
+    // print('locationsss: ${first.thoroughfare}');
+    // setState(() {
+    //   currentAddress = first.addressLine;
+    // });
   }
 
   @override
@@ -167,7 +167,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: titleAppBar(context, "Searchbymap".tr),
+        appBar: TitleAppBar(title: "Searchbymap".tr),
         body: currentLat == null || currentLong == null || _loader == true
             ? Center(child: CircularProgressIndicator())
             : Container(
@@ -182,7 +182,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
                       },
 
                       initialCameraPosition: CameraPosition(
-                          target: LatLng(currentLat, currentLong), zoom: 10.0),
+                          target: LatLng(currentLat!, currentLong!), zoom: 10.0),
                       // onMapCreated: _onMapCreated,
                       onMapCreated: (GoogleMapController controller) {
                         _controller.complete(controller);
@@ -201,7 +201,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
                           Marker(
                             draggable: true,
                             markerId: MarkerId("1"),
-                            position: LatLng(currentLat, currentLong),
+                            position: LatLng(currentLat!, currentLong!),
                             icon: BitmapDescriptor.defaultMarker,
                           )
                         ],
@@ -249,7 +249,7 @@ class _FilterMapPageState extends State<FilterMapPage> {
         heading: 0,
         speed: 0,
         speedAccuracy: 0,
-        timestamp: DateTime.now());
+        timestamp: DateTime.now(), altitudeAccuracy: 0, headingAccuracy: 0);
     setState(() {
       updatedPosition = newMarkerPosition;
       marker = marker.copyWith(

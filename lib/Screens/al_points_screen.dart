@@ -14,8 +14,8 @@ class AllPointsScreen extends StatefulWidget {
 }
 
 class _AllPointsScreenState extends State<AllPointsScreen> {
-  AllPointsModel model;
-  String lang = Get.locale.languageCode;
+  AllPointsModel? model;
+  String lang = Get.locale?.languageCode??'ar';
   GlobalKey<ScaffoldState> _scafold2 = GlobalKey<ScaffoldState>();
   future() async {
     model = await Provider.of<HomeLists>(context, listen: false)
@@ -52,7 +52,7 @@ class _AllPointsScreenState extends State<AllPointsScreen> {
                       separatorBuilder: (context, index) => SizedBox(
                             height: 10,
                           ),
-                      itemCount: model.result.allProviders.length),
+                      itemCount: model?.result?.allProviders?.length??0),
                 ),
               ],
             )
@@ -63,7 +63,7 @@ class _AllPointsScreenState extends State<AllPointsScreen> {
   }
 
   Widget buildItem(index) => ListTile(
-        title: Text(model.result.allProviders[index].userName),
-        trailing: Text(model.result.allProviders[index].totalPoints),
+        title: Text(model?.result?.allProviders?[index].userName??''),
+        trailing: Text(model?.result?.allProviders?[index].totalPoints??''),
       );
 }

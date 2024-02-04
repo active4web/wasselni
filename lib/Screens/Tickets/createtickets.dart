@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
@@ -14,11 +15,11 @@ class CreateTikets extends StatefulWidget {
 }
 
 class _CreateTiketsState extends State<CreateTikets> {
-  num catigoryId;
+  num? catigoryId;
 
   bool loader = false;
   Future<void> gettype() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<TicketsTypeProvider>(context, listen: false)
@@ -29,16 +30,16 @@ class _CreateTiketsState extends State<CreateTikets> {
     } catch (e) {}
   }
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   User user = User();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
 
   Future<void> sentTickets() async {
     bool done = Provider.of<Auth>(context, listen: false).doneSent;
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState!.save();
     showDaialogLoader(context);
     try {
       done = await Provider.of<Auth>(context, listen: false)
@@ -66,7 +67,7 @@ class _CreateTiketsState extends State<CreateTikets> {
     final width = (MediaQuery.of(context).size.width);
     final higt = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top);
-    String _currentSelectedValue;
+    String? _currentSelectedValue;
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +92,7 @@ class _CreateTiketsState extends State<CreateTikets> {
                   child: Column(
                     children: [
                       Container(
-                        height: 50,
+                        height: 50.h,
                         width: width,
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         decoration: BoxDecoration(
@@ -130,9 +131,9 @@ class _CreateTiketsState extends State<CreateTikets> {
                           value: _currentSelectedValue,
                           isDense: true,
                           onSaved: (val) {
-                            user.ticId = int.parse(val);
+                            user.ticId = int.parse(val??'');
                           },
-                          onChanged: (String newValue) {
+                          onChanged: ( newValue) {
                             setState(() {
                               _currentSelectedValue = newValue;
                               print(newValue);
@@ -141,7 +142,7 @@ class _CreateTiketsState extends State<CreateTikets> {
                           items: caategories.map((value) {
                             return DropdownMenuItem<String>(
                                 value: value.id.toString(),
-                                child: Text(value.name));
+                                child: Text(value.name??''));
                           }).toList(),
                         ),
                       ),
@@ -151,7 +152,7 @@ class _CreateTiketsState extends State<CreateTikets> {
                       ProfileTextField(
                         hint: "Topic".tr,
                         validator: (val) {
-                          if (val.isEmpty) {
+                          if (val!.isEmpty) {
                             return "Thisfieldisrequired".tr;
                           } else if (val.length <= 4) {
                             return "NameMust4Cracters".tr;
@@ -169,7 +170,7 @@ class _CreateTiketsState extends State<CreateTikets> {
                       ProfileTextField1(
                         hint: "TicketContent".tr,
                         validator: (val) {
-                          if (val.isEmpty) {
+                          if (val!.isEmpty) {
                             return "Thisfieldisrequired".tr;
                           } else if (val.length <= 4) {
                             return "TicketContentValidation".tr;

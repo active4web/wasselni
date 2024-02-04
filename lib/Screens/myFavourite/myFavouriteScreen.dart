@@ -21,8 +21,8 @@ class _MyFavouriteScreenState extends State<MyFavouriteScreen> {
     loader = true;
     try {
       allProducts =
-          await Provider.of<FavouriteListProvider>(context, listen: false)
-              .fetchCart();
+          (await Provider.of<FavouriteListProvider>(context, listen: false)
+              .fetchCart())!;
 
       setState(() {
         loader = false;
@@ -37,7 +37,7 @@ class _MyFavouriteScreenState extends State<MyFavouriteScreen> {
   }
 
   Future<void> _sentFav() async {
-    int id;
+    int? id;
     bool done =
         Provider.of<UpdateFavProvider>(context, listen: false).doneSenting;
     for (var i = 0; i < allProducts.length; i++) {
@@ -126,7 +126,7 @@ class _MyFavouriteScreenState extends State<MyFavouriteScreen> {
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
-                                          allProducts[index].productImage),
+                                          allProducts[index].productImage??''),
                                     ),
                                   ),
                                   height:
@@ -144,7 +144,7 @@ class _MyFavouriteScreenState extends State<MyFavouriteScreen> {
                                 ),
                               ],
                             ),
-                            Text(allProducts[index].productName,
+                            Text(allProducts[index].productName??'',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(

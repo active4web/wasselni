@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/MyText.dart';
@@ -11,6 +12,7 @@ import 'package:wassalny/model/home.dart';
 import 'package:wassalny/model/searchByCityOffers.dart';
 import 'package:wassalny/model/searchStates.dart' as states;
 
+import '../../Components/constants.dart';
 import 'filter_city.dart';
 import 'filter_map_page.dart';
 
@@ -24,19 +26,19 @@ class Filter extends StatefulWidget {
 class _FilterState extends State<Filter> {
   TextEditingController _search = TextEditingController();
 
-  String city;
-  int cityId;
-  String category;
-  int categoryId;
-  String government;
-  int governmentId;
-  String department;
-  String departmentId;
-  List<AllDepartment> allDepartment;
-  String lang = Get.locale.languageCode;
+  String? city;
+  int? cityId;
+  String? category;
+  int? categoryId;
+  String? government;
+  int? governmentId;
+  String? department;
+  String? departmentId;
+  List<AllDepartment>? allDepartment;
+  String lang = Get.locale?.languageCode??'ar';
   bool loader = false;
   Future<void> getStates() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<states.SearchStatesProvider>(context, listen: false)
@@ -94,7 +96,7 @@ class _FilterState extends State<Filter> {
   }
 
   Widget filter(Widget widget) => Container(
-      height: 50,
+      height: 50.h,
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.blue,
@@ -103,7 +105,7 @@ class _FilterState extends State<Filter> {
       ),
       child: widget);
 
-  Widget searchContainer(Function onTap, String title) => InkWell(
+  Widget searchContainer(void Function()? onTap, String title) => InkWell(
         onTap: onTap,
         child: Row(
           children: [
@@ -136,21 +138,21 @@ class _FilterState extends State<Filter> {
         state.where((element) => element.stateId == cityId).toList();
     List<states.AllCity> finalcity = [];
     for (var i = 0; i < goverment.length; i++) {
-      finalcity = goverment[i].allCities;
+      finalcity = goverment[i].allCities??[];
     }
 
     return Scaffold(
-      appBar: titleAppBar(context, "filter".tr),
+      appBar: TitleAppBar(title: "filter".tr),
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
               child: Image.asset(
-                'assets/images/img.png',
+                appLogo,
                 width: 100,
               )),
-          // SizedBox(height: 20),
+          // SizedBox(height: 20.h),
           Row(
             children: [
               Expanded(
@@ -162,7 +164,7 @@ class _FilterState extends State<Filter> {
               ),
             ],
           ),
-          // SizedBox(height: 20),
+          // SizedBox(height: 20.h),
           // filter(
           //   TransparentTextField(
           //     controller: _search,
@@ -171,7 +173,7 @@ class _FilterState extends State<Filter> {
           //     icon: Icon(Icons.search, color: Colors.white),
           //   ),
           // ),
-          SizedBox(height: 20),
+          SizedBox(height: 20.h),
           filter(
             InkWell(
               onTap: () => showDialog(
@@ -200,7 +202,7 @@ class _FilterState extends State<Filter> {
               child: Row(
                 children: [
                   Expanded(
-                      child: Text(category == null ? "categories".tr : category,
+                      child: Text(category == null ? "categories".tr : category??'',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -230,7 +232,7 @@ class _FilterState extends State<Filter> {
                             content: Center(
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.8,
-                                child: sectionsWidget(context, allDepartment),
+                                child: sectionsWidget(context, allDepartment!),
                               ),
                             ),
                             shape: RoundedRectangleBorder(
@@ -250,7 +252,7 @@ class _FilterState extends State<Filter> {
                 children: [
                   Expanded(
                     child: Text(
-                      department == null ? "Subsections".tr : department,
+                      department == null ? "Subsections".tr : department??'',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -300,7 +302,7 @@ class _FilterState extends State<Filter> {
                 children: [
                   Expanded(
                     child: Text(
-                      city == null ? "SelectState".tr : city,
+                      city == null ? "SelectState".tr : city??'',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -410,7 +412,7 @@ class _FilterState extends State<Filter> {
                     child: Text(
                       government == null || finalcity.isEmpty
                           ? "Selectcity".tr
-                          : government,
+                          : government??'',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -466,6 +468,7 @@ class _FilterState extends State<Filter> {
               ),
             ],
           ),
+          SizedBox(height: 50.h,)
         ],
       ),
     );

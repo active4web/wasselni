@@ -17,7 +17,7 @@ class _TickestDetailsState extends State<TickestDetails> {
 
   bool loader = false;
   Future<void> getx() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<TicketsDetailsProvider>(context, listen: false)
@@ -35,7 +35,7 @@ class _TickestDetailsState extends State<TickestDetails> {
     if (_replayController.text.isEmpty) {
       return;
     }
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
 
     loader = true;
     try {
@@ -95,9 +95,8 @@ class _TickestDetailsState extends State<TickestDetails> {
                     return Column(
                       crossAxisAlignment: replay[index].senderType == 0
                           ? CrossAxisAlignment.start
-                          : replay[index].senderType == 1
-                              ? CrossAxisAlignment.end
-                              : SizedBox(),
+                          :  CrossAxisAlignment.end
+                              ,
                       children: [
                         Container(
                           margin: EdgeInsets.all(width * 0.02),
@@ -105,19 +104,17 @@ class _TickestDetailsState extends State<TickestDetails> {
                           decoration: BoxDecoration(
                               color: replay[index].senderType == 0
                                   ? Colors.grey[400]
-                                  : replay[index].senderType == 1
-                                      ? Colors.blue
-                                      : SizedBox(),
+                                  :  Colors.blue
+                                      ,
                               borderRadius:
                                   BorderRadius.circular(width * 0.04)),
                           child: Text(
-                            replay[index].content,
+                            replay[index].content??'',
                             style: TextStyle(
                                 color: replay[index].senderType == 0
                                     ? Colors.black
-                                    : replay[index].senderType == 1
-                                        ? Colors.white
-                                        : SizedBox(),
+                                    : Colors.white
+                                        ,
                                 fontSize: 18),
                           ),
                         ),

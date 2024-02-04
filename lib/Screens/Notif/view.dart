@@ -20,7 +20,7 @@ class _NotifificationsState extends State<Notififications> {
   ScrollController _scrollController = new ScrollController();
 
   bool loader = false;
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'';
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   // ignore: override_on_non_overriding_member
@@ -95,7 +95,7 @@ class _NotifificationsState extends State<Notififications> {
         Provider.of<NotificationsProvider>(context, listen: false)
             .allNotification;
     return Scaffold(
-      appBar: newAppBar(context, "notifications".tr),
+      appBar: NewAppBar(title: "notifications".tr),
       body: loader
           ? Center(
               child: CircularProgressIndicator(),
@@ -123,16 +123,16 @@ class _NotifificationsState extends State<Notififications> {
                         return InkWell(
                           onTap: () {
                             if (notifications[index].type == 1) {
-                              return Get.to(MyOrdersScreen());
+                               Get.to(MyOrdersScreen());
                             }
                             if (notifications[index].type == 2) {
-                              return Get.to(Offerss());
+                               Get.to(Offerss());
                             }
                             if (notifications[index].type == 3) {
-                              return Get.to(Tickets());
+                               Get.to(Tickets());
                             }
                             if (notifications[index].type == 4) {
-                              return Get.to(Notififications());
+                               Get.to(Notififications());
                             }
                           },
                           child: Container(
@@ -153,7 +153,7 @@ class _NotifificationsState extends State<Notififications> {
                                     height:
                                         MediaQuery.of(context).size.width * 0.4,
                                     child: Image.network(
-                                      notifications[index].img,
+                                      notifications[index].img??'',
                                       fit: BoxFit.cover,
                                     )),
                                 SizedBox(height: 10),
@@ -173,7 +173,7 @@ class _NotifificationsState extends State<Notififications> {
                                         color: Colors.red,
                                       ),
                                       onTap: () {
-                                        delete(notifications[index].id)
+                                        delete(notifications[index].id!)
                                             .then((value) => future());
                                       },
                                     ),
@@ -182,7 +182,7 @@ class _NotifificationsState extends State<Notififications> {
                                 SizedBox(height: 10),
                                 Align(
                                   alignment: Alignment.topRight,
-                                  child: Text(notifications[index].title,
+                                  child: Text(notifications[index].title??'',
                                       style: TextStyle(
                                           fontSize: 21,
                                           fontWeight: FontWeight.bold),
@@ -191,7 +191,7 @@ class _NotifificationsState extends State<Notififications> {
                                 Row(
                                   children: [
                                     Expanded(
-                                        child: Text(notifications[index].body,
+                                        child: Text(notifications[index].body??'',
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(

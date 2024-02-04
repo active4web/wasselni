@@ -22,11 +22,11 @@ class SearchLagAndlat {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory SearchLagAndlat.fromJson(Map<String, dynamic> json) =>
       SearchLagAndlat(
@@ -42,7 +42,7 @@ class SearchLagAndlat {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -54,10 +54,10 @@ class Offers {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory Offers.fromJson(Map<String, dynamic> json) => Offers(
         message: json["message"],
@@ -70,7 +70,7 @@ class Offers {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -79,7 +79,7 @@ class Result {
     this.allOffers,
   });
 
-  List<AllOffer> allOffers;
+  List<AllOffer>? allOffers;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allOffers: List<AllOffer>.from(
@@ -87,7 +87,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_offers": List<dynamic>.from(allOffers.map((x) => x.toJson())),
+        "all_offers": List<dynamic>.from(allOffers!.map((x) => x.toJson())),
       };
 }
 
@@ -109,20 +109,20 @@ class AllOffer {
     this.offerId,
   });
 
-  List<AllGallery> allGalleries;
-  String offerImage;
-  String serviceImage;
-  String serviceId;
-  String serviceName;
-  String offerName;
-  String description;
-  String phone;
-  String whatsapp;
-  String oldPrice;
-  String newPrice;
-  String startDate;
-  String endDate;
-  int offerId;
+  List<AllGallery>? allGalleries;
+  String? offerImage;
+  String? serviceImage;
+  String? serviceId;
+  String? serviceName;
+  String? offerName;
+  String? description;
+  String? phone;
+  String? whatsapp;
+  String? oldPrice;
+  String? newPrice;
+  String? startDate;
+  String? endDate;
+  int? offerId;
 
   factory AllOffer.fromJson(Map<String, dynamic> json) => AllOffer(
         allGalleries: List<AllGallery>.from(
@@ -144,7 +144,7 @@ class AllOffer {
 
   Map<String, dynamic> toJson() => {
         "all_galleries":
-            List<dynamic>.from(allGalleries.map((x) => x.toJson())),
+            List<dynamic>.from(allGalleries!.map((x) => x.toJson())),
         "offer_image": offerImage,
         "service_image": serviceImage,
         "service_id": serviceId,
@@ -167,8 +167,8 @@ class AllGallery {
     this.offersId,
   });
 
-  String offersImage;
-  String offersId;
+  String? offersImage;
+  String? offersId;
 
   factory AllGallery.fromJson(Map<String, dynamic> json) => AllGallery(
         offersImage: json["offers_image"],
@@ -182,21 +182,21 @@ class AllGallery {
 }
 
 class SearchLatAndLagOffersProvider with ChangeNotifier {
-  String token;
+  String? token;
   SearchLatAndLagOffersProvider({this.token});
 
   List<AllOffer> searchLatAndLag = [];
   List<AllGallery> galleries = [];
   bool doneSearching = false;
   Future<bool> fetchSearch(
-      {int catId,
-      int limt,
-      int pageNumber,
-      double lat,
-      double lag,
-      String distance,
-      int departmentId,
-      String lang}) async {
+      {int? catId,
+      int? limt,
+      int? pageNumber,
+      double? lat,
+      double? lag,
+      String? distance,
+      int? departmentId,
+      String? lang}) async {
     print(lat);
     print(lag);
     print(catId);
@@ -223,9 +223,9 @@ class SearchLatAndLagOffersProvider with ChangeNotifier {
       print(response);
       if (response.data['status'] == true) {
         searchLatAndLag =
-            searchLagAndlatFromJson(response.toString()).result.allOffers;
+            searchLagAndlatFromJson(response.toString()).result?.allOffers??[];
         for (var i = 0; i < searchLatAndLag.length; i++) {
-          galleries = searchLatAndLag[i].allGalleries;
+          galleries = searchLatAndLag[i].allGalleries??[];
         }
         doneSearching = true;
       }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
@@ -10,7 +9,6 @@ import 'package:wassalny/Screens/BattomBar/view.dart';
 
 import 'package:wassalny/network/auth/auth.dart';
 
-import 'Home/view.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   @override
@@ -23,7 +21,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   var newPassword = TextEditingController();
   var confirmNewPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??"ar";
 
   IconData icon = Icons.visibility;
   IconData icon2 = Icons.visibility;
@@ -65,8 +63,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))
                     ],
-                    valid: (String  value){
-                      if(value.isEmpty){
+                    valid: ( value){
+                      if(value!.isEmpty){
                         return "يجب ادخال كلمة السر القديمة";
                       }return null;
                     },
@@ -82,8 +80,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp('[a-z A-Z 0-9]'))
                     ],
-                    valid: (String  value){
-                               if(value.isEmpty){
+                    valid: (  value){
+                               if(value!.isEmpty){
                                  return "يجب ادخال كلمة السر الجديدة";
                                }return null;
                     },
@@ -110,7 +108,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           : icon2 = Icons.visibility_off_outlined;
                       setState(() {});
                     },
-                    valid: (String  value){
+                    valid: (  value){
                       if(confirmNewPassword.text != newPassword.text) {
                         return " كلمة السر لا تطابق";
                       }
@@ -128,7 +126,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     borderColor: Colors.blue,
                     isShadow: 1,
                     onTap: () async {
-                     if(_formKey.currentState.validate()){
+                     if(_formKey.currentState!.validate()){
 
                        try {
                          var auth = await Provider.of<Auth>(context, listen: false)

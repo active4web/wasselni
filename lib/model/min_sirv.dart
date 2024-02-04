@@ -25,11 +25,11 @@ class MinSirv {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory MinSirv.fromJson(Map<String, dynamic> json) => MinSirv(
         message: json["message"],
@@ -44,7 +44,7 @@ class MinSirv {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -53,7 +53,7 @@ class Result {
     this.allProductService,
   });
 
-  List<AllProductService> allProductService;
+  List<AllProductService>? allProductService;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allProductService: List<AllProductService>.from(
@@ -63,7 +63,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "all_product_service":
-            List<dynamic>.from(allProductService.map((x) => x.toJson())),
+            List<dynamic>.from(allProductService!.map((x) => x.toJson())),
       };
 }
 
@@ -77,12 +77,12 @@ class AllProductService {
     this.newPrice,
   });
 
-  String name;
-  int id;
-  String description;
-  String image;
-  String oldPrice;
-  String newPrice;
+  String? name;
+  int? id;
+  String? description;
+  String? image;
+  String? oldPrice;
+  String? newPrice;
 
   factory AllProductService.fromJson(Map<String, dynamic> json) =>
       AllProductService(
@@ -105,9 +105,9 @@ class AllProductService {
 }
 
 class AllMinProvider with ChangeNotifier {
-  String token;
-  String lang;
-  int id;
+  String? token;
+  String? lang;
+  int? id;
   AllMinProvider({
     this.id,
     this.token,
@@ -132,9 +132,9 @@ class AllMinProvider with ChangeNotifier {
         ),
       );
       print(response);
-      allminu = minSirvFromJson(response.toString()).result.allProductService;
+      allminu = minSirvFromJson(response.toString()).result?.allProductService??[];
       for (var i = 0; i < allminu.length; i++) {
-        image = allminu[i].image;
+        image = allminu[i].image??'';
       }
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps

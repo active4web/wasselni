@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dio/dio.dart' as Dio;
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/register/register.dart';
 
 import 'Screens/BattomBar/view.dart';
@@ -14,7 +15,7 @@ import 'network/auth/auth.dart';
 import 'network/auth/dio.dart';
 
 class SplashScreen extends StatefulWidget {
-  final GlobalKey<NavigatorState> navigatorKey;
+  final GlobalKey<NavigatorState>? navigatorKey;
   SplashScreen({this.navigatorKey});
   @override
   State<StatefulWidget> createState() {
@@ -39,13 +40,13 @@ class SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   checkUsers() async {
     final preferences = await SharedPreferences.getInstance();
-    String tokenn = preferences.getString('bool');
+    String? tokenn = preferences.getString('bool');
     Provider.of<Auth>(context, listen: false)
-        .getUserInfoForSpalsh(tokenn, lang);
+        .getUserInfoForSpalsh(tokenn??'', lang);
     Future.delayed(Duration(seconds: 1), () {
       if (tokenn != null) {
         print('10');
@@ -87,7 +88,7 @@ class SplashScreenState extends State<SplashScreen> {
           Center(
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60),
-                  child: Image.asset('assets/images/img.png')))
+                  child: Image.asset(appLogo)))
         ],
       ),
     );

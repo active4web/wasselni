@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wassalny/network/auth/dio.dart';
 
 class RemoveFromCartProvider with ChangeNotifier {
-  String token;
+  String? token;
   RemoveFromCartProvider({this.token});
 
   Future<void> removeProduct(

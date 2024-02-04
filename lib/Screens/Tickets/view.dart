@@ -17,7 +17,7 @@ class Tickets extends StatefulWidget {
 
 class _TicketsState extends State<Tickets> {
   bool loader = false;
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   // ignore: override_on_non_overriding_member
@@ -79,13 +79,13 @@ class _TicketsState extends State<Tickets> {
     super.initState();
   }
 
-  int count;
+  int? count;
   @override
   Widget build(BuildContext context) {
     List<MyTicket> myTickets =
         Provider.of<TicketsLisstProvider>(context, listen: false).myTickets;
     return Scaffold(
-      appBar: newAppBar(context, "tickets".tr),
+      appBar: NewAppBar(title: "tickets".tr,),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : SmartRefresher(
@@ -98,25 +98,25 @@ class _TicketsState extends State<Tickets> {
               },
               enablePullUp: true,
               controller: _refreshController,
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = Text("pull up load");
-                  } else if (mode == LoadStatus.loading) {
-                    body = CircularProgressIndicator();
-                  } else if (mode == LoadStatus.failed) {
-                    body = Text("Load Failed!Click retry!");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = Text("release to load more");
-                  } else {
-                    body = Text("");
-                  }
-                  return Container(
-                    child: Center(child: body),
-                  );
-                },
-              ),
+              // footer: CustomFooter(
+              //   builder: (BuildContext context, LoadStatus mode) {
+              //     Widget body;
+              //     if (mode == LoadStatus.idle) {
+              //       body = Text("pull up load");
+              //     } else if (mode == LoadStatus.loading) {
+              //       body = CircularProgressIndicator();
+              //     } else if (mode == LoadStatus.failed) {
+              //       body = Text("Load Failed!Click retry!");
+              //     } else if (mode == LoadStatus.canLoading) {
+              //       body = Text("release to load more");
+              //     } else {
+              //       body = Text("");
+              //     }
+              //     return Container(
+              //       child: Center(child: body),
+              //     );
+              //   },
+              // ),
               header: WaterDropHeader(),
               child: ListView(
                 padding: EdgeInsets.all(15),
@@ -127,7 +127,7 @@ class _TicketsState extends State<Tickets> {
                       borderColor: Colors.blue,
                       isShadow: 1,
                       onTap: () {
-                        Get.to(CreateTikets()).then((value) => future());
+                        Get.to(CreateTikets())?.then((value) => future());
                       },
                       textColor: Colors.white,
                       label: "CreateTickets".tr),
@@ -149,7 +149,7 @@ class _TicketsState extends State<Tickets> {
                             count = index;
                             return GestureDetector(
                               onTap: () {
-                                Get.to(TickestDetails(myTickets[index].id));
+                                Get.to(TickestDetails(myTickets[index].id!));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(15),
@@ -168,7 +168,7 @@ class _TicketsState extends State<Tickets> {
                                           style: TextStyle(color: Colors.grey),
                                         ),
                                         Spacer(),
-                                        Text(myTickets[index].title)
+                                        Text(myTickets[index].title??'')
                                       ],
                                     ),
                                     Row(
@@ -177,7 +177,7 @@ class _TicketsState extends State<Tickets> {
                                           child: Padding(
                                             padding: EdgeInsets.only(top: 25),
                                             child: Text(
-                                              myTickets[index].content,
+                                              myTickets[index].content??'',
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold),

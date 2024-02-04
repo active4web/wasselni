@@ -21,10 +21,10 @@ class TicketsDetails {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory TicketsDetails.fromJson(Map<String, dynamic> json) => TicketsDetails(
         message: json["message"],
@@ -37,7 +37,7 @@ class TicketsDetails {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -46,14 +46,14 @@ class Result {
     this.ticketInfo,
   });
 
-  TicketInfo ticketInfo;
+  TicketInfo? ticketInfo;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         ticketInfo: TicketInfo.fromJson(json["ticket_info"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "ticket_info": ticketInfo.toJson(),
+        "ticket_info": ticketInfo?.toJson(),
       };
 }
 
@@ -64,9 +64,9 @@ class TicketInfo {
     this.ticketReplies,
   });
 
-  Ticket ticket;
-  int repliesNumber;
-  List<TicketReply> ticketReplies;
+  Ticket? ticket;
+  int? repliesNumber;
+  List<TicketReply>? ticketReplies;
 
   factory TicketInfo.fromJson(Map<String, dynamic> json) => TicketInfo(
         ticket: Ticket.fromJson(json["ticket"]),
@@ -76,10 +76,10 @@ class TicketInfo {
       );
 
   Map<String, dynamic> toJson() => {
-        "ticket": ticket.toJson(),
+        "ticket": ticket?.toJson(),
         "replies_number": repliesNumber,
         "ticket_replies":
-            List<dynamic>.from(ticketReplies.map((x) => x.toJson())),
+            List<dynamic>.from(ticketReplies!.map((x) => x.toJson())),
       };
 }
 
@@ -93,12 +93,12 @@ class Ticket {
     this.createdAt,
   });
 
-  int ticketId;
-  String title;
-  String type;
-  String color;
-  String content;
-  DateTime createdAt;
+  int? ticketId;
+  String? title;
+  String? type;
+  String? color;
+  String? content;
+  DateTime? createdAt;
 
   factory Ticket.fromJson(Map<String, dynamic> json) => Ticket(
         ticketId: json["ticket_id"],
@@ -116,7 +116,7 @@ class Ticket {
         "color": color,
         "content": content,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
       };
 }
 
@@ -130,12 +130,12 @@ class TicketReply {
     this.senderType,
   });
 
-  int id;
-  DateTime createdAt;
-  String time;
-  String content;
-  String sender;
-  int senderType;
+  int? id;
+  DateTime? createdAt;
+  String? time;
+  String? content;
+  String? sender;
+  int? senderType;
 
   factory TicketReply.fromJson(Map<String, dynamic> json) => TicketReply(
         id: json["id"],
@@ -149,7 +149,7 @@ class TicketReply {
   Map<String, dynamic> toJson() => {
         "id": id,
         "created_at":
-            "${createdAt.year.toString().padLeft(4, '0')}-${createdAt.month.toString().padLeft(2, '0')}-${createdAt.day.toString().padLeft(2, '0')}",
+            "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
         "time": time,
         "content": content,
         "sender": sender,
@@ -158,12 +158,12 @@ class TicketReply {
 }
 
 class TicketsDetailsProvider with ChangeNotifier {
-  String token;
+  String? token;
   TicketsDetailsProvider({this.token});
 
-  Ticket ticket;
+  Ticket? ticket;
   List<TicketReply> replay = [];
-  int type;
+  int? type;
   Future<void> fetchDetails(String lan, int id) async {
     try {
       Dio.Response response = await dio().post('pages/ticket',
@@ -175,11 +175,11 @@ class TicketsDetailsProvider with ChangeNotifier {
           }));
       print(response);
       replay = ticketsDetailsFromJson(response.toString())
-          .result
-          .ticketInfo
-          .ticketReplies;
+          .result!
+          .ticketInfo!
+          .ticketReplies!;
       ticket =
-          ticketsDetailsFromJson(response.toString()).result.ticketInfo.ticket;
+          ticketsDetailsFromJson(response.toString()).result?.ticketInfo?.ticket;
 
       for (var i = 0; i < replay.length; i++) {
         type = replay[i].senderType;

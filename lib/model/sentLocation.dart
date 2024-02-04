@@ -5,11 +5,11 @@ import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/network/auth/dio.dart';
 
 class SentLocationgProvider with ChangeNotifier {
-  String token;
+  String? token;
   SentLocationgProvider({this.token});
 
   bool doneSentLocation = false;
-  Future<bool> sentLocationgProvider({int id, String lat, String lag}) async {
+  Future<bool> sentLocationgProvider({int? id, String? lat, String? lag}) async {
     try {
       Dio.Response response = await dio().post(
         'user_api/send_location',
@@ -17,7 +17,7 @@ class SentLocationgProvider with ChangeNotifier {
           "key": 1234567890,
           "token_id": token,
           "service_id": id,
-          "lang": Get.locale.languageCode,
+          "lang": Get.locale?.languageCode,
           "lag": lag,
           "lat": lat,
         }),

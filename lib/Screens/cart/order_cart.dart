@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/networkExeption.dart';
@@ -9,7 +10,7 @@ import 'package:wassalny/model/updateCartProvider.dart';
 
 class CartOrderScreen extends StatefulWidget {
   final serviceId;
-  const CartOrderScreen({Key key, this.serviceId}) : super(key: key);
+  const CartOrderScreen({Key? key, this.serviceId}) : super(key: key);
   @override
   _CartOrderScreenState createState() => _CartOrderScreenState();
 }
@@ -17,14 +18,14 @@ class CartOrderScreen extends StatefulWidget {
 class _CartOrderScreenState extends State<CartOrderScreen> {
   bool loader = false;
   // ignore: override_on_non_overriding_member
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   List<AllProduct> allProducts = [];
-  String currncy;
+  String? currncy;
   Future<void> future() async {
     loader = true;
     try {
-      allProducts = await Provider.of<CartListProvider>(context, listen: false)
-          .fetchProductCart(lang, widget.serviceId);
+      allProducts = (await Provider.of<CartListProvider>(context, listen: false)
+          .fetchProductCart(lang, widget.serviceId))!;
       for (var i = 0; i < allProducts.length; i++) {
         print('${allProducts[i].price} price');
         currncy = allProducts[i].currencyName;
@@ -60,13 +61,13 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
     }
   }
 
-  int totalPrice(List<AllProduct> allProducts) {
-    int sum = 0;
+  num totalPrice(List<AllProduct> allProducts) {
+    num sum = 0;
     setState(() {
       for (var i = 0; i < allProducts.length; i++) {
         print('${allProducts[i].price} price');
 
-        sum += (num.parse(allProducts[i].price) * allProducts[i].quantity);
+        sum += (num.parse(allProducts[i].price??'') * num.parse(allProducts[i].quantity.toString()??''));
       }
     });
     return sum;
@@ -168,7 +169,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
               "cart".tr,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 20.sp,
               ),
             ),
             SizedBox(
@@ -203,7 +204,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                         "noProducts".tr,
                         style: TextStyle(
                           color: Colors.blue,
-                          fontSize: 22,
+                          fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -225,7 +226,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                         alignment: Alignment.centerRight,
                                         child: Icon(
                                           Icons.delete,
-                                          size: 28,
+                                          size: 28.r,
                                           color: Color(0xffA8915F),
                                         ),
                                       ),
@@ -233,7 +234,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                   ),
                                   key: ValueKey(allProducts[index].idProduct),
                                   onDismissed: (direction) {
-                                    remove(allProducts[index].idProduct);
+                                    remove(allProducts[index].idProduct!);
                                   },
                                   child: Card(
                                     elevation: 5,
@@ -254,7 +255,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                               height: hieght,
                                               width: width * 0.4,
                                               child: Image.network(
-                                                allProducts[index].image,
+                                                allProducts[index].image??'',
                                                 fit: BoxFit.fill,
                                                 errorBuilder: (context, error,
                                                         stackTrace) =>
@@ -278,7 +279,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                             right: 5),
                                                     child: Text(
                                                       allProducts[index]
-                                                          .productName,
+                                                          .productName??'',
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                       maxLines: 6,
@@ -303,7 +304,8 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                       icon: Icon(
                                                         Icons.remove,
                                                         color: Colors.black,
-                                                        size: 30,
+                                                        size: 30.r
+                                                        ,
                                                       ),
                                                       onPressed: allProducts[
                                                                       index]
@@ -323,7 +325,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                                       .quantity,
                                                                   allProducts[
                                                                           index]
-                                                                      .idOrder);
+                                                                      .idOrder!);
                                                             },
                                                     ),
                                                     Text(
@@ -332,7 +334,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                           .toString(),
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 18),
+                                                          fontSize: 18.sp),
                                                     ),
                                                     IconButton(
                                                         icon: Icon(
@@ -350,12 +352,12 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                               allProducts[index]
                                                                   .quantity,
                                                               allProducts[index]
-                                                                  .idOrder);
+                                                                  .idOrder!);
                                                         }),
                                                   ],
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              SizedBox(height: 10.h),
                                               Container(
                                                 decoration: BoxDecoration(
                                                     color: Colors.blue,
@@ -366,7 +368,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Text(
-                                                    '${allProducts[index].quantity * double.parse(allProducts[index].price)} ${allProducts[index].currencyName}',
+                                                    '${allProducts[index].quantity * double.parse(allProducts[index].price??'')} ${allProducts[index].currencyName}',
                                                     style: TextStyle(
                                                         color: Colors.white),
                                                   ),
@@ -391,7 +393,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                   '${"totalCart".tr} : ${totalPrice(allProducts)} $currncy ',
                                   style: TextStyle(
                                       color: Colors.blue,
-                                      fontSize: 20,
+                                      fontSize: 20.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -407,7 +409,7 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                           child: InkWell(
                             onTap: () => Get.to(
                               () => EndOrderScreen(
-                                id: allProducts[0].idOrder,
+                                id: allProducts[0].idOrder!,
                               ),
                             ),
                             child: Container(
@@ -422,16 +424,16 @@ class _CartOrderScreenState extends State<CartOrderScreen> {
                                         "donePay".tr,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20,
+                                            fontSize: 20.sp,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 20,
+                                      width: 20.w,
                                     ),
                                     Icon(
                                       Icons.shopping_cart_outlined,
-                                      size: 25,
+                                      size: 25.r,
                                       color: Colors.white,
                                     )
                                   ],

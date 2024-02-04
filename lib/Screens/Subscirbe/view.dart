@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
@@ -7,7 +8,6 @@ import 'package:wassalny/Components/CustomWidgets/appBar.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/myColors.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
-import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/BattomBar/view.dart';
 import 'package:wassalny/model/home.dart';
 import 'package:wassalny/model/user.dart';
@@ -19,18 +19,18 @@ class Subscribe extends StatefulWidget {
 }
 
 class _SubscribeState extends State<Subscribe> {
-  String city;
-  int cityId;
+  String? city;
+  int ?cityId;
   User user = User();
 
   final GlobalKey<FormState> key = GlobalKey<FormState>();
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _submit() async {
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState!.save();
     showDaialogLoader(context);
 
     try {
@@ -58,7 +58,9 @@ class _SubscribeState extends State<Subscribe> {
 
     List<AllCategories> cities = allCategories;
     return Scaffold(
-      appBar: titleAppBar(context, "SubscribeWithUs".tr),
+      appBar: TitleAppBar(
+        title: "SubscribeWithUs".tr,
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(20),
@@ -70,7 +72,7 @@ class _SubscribeState extends State<Subscribe> {
                 SizedBox(height: 10),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 17, vertical: 10),
-                  height: 50,
+                  height: 50.h,
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(.3),
                     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -97,7 +99,7 @@ class _SubscribeState extends State<Subscribe> {
                       children: [
                         Expanded(
                           child: Text(
-                            city == null ? "categories".tr : city,
+                            city == null ? "categories".tr : city??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -109,14 +111,14 @@ class _SubscribeState extends State<Subscribe> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 ProfileTextField(
                     onSaved: (val) {
                       user.subName = val;
                       user.subId = cityId;
                     },
                     validator: (val) {
-                      if (val.isEmpty) {
+                      if (val!.isEmpty) {
                         return "Thisfieldisrequired".tr;
                       } else if (val.length <= 4) {
                         return "NameMust4Cracters".tr;
@@ -125,14 +127,14 @@ class _SubscribeState extends State<Subscribe> {
                       }
                     },
                     hint: "name".tr),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 ProfileTextField(
                     onSaved: (val) {
                       user.subPhone = val;
                       user.subId = cityId;
                     },
                     validator: (val) {
-                      if (val.isEmpty) {
+                      if (val!.isEmpty) {
                         return "Thisfieldisrequired".tr;
                       } else if (val.length <= 7) {
                         return "NumberValidation".tr;
@@ -141,14 +143,14 @@ class _SubscribeState extends State<Subscribe> {
                       }
                     },
                     hint: "phone".tr),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 ProfileTextField(
                     onSaved: (val) {
                       user.subAdress = val;
                       user.subId = cityId;
                     },
                     validator: (val) {
-                      if (val.isEmpty) {
+                      if (val!.isEmpty) {
                         return "Thisfieldisrequired".tr;
                       } else if (val.length <= 10) {
                         return "AdressValidationCracters".tr;
@@ -157,14 +159,14 @@ class _SubscribeState extends State<Subscribe> {
                       }
                     },
                     hint: "adress".tr),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 ProfileTextField(
                     onSaved: (val) {
                       user.subdetails = val;
                       user.subId = cityId;
                     },
                     validator: (val) {
-                      if (val.isEmpty) {
+                      if (val!.isEmpty) {
                         return "Thisfieldisrequired".tr;
                       } else if (val.length <= 10) {
                         return "DescriptionVal".tr;

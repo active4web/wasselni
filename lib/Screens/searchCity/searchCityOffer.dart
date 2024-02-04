@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ import 'package:wassalny/model/searchByCityOffers.dart';
 // package:wasalny/Screens/service_details/servicesDetails.dart
 
 class SearchCityOfferScreen extends StatefulWidget {
-  final List<AllOffer> search;
+  final List<AllOffer>? search;
   SearchCityOfferScreen({
     this.search,
   });
@@ -48,7 +47,7 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-        child: widget.search.isEmpty
+        child: widget.search!.isEmpty
             ? Center(
                 child: Text(
                   "NoSearch".tr,
@@ -61,7 +60,7 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
             : ListView(
                 shrinkWrap: true,
                 children: [
-                  widget.search.isEmpty
+                  widget.search!.isEmpty
                       ? Center(
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -78,7 +77,7 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                           child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: widget.search.length,
+                            itemCount: widget.search?.length,
                             itemBuilder: (context, index) {
                               return Container(
                                 width: width,
@@ -91,7 +90,7 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                 child: Column(children: [
                                   Center(
                                     child: Text(
-                                      "${"to".tr} : ${widget.search[index].endDate}",
+                                      "${"to".tr} : ${widget.search?[index].endDate}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
@@ -114,13 +113,13 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                               onTap: () {
                                                 Get.to(
                                                   ServicesOffers(
-                                                      widget.search[index]
-                                                          .serviceImage,
+                                                      widget.search![index]
+                                                          .serviceImage!,
                                                       int.parse(widget
-                                                          .search[index]
-                                                          .serviceId),
-                                                      widget.search[index]
-                                                          .serviceName),
+                                                          .search![index]
+                                                          .serviceId!),
+                                                      widget.search![index]
+                                                          .serviceName!),
                                                 );
                                               },
                                               child: Container(
@@ -134,15 +133,15 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                   child: Image.network(
-                                                    widget.search[index]
-                                                        .serviceImage,
+                                                    widget.search?[index]
+                                                        .serviceImage??'',
                                                     fit: BoxFit.fill,
                                                   ),
                                                 ),
                                               ),
                                             ),
                                             Text(
-                                              widget.search[index].serviceName,
+                                              widget.search?[index].serviceName??'',
                                             ),
                                             SizedBox(
                                               height: hight * 0.01,
@@ -162,8 +161,8 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                                             const EdgeInsets
                                                                 .all(2.5),
                                                         child: AutoSizeText(
-                                                            widget.search[index]
-                                                                .description),
+                                                            widget.search?[index]
+                                                                .description??''),
                                                       ),
                                                       Container(
                                                         child: Row(
@@ -173,9 +172,9 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                                               children: [
                                                                 Text(
                                                                   widget
-                                                                      .search[
+                                                                      .search?[
                                                                           index]
-                                                                      .oldPrice,
+                                                                      .oldPrice??'',
                                                                   style: TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
@@ -193,9 +192,9 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                                                         0.03),
                                                                 Text(
                                                                   widget
-                                                                      .search[
+                                                                      .search?[
                                                                           index]
-                                                                      .newPrice,
+                                                                      .newPrice??'',
                                                                   style:
                                                                       TextStyle(
                                                                     fontWeight:
@@ -235,38 +234,38 @@ class _SearchCityOfferScreenState extends State<SearchCityOfferScreen> {
                                                   ),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      return showDialog(
-                                                        useSafeArea: true,
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return Carousel(
-                                                            images: allGalleries
-                                                                .map(
-                                                                    (e) =>
-                                                                        Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(8.0),
-                                                                          child:
-                                                                              Container(
-                                                                            child:
-                                                                                Image.network(
-                                                                              e.offersImage,
-                                                                            ),
-                                                                          ),
-                                                                        ))
-                                                                .toList(),
-                                                            autoplay: false,
-                                                          );
-                                                        },
-                                                      );
+                                                      //  showDialog(
+                                                      //   useSafeArea: true,
+                                                      //   context: context,
+                                                      //   builder: (context) {
+                                                      //     return Carousel(
+                                                      //       images: allGalleries
+                                                      //           .map(
+                                                      //               (e) =>
+                                                      //                   Padding(
+                                                      //                     padding:
+                                                      //                         const EdgeInsets.all(8.0),
+                                                      //                     child:
+                                                      //                         Container(
+                                                      //                       child:
+                                                      //                           Image.network(
+                                                      //                         e.offersImage,
+                                                      //                       ),
+                                                      //                     ),
+                                                      //                   ))
+                                                      //           .toList(),
+                                                      //       autoplay: false,
+                                                      //     );
+                                                      //   },
+                                                      // );
                                                     },
                                                     child: Image.network(widget
-                                                        .search[index]
-                                                        .offerImage),
+                                                        .search?[index]
+                                                        .offerImage??''),
                                                   )),
                                             ),
                                             Text(
-                                                widget.search[index].offerName),
+                                                widget.search?[index].offerName??''),
                                             SizedBox(
                                               height: hight * 0.02,
                                             ),

@@ -20,10 +20,10 @@ class Braches {
     this.result,
   });
 
-  String message;
-  int messageid;
-  bool status;
-  Result result;
+  String? message;
+  int? messageid;
+  bool? status;
+  Result? result;
 
   factory Braches.fromJson(Map<String, dynamic> json) => Braches(
         message: json["Message"],
@@ -36,7 +36,7 @@ class Braches {
         "Message": message,
         "Messageid": messageid,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -46,8 +46,8 @@ class Result {
     this.allProducts,
   });
 
-  List<CategoryDetail> categoryDetails;
-  List<AllProducts> allProducts;
+  List<CategoryDetail>? categoryDetails;
+  List<AllProducts>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         categoryDetails: List<CategoryDetail>.from(
@@ -58,8 +58,8 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "category_details":
-            List<dynamic>.from(categoryDetails.map((x) => x.toJson())),
-        "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
+            List<dynamic>.from(categoryDetails!.map((x) => x.toJson())),
+        "all_products": List<dynamic>.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -78,17 +78,17 @@ class AllProducts {
     this.delivery,
   });
 
-  String productImage;
-  String productName;
-  String phone;
-  String phoneSecond;
-  String phoneThird;
-  int prodId;
-  int favExit;
-  String lat;
-  String lag;
-  String address;
-  int delivery;
+  String? productImage;
+  String? productName;
+  String? phone;
+  String? phoneSecond;
+  String? phoneThird;
+  int? prodId;
+  int? favExit;
+  String? lat;
+  String? lag;
+  String? address;
+  int? delivery;
 
   factory AllProducts.fromJson(Map<String, dynamic> json) => AllProducts(
         productImage: json["product_image"],
@@ -126,9 +126,9 @@ class CategoryDetail {
     this.catId,
   });
 
-  String categoryImage;
-  String categoryName;
-  int catId;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   factory CategoryDetail.fromJson(Map<String, dynamic> json) => CategoryDetail(
         categoryImage: json["category_image"],
@@ -144,7 +144,7 @@ class CategoryDetail {
 }
 
 class BranchesProvider with ChangeNotifier {
-  String token;
+  String? token;
   BranchesProvider({this.token});
   List<AllProducts> branches = [];
 
@@ -163,7 +163,7 @@ class BranchesProvider with ChangeNotifier {
         ),
       );
       print(response.data);
-      branches = brachesFromJson(response.toString()).result.allProducts;
+      branches = brachesFromJson(response.toString()).result?.allProducts??[];
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err}');

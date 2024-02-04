@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -11,24 +12,26 @@ import 'package:wassalny/Screens/searchCity/searchCity.dart';
 import 'package:wassalny/model/searchByCity.dart';
 import 'package:wassalny/model/searchStates.dart' as states;
 
+import '../../Components/constants.dart';
+
 // ignore: must_be_immutable
 class SetAddress extends StatefulWidget {
-  int vategory;
-  String name;
-  int searchType;
+  int? vategory;
+  String? name;
+  int? searchType;
   SetAddress({this.name, this.vategory, this.searchType});
   @override
   _SetAddressState createState() => _SetAddressState();
 }
 
 class _SetAddressState extends State<SetAddress> {
-  String city;
-  int cityId;
+  String? city;
+  int? cityId;
 
-  String government;
-  int governmentId;
+  String? government;
+  int? governmentId;
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   Future<void> _submit() async {
     bool doneSearching =
@@ -36,8 +39,8 @@ class _SetAddressState extends State<SetAddress> {
     showDaialogLoader(context);
     try {
       doneSearching = await Provider.of<SearchCity>(context, listen: false)
-          .fetchSearch(widget.name, 100, 0, widget.vategory, cityId,
-              governmentId, widget.searchType, lang);
+          .fetchSearch(widget.name??'', 100, 0, widget.vategory??0, cityId??0,
+              governmentId??0, widget.searchType??0, lang);
       // ignore: unused_catch_clause
     } catch (error) {
       print(error);
@@ -57,7 +60,7 @@ class _SetAddressState extends State<SetAddress> {
 
   bool loader = false;
   Future<void> getStates() async {
-    String lang = Get.locale.languageCode;
+    String lang = Get.locale?.languageCode??'ar';
     loader = true;
     try {
       await Provider.of<states.SearchStatesProvider>(context, listen: false)
@@ -75,7 +78,7 @@ class _SetAddressState extends State<SetAddress> {
     super.initState();
   }
 
-  Widget searchContainer(Function onTap, String title) => InkWell(
+  Widget searchContainer(void Function()? onTap, String title) => InkWell(
         onTap: onTap,
         child: Row(
           children: [
@@ -105,12 +108,12 @@ class _SetAddressState extends State<SetAddress> {
         state.where((element) => element.stateId == cityId).toList();
     List<states.AllCity> finalcity = [];
     for (var i = 0; i < goverment.length; i++) {
-      finalcity = goverment[i].allCities;
+      finalcity = goverment[i].allCities??[];
     }
     print(widget.vategory);
 
     return Scaffold(
-      appBar: titleAppBar(context, "Selecttheaddress".tr),
+      appBar: TitleAppBar(title: "Selecttheaddress".tr),
       body: loader
           ? Center(child: CircularProgressIndicator())
           : ListView(
@@ -118,8 +121,8 @@ class _SetAddressState extends State<SetAddress> {
               children: [
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 60),
-                    child: Image.asset('assets/images/img.png', width: 100)),
-                SizedBox(height: 20),
+                    child: Image.asset(appLogo, width: 100)),
+                SizedBox(height: 20.h),
                 Row(
                   children: [
                     Expanded(
@@ -131,7 +134,7 @@ class _SetAddressState extends State<SetAddress> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -167,7 +170,7 @@ class _SetAddressState extends State<SetAddress> {
                       children: [
                         Expanded(
                           child: Text(
-                            city == null ? "SelectState".tr : city,
+                            city == null ? "SelectState".tr : city??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -283,7 +286,7 @@ class _SetAddressState extends State<SetAddress> {
                           child: Text(
                             government == null || finalcity.isEmpty
                                 ? "Selectcity".tr
-                                : government,
+                                : government??'',
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -300,7 +303,7 @@ class _SetAddressState extends State<SetAddress> {
                 ),
                 SizedBox(height: 10),
                 // filter(street == null ? "اختر الحي" : street),
-                // SizedBox(height: 50),
+                // SizedBox(height: 50.h),
                 CustomButton(
                     backgroundColor: Colors.red,
                     borderColor: Colors.red,

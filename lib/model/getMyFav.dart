@@ -23,11 +23,11 @@ class FavouriteModel {
     this.result,
   });
 
-  String message;
-  int errNum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? errNum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory FavouriteModel.fromJson(Map<String, dynamic> json) => FavouriteModel(
         message: json["message"],
@@ -42,7 +42,7 @@ class FavouriteModel {
         "errNum": errNum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -51,7 +51,7 @@ class Result {
     this.allFavourites,
   });
 
-  List<AllFavourite> allFavourites;
+  List<AllFavourite>? allFavourites;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allFavourites: List<AllFavourite>.from(
@@ -60,7 +60,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "all_favourites":
-            List<dynamic>.from(allFavourites.map((x) => x.toJson())),
+            List<dynamic>.from(allFavourites!.map((x) => x.toJson())),
       };
 }
 
@@ -75,13 +75,13 @@ class AllFavourite {
     this.delivery,
   });
 
-  int favExit;
-  String totalRate;
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
-  int delivery;
+  int? favExit;
+  String? totalRate;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
+  int? delivery;
 
   factory AllFavourite.fromJson(Map<String, dynamic> json) => AllFavourite(
         favExit: json["fav_exit"],
@@ -105,11 +105,11 @@ class AllFavourite {
 }
 
 class FavouriteListProvider with ChangeNotifier {
-  String token;
+  String? token;
   FavouriteListProvider({this.token});
 
   // ignore: missing_return
-  Future<List<AllFavourite>> fetchCart() async {
+  Future<List<AllFavourite>?> fetchCart() async {
     try {
       Dio.Response response = await dio().post(
         'user_api/get_all_myfavorite',
@@ -117,14 +117,14 @@ class FavouriteListProvider with ChangeNotifier {
           {
             'key': 1234567890,
             'token_id': token,
-            "lang": Get.locale.languageCode,
+            "lang": Get.locale?.languageCode,
             'limit': 500,
             'page_number': 0
           },
         ),
       );
       print(response.data);
-      return favouriteModelFromJson(response.toString()).result.allFavourites;
+      return favouriteModelFromJson(response.toString()).result?.allFavourites;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err}');

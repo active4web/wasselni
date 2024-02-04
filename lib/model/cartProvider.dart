@@ -21,10 +21,10 @@ class Cart {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory Cart.fromJson(Map<String, dynamic> json) => Cart(
         message: json["message"],
@@ -37,7 +37,7 @@ class Cart {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -46,7 +46,7 @@ class Result {
     this.allProducts,
   });
 
-  List<AllProduct> allProducts;
+  List<AllProduct>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allProducts: List<AllProduct>.from(
@@ -54,7 +54,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
+        "all_products": List<dynamic>.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -64,20 +64,20 @@ class AllProduct {
     this.idProduct,
     this.productName,
     this.price,
-    this.quantity,
+    this.quantity=0,
     this.currencyName,
     this.serviceName,
     this.image,
   });
 
-  int idOrder;
-  int idProduct;
-  String productName;
-  String price;
+  int? idOrder;
+  int? idProduct;
+  String? productName;
+  String? price;
   int quantity;
-  String currencyName;
-  String image;
-  String serviceName;
+  String? currencyName;
+  String? image;
+  String? serviceName;
 
   factory AllProduct.fromJson(Map<String, dynamic> json) => AllProduct(
         idOrder: json["id_order"],
@@ -105,11 +105,11 @@ class AllProduct {
 }
 
 class CartListProvider with ChangeNotifier {
-  String token;
+  String? token;
   CartListProvider({this.token});
   GetStorage storage = GetStorage();
 
-  Future<List<AllProduct>> fetchCart(String lang) async {
+  Future<List<AllProduct>?> fetchCart(String lang) async {
     try {
       Dio.Response response = await dio().post(
         'store/get_cart',
@@ -120,16 +120,16 @@ class CartListProvider with ChangeNotifier {
       print(response.data);
       var homeData = json.encode(response.data);
       storage.write("allProducts", homeData);
-      return cartFromJson(response.data).result.allProducts;
+      return cartFromJson(response.data).result?.allProducts;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       var model = storage.read("allProducts");
       print(model);
-      return cartFromJson(model).result.allProducts;
+      return cartFromJson(model).result?.allProducts;
     }
   }
 
-  Future<List<AllProduct>> fetchProductCart(String lang, ServiceId) async {
+  Future<List<AllProduct>?> fetchProductCart(String lang, ServiceId) async {
     try {
       Dio.Response response = await dio().post(
         'store/get_cart_select_service',
@@ -145,12 +145,12 @@ class CartListProvider with ChangeNotifier {
       print(response.data);
       var homeData = json.encode(response.data);
       storage.write("allProducts", homeData);
-      return cartFromJson(response.data).result.allProducts;
+      return cartFromJson(response.data).result?.allProducts;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       var model = storage.read("allProducts");
       print(model);
-      return cartFromJson(model).result.allProducts;
+      return cartFromJson(model).result?.allProducts;
     }
   }
 

@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 
 class MyText extends StatelessWidget {
-  final String title;
-  final Color color;
-  final double size;
-  final TextAlign alien;
-  final FontWeight weight;
+  final String? title;
+  final Color? color;
+  final double? size;
+  final TextAlign? alien;
+  final FontWeight? weight;
 
   const MyText(
-      {final this.title,
+      {this.title,
       this.color,
-      final this.size,
-      final this.alien,
-      final this.weight});
+      this.size,
+      this.alien,
+      this.weight});
 
   @override
   Widget build(BuildContext context) {

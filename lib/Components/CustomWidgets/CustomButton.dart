@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'MyText.dart';
 import 'myColors.dart';
 
 class CustomButton extends StatefulWidget {
-  final String label;
-  final Function onTap;
-  final Color backgroundColor;
-  final Color borderColor;
-  final Color textColor;
-  final int isShadow;
-  final double textSize;
+  final String? label;
+  final void Function()? onTap;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final Color? textColor;
+  final int? isShadow;
+  final double? textSize;
   CustomButton(
       {this.label,
       this.onTap,
@@ -30,7 +31,7 @@ class _CustomButtonState extends State<CustomButton> {
     return InkWell(
         onTap: widget.onTap,
         child: Container(
-            height: 50,
+            height: 50.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 boxShadow: [
@@ -41,28 +42,28 @@ class _CustomButtonState extends State<CustomButton> {
                       offset: Offset(0, 1))
                 ],
                 color: widget.backgroundColor,
-                border: Border.all(color: widget.borderColor, width: 1),
+                border: Border.all(color: widget.borderColor!, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
             child: Padding(
-              padding: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.only(top: 8.h),
               child: MyText(
-                  title: widget.label,
-                  size: 18,
-                  color: widget.textColor,
+                  title: widget.label??'',
+                  size: 18.r,
+                  color: widget.textColor??Colors.black,
                   weight: FontWeight.bold),
             )));
   }
 }
 
 class CustomSizedButton extends StatelessWidget {
-  final String label;
-  final Function onTap;
-  final Color backgroundColor;
-  final Color borderColor;
-  final Color textColor;
-  final int isShadow;
-  final double textSize;
-  final double verticalPadding;
+  final String? label;
+  final void Function()? onTap;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final Color? textColor;
+  final int? isShadow;
+  final double? textSize;
+  final double? verticalPadding;
   CustomSizedButton(
       {this.label,
       this.onTap,
@@ -80,7 +81,7 @@ class CustomSizedButton extends StatelessWidget {
         child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(
-                vertical: verticalPadding == null ? 9 : verticalPadding),
+                vertical: verticalPadding == null ? 9 : verticalPadding??0),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -90,14 +91,14 @@ class CustomSizedButton extends StatelessWidget {
                       offset: Offset(0, 1))
                 ],
                 color: backgroundColor,
-                border: Border.all(color: borderColor, width: 1),
+                border: Border.all(color: borderColor??Colors.black, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
             child: Padding(
                 padding: EdgeInsets.only(top: 8),
                 child: MyText(
-                    title: label,
-                    size: textSize,
-                    color: textColor,
+                    title: label??'',
+                    size: textSize??10,
+                    color: textColor??Colors.black,
                     weight: FontWeight.bold))));
   }
 }

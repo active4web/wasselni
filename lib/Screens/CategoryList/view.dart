@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,8 @@ import 'package:wassalny/Screens/service_details/servicesDetails.dart';
 import 'package:wassalny/model/addToFavourite.dart';
 import 'package:wassalny/model/categoriseDetails.dart';
 
+import '../../Components/constants.dart';
+
 class CategoryList extends StatefulWidget {
   final int id;
   final int mainID;
@@ -27,7 +30,7 @@ class CategoryList extends StatefulWidget {
 class _CategoryListState extends State<CategoryList> {
   bool loader = false;
   bool isSorted = false;
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   TextEditingController distanceController = TextEditingController();
@@ -40,10 +43,10 @@ class _CategoryListState extends State<CategoryList> {
     });
     var provider =
         Provider.of<DetailsOfServicesProvider>(context, listen: false);
-    provider.allProduct.clear();
-    var nextLength = provider.allProduct.length;
+    provider.allProduct?.clear();
+    var nextLength = provider.allProduct?.length;
     await provider.fetchAllCategories(lang, widget.id, 50, 0, widget.mainID);
-    if (provider.allProduct.length >= nextLength)
+    if (provider.allProduct!.length >= nextLength!)
       _refreshController.loadComplete();
     else
       _refreshController.loadNoData();
@@ -56,10 +59,10 @@ class _CategoryListState extends State<CategoryList> {
   Future<void> fetchMore(int page) async {
     var provider =
         Provider.of<DetailsOfServicesProvider>(context, listen: false);
-    var nextLength = provider.allProduct.length;
+    var nextLength = provider.allProduct!.length;
     try {
       await provider.fetchAllCategories(lang, widget.id, 50 ,page, widget.mainID);
-      if (provider.allProduct.length >= nextLength)
+      if (provider.allProduct!.length >= nextLength)
         _refreshController.loadComplete();
       else
         _refreshController.loadNoData();
@@ -105,7 +108,7 @@ class _CategoryListState extends State<CategoryList> {
     final info = Provider.of<DetailsOfServicesProvider>(context, listen: false);
     var allProduct = info.allProduct;
     return Scaffold(
-      appBar: categoryAppBar(context),
+      appBar:CategoryAppBar(),
       body: loader
           ? Center(
               child: CircularProgressIndicator(),
@@ -122,26 +125,26 @@ class _CategoryListState extends State<CategoryList> {
         enablePullDown: true,
               controller: _refreshController,
               header: WaterDropHeader(),
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = Text("pull up load");
-                  } else if (mode == LoadStatus.loading) {
-                    body = CircularProgressIndicator();
-                  } else if (mode == LoadStatus.failed) {
-                    body = Text("Load Failed!Click retry!");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = Text("release to load more");
-                  } else {
-                    body = Text("");
-                  }
-                  return Container(
-                    height: 55.0,
-                    child: Center(child: body),
-                  );
-                },
-              ),
+              // footer: CustomFooter(
+              //   builder: (BuildContext context, LoadStatus mode) {
+              //     Widget body;
+              //     if (mode == LoadStatus.idle) {
+              //       body = Text("pull up load");
+              //     } else if (mode == LoadStatus.loading) {
+              //       body = CircularProgressIndicator();
+              //     } else if (mode == LoadStatus.failed) {
+              //       body = Text("Load Failed!Click retry!");
+              //     } else if (mode == LoadStatus.canLoading) {
+              //       body = Text("release to load more");
+              //     } else {
+              //       body = Text("");
+              //     }
+              //     return Container(
+              //       height: 55.0,
+              //       child: Center(child: body),
+              //     );
+              //   },
+              // ),
               child: ListView(
                 padding: EdgeInsets.all(15),
                 children: [
@@ -223,10 +226,10 @@ class _CategoryListState extends State<CategoryList> {
                             onPressed: () {
                               isSorted = !isSorted;
                               isSorted
-                                  ? allProduct.sort((a, b) =>
-                                      a.totalRate.compareTo(b.totalRate))
-                                  : allProduct.sort((a, b) =>
-                                      b.totalRate.compareTo(a.totalRate));
+                                  ? allProduct?.sort((a, b) =>
+                                      a.totalRate!.compareTo(b.totalRate!))
+                                  : allProduct?.sort((a, b) =>
+                                      b.totalRate!.compareTo(a.totalRate!));
                               setState(() {});
                             },
                             icon: Icon(FontAwesomeIcons.sort)),
@@ -257,20 +260,21 @@ class _CategoryListState extends State<CategoryList> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl: info.categoryBanner,
+                        imageUrl: info.categoryBanner??'',
                         fit: BoxFit.fill,
                         placeholder: (context, url) =>
-                            Image.asset('assets/images/img.png'),
+                            Image.asset(appLogo),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 8.h
+                    ,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(25.r),
                         color: Colors.white),
                     child: Row(
                       children: [
@@ -279,7 +283,7 @@ class _CategoryListState extends State<CategoryList> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              MyText(title: info.categoryName, size: 25),
+                              MyText(title: info.categoryName, size: 25.r),
                             ],
                           ),
                         ),
@@ -289,16 +293,16 @@ class _CategoryListState extends State<CategoryList> {
                               color: Colors.blue.withAlpha(40),
                               image: DecorationImage(
                                 image: CachedNetworkImageProvider(
-                                    info.categoryImage),
+                                    info.categoryImage??''),
                               ),
                             ),
-                            height: 70,
-                            width: 70)
+                            height: 70.h,
+                            width: 70.w)
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
-                  allProduct.isEmpty
+                  SizedBox(height: 20.h),
+                  allProduct!.isEmpty
                       ? Center(
                           child: Text(
                             "ThereAreNoServices".tr,
@@ -337,11 +341,11 @@ class _CategoryListState extends State<CategoryList> {
                                               fit: BoxFit.cover,
                                               image: CachedNetworkImageProvider(
                                                   allProduct[index]
-                                                      .productImage),
+                                                      .productImage??''),
                                             ),
                                           ),
-                                          height: 100,
-                                          width: 100),
+                                          height: 100.h,
+                                          width: 100.w),
                                     ],
                                   ),
                                   Row(
@@ -349,8 +353,8 @@ class _CategoryListState extends State<CategoryList> {
                                     children: [
                                       IconButton(
                                           onPressed: () => _sentFav(
-                                              allProduct[index].favExit,
-                                              allProduct[index].prodId),
+                                              allProduct[index].favExit!,
+                                              allProduct[index].prodId!),
                                           icon: allProduct[index].favExit == 0
                                               ? Icon(
                                                   CupertinoIcons.heart,
@@ -371,10 +375,10 @@ class _CategoryListState extends State<CategoryList> {
                                               allProduct[index].totalRate ==
                                                   null
                                           ? Text('0')
-                                          : Text(allProduct[index].totalRate),
+                                          : Text(allProduct[index].totalRate??''),
                                     ],
                                   ),
-                                  Text(allProduct[index].productName,
+                                  Text(allProduct[index].productName??'',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(

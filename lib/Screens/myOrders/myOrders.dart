@@ -16,8 +16,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   Future<void> future() async {
     loader = true;
     try {
-      allProducts = await Provider.of<MyOrdersProvider>(context, listen: false)
-          .fetchMyOrders();
+      allProducts = (await Provider.of<MyOrdersProvider>(context, listen: false)
+          .fetchMyOrders())!;
 
       setState(() {
         loader = false;

@@ -22,10 +22,10 @@ class MyOrdersModel {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory MyOrdersModel.fromJson(Map<String, dynamic> json) => MyOrdersModel(
         message: json["message"],
@@ -38,7 +38,7 @@ class MyOrdersModel {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -47,7 +47,7 @@ class Result {
     this.orderDetails,
   });
 
-  List<OrderDetail> orderDetails;
+  List<OrderDetail>? orderDetails;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         orderDetails: List<OrderDetail>.from(
@@ -56,7 +56,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "order_details":
-            List<dynamic>.from(orderDetails.map((x) => x.toJson())),
+            List<dynamic>.from(orderDetails!.map((x) => x.toJson())),
       };
 }
 
@@ -73,15 +73,15 @@ class OrderDetail {
     this.viewId,
   });
 
-  int codeName;
-  int idOrder;
-  String totalPrice;
-  String totalProduct;
-  String shippingCharges;
-  String currencyName;
-  String date;
-  bool viewStore;
-  int viewId;
+  int? codeName;
+  int? idOrder;
+  String? totalPrice;
+  String? totalProduct;
+  String? shippingCharges;
+  String? currencyName;
+  String? date;
+  bool? viewStore;
+  int? viewId;
 
   factory OrderDetail.fromJson(Map<String, dynamic> json) => OrderDetail(
         codeName: json["code_name"],
@@ -109,10 +109,10 @@ class OrderDetail {
 }
 
 class MyOrdersProvider with ChangeNotifier {
-  String token;
+  String? token;
   MyOrdersProvider({this.token});
 
-  Future<List<OrderDetail>> fetchMyOrders() async {
+  Future<List<OrderDetail>?> fetchMyOrders() async {
     try {
       Dio.Response response = await dio().post(
         'store/get_list_myorders',
@@ -120,12 +120,12 @@ class MyOrdersProvider with ChangeNotifier {
           {
             'key': 1234567890,
             'token_id': token,
-            'lang': Get.locale.languageCode,
+            'lang': Get.locale?.languageCode,
           },
         ),
       );
       print(response.data);
-      return myOrdersModelFromJson(response.toString()).result.orderDetails;
+      return myOrdersModelFromJson(response.toString()).result?.orderDetails;
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err}');

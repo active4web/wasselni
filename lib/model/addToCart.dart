@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wassalny/network/auth/dio.dart';
 
 class AddProductProvider with ChangeNotifier {
-  String token;
+  String? token;
   AddProductProvider({this.token});
 
   Future<void> addToCart(

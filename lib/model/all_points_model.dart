@@ -1,9 +1,9 @@
 class AllPointsModel {
-  String message;
-  int messageid;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? messageid;
+  bool? status;
+  int? total;
+  Result? result;
 
   AllPointsModel(
       {this.message, this.messageid, this.status, this.total, this.result});
@@ -24,39 +24,40 @@ class AllPointsModel {
     data['status'] = this.status;
     data['total'] = this.total;
     if (this.result != null) {
-      data['result'] = this.result.toJson();
+      data['result'] = this.result?.toJson();
     }
     return data;
   }
 }
 
 class Result {
-  List<AllProviders> allProviders;
+  List<AllProviders>? allProviders;
 
   Result({this.allProviders});
 
   Result.fromJson(Map<String, dynamic> json) {
     if (json['all_providers'] != null) {
-      allProviders = new List<AllProviders>();
+        allProviders =  <AllProviders>[];
       json['all_providers'].forEach((v) {
-        allProviders.add(new AllProviders.fromJson(v));
+        allProviders?.add( AllProviders.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.allProviders != null) {
-      data['all_providers'] = this.allProviders.map((v) => v.toJson()).toList();
+    final allProviders = this.allProviders;
+    if (allProviders != null) {
+      data['all_providers'] = allProviders.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AllProviders {
-  String userName;
-  String totalPoints;
-  String userPhone;
+  String? userName;
+  String? totalPoints;
+  String? userPhone;
 
   AllProviders({this.userName, this.totalPoints, this.userPhone});
 

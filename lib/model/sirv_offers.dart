@@ -26,10 +26,10 @@ class SirvOffers {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory SirvOffers.fromJson(Map<String, dynamic> json) => SirvOffers(
         message: json["message"],
@@ -42,7 +42,7 @@ class SirvOffers {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -52,8 +52,8 @@ class Result {
     this.allOffers,
   });
 
-  List<CategoryDetail> categoryDetails;
-  List<AllOffer> allOffers;
+  List<CategoryDetail>? categoryDetails;
+  List<AllOffer>? allOffers;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         categoryDetails: List<CategoryDetail>.from(
@@ -64,8 +64,8 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "category_details":
-            List<dynamic>.from(categoryDetails.map((x) => x.toJson())),
-        "all_offers": List<dynamic>.from(allOffers.map((x) => x.toJson())),
+            List<dynamic>.from(categoryDetails!.map((x) => x.toJson())),
+        "all_offers": List<dynamic>.from(allOffers!.map((x) => x.toJson())),
       };
 }
 
@@ -84,17 +84,17 @@ class AllOffer {
     this.offerId,
   });
 
-  List<AllGallery> allGalleries;
-  String offerImage;
-  String offerName;
-  String description;
-  String phone;
-  String whatsapp;
-  String oldPrice;
-  String newPrice;
-  String startDate;
-  String endDate;
-  int offerId;
+  List<AllGallery>? allGalleries;
+  String? offerImage;
+  String? offerName;
+  String? description;
+  String? phone;
+  String? whatsapp;
+  String? oldPrice;
+  String? newPrice;
+  String? startDate;
+  String? endDate;
+  int? offerId;
 
   factory AllOffer.fromJson(Map<String, dynamic> json) => AllOffer(
         allGalleries: List<AllGallery>.from(
@@ -113,7 +113,7 @@ class AllOffer {
 
   Map<String, dynamic> toJson() => {
         "all_galleries":
-            List<dynamic>.from(allGalleries.map((x) => x.toJson())),
+            List<dynamic>.from(allGalleries!.map((x) => x.toJson())),
         "offer_image": offerImage,
         "offer_name": offerName,
         "description": description,
@@ -133,8 +133,8 @@ class AllGallery {
     this.offersImage,
   });
 
-  String offersId;
-  String offersImage;
+  String? offersId;
+  String? offersImage;
 
   factory AllGallery.fromJson(Map<String, dynamic> json) => AllGallery(
         offersId: json["offers_id"],
@@ -154,9 +154,9 @@ class CategoryDetail {
     this.catId,
   });
 
-  String categoryImage;
-  String categoryName;
-  int catId;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   factory CategoryDetail.fromJson(Map<String, dynamic> json) => CategoryDetail(
         categoryImage: json["category_image"],
@@ -172,9 +172,9 @@ class CategoryDetail {
 }
 
 class SirvOfferProvider with ChangeNotifier {
-  String token;
-  String lang;
-  int id;
+  String? token;
+  String? lang;
+  int? id;
   SirvOfferProvider({
     this.id,
     this.token,
@@ -198,8 +198,8 @@ class SirvOfferProvider with ChangeNotifier {
         ),
       );
       print(response);
-      offers = sirvOffersFromJson(response.toString()).result.allOffers;
-      details = sirvOffersFromJson(response.toString()).result.categoryDetails;
+      offers = sirvOffersFromJson(response.toString()).result?.allOffers??[];
+      details = sirvOffersFromJson(response.toString()).result?.categoryDetails??[];
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err} error from SirvOffers list');

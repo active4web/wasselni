@@ -21,11 +21,11 @@ class HomeSearch {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory HomeSearch.fromJson(Map<String, dynamic> json) => HomeSearch(
         message: json["message"],
@@ -40,7 +40,7 @@ class HomeSearch {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -49,7 +49,7 @@ class Result {
     this.allProducts,
   });
 
-  List<AllProductss> allProducts;
+  List<AllProductss>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allProducts: List<AllProductss>.from(
@@ -57,7 +57,7 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
+        "all_products": List<dynamic>.from(allProducts!.map((x) => x.toJson())),
       };
 }
 
@@ -70,11 +70,11 @@ class AllProductss {
     this.delivery,
   });
 
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
-  int delivery;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
+  int? delivery;
 
   factory AllProductss.fromJson(Map<String, dynamic> json) => AllProductss(
         productImage: json["product_image"],
@@ -94,7 +94,7 @@ class AllProductss {
 }
 
 class SearchName with ChangeNotifier {
-  String token;
+  String? token;
   SearchName({this.token});
 
   List<AllProductss> searchName = [];
@@ -117,7 +117,7 @@ class SearchName with ChangeNotifier {
       );
       print(response);
       if (response.data['status'] == true) {
-        searchName = homeSearchFromJson(response.toString()).result.allProducts;
+        searchName = homeSearchFromJson(response.toString()).result?.allProducts??[];
         doneSearching = true;
       }
       return doneSearching;

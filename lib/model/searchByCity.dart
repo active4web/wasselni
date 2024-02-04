@@ -22,11 +22,11 @@ class SearchC {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory SearchC.fromJson(Map<String, dynamic> json) => SearchC(
         message: json["message"],
@@ -41,7 +41,7 @@ class SearchC {
         "codenum": codenum,
         "status": status,
         "total": total,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -50,7 +50,7 @@ class Result {
     this.allProductsCC,
   });
 
-  List<AllProductCC> allProductsCC;
+  List<AllProductCC>? allProductsCC;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allProductsCC: List<AllProductCC>.from(
@@ -59,7 +59,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "all_products":
-            List<dynamic>.from(allProductsCC.map((x) => x.toJson())),
+            List<dynamic>.from(allProductsCC!.map((x) => x.toJson())),
       };
 }
 
@@ -74,13 +74,13 @@ class AllProductCC {
     this.delivery,
   });
 
-  String productImage;
-  String productName;
-  String phone;
-  int prodId;
-  int delivery;
-  String totalRate;
-  int favExit;
+  String? productImage;
+  String? productName;
+  String? phone;
+  int? prodId;
+  int? delivery;
+  String? totalRate;
+  int? favExit;
 
   factory AllProductCC.fromJson(Map<String, dynamic> json) => AllProductCC(
         productImage: json["product_image"],
@@ -104,7 +104,7 @@ class AllProductCC {
 }
 
 class SearchCity with ChangeNotifier {
-  String token;
+  String? token;
   SearchCity({this.token});
 
   List<AllProductCC> searchName = [];
@@ -134,7 +134,7 @@ class SearchCity with ChangeNotifier {
           },
         ),
       );
-      searchName = searchCFromJson(response.toString()).result.allProductsCC;
+      searchName = searchCFromJson(response.toString()).result?.allProductsCC??[];
       print(response);
       if (response.data['status'] == true) {
         doneSearching = true;

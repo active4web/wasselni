@@ -32,15 +32,15 @@ import 'package:shared_preferences/shared_preferences.dart'
 class Prefs {
   static Future<SharedPreferences> get _instance async =>
       _prefs ??= await SharedPreferences.getInstance();
-  static SharedPreferences _prefs;
+  static SharedPreferences? _prefs;
 
-  static SharedPreferences _prefsInstance;
+  static SharedPreferences? _prefsInstance;
 
   /// In case the developer does not explicitly call the init() function.
   static bool _initCalled = false;
 
   /// Initialize the SharedPreferences object in the State object's iniState() function.
-  static Future<SharedPreferences> init() async {
+  static Future<SharedPreferences?> init() async {
     _initCalled = true;
     _prefsInstance = await _instance;
     return _prefsInstance;
@@ -53,20 +53,20 @@ class Prefs {
   }
 
   /// Returns all keys in the persistent storage.
-  static Set<String> getKeys() {
+  static Set<String>? getKeys() {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getKeysF() instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getKeys();
+    return _prefsInstance?.getKeys();
   }
 
   /// Returns a Future.
-  static Future<Set<String>> getKeysF() async {
-    Set<String> value;
+  static Future<Set<String>?> getKeysF() async {
+    Set<String>? value;
     if (_prefsInstance == null) {
       var prefs = await _instance;
-      value = prefs?.getKeys() ?? Set();
+      value = prefs.getKeys() ?? Set();
     } else {
       value = getKeys();
     }
@@ -79,7 +79,7 @@ class Prefs {
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.get(key);
+    return _prefsInstance?.get(key);
   }
 
   /// Returns a Future.
@@ -94,16 +94,16 @@ class Prefs {
     return value;
   }
 
-  static bool getBool(String key, [bool defValue]) {
+  static bool getBool(String key, [bool? defValue]) {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getBoolF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getBool(key) ?? defValue ?? false;
+    return _prefsInstance?.getBool(key) ?? defValue ?? false;
   }
 
   /// Returns a Future.
-  static Future<bool> getBoolF(String key, [bool defValue]) async {
+  static Future<bool> getBoolF(String key, [bool? defValue]) async {
     bool value;
     if (_prefsInstance == null) {
       var prefs = await _instance;
@@ -114,16 +114,16 @@ class Prefs {
     return value;
   }
 
-  static int getInt(String key, [int defValue]) {
+  static int getInt(String key, [int? defValue]) {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getIntF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getInt(key) ?? defValue ?? 0;
+    return _prefsInstance?.getInt(key) ?? defValue ?? 0;
   }
 
   /// Returns a Future.
-  static Future<int> getIntF(String key, [int defValue]) async {
+  static Future<int> getIntF(String key, [int? defValue]) async {
     int value;
     if (_prefsInstance == null) {
       var prefs = await _instance;
@@ -134,16 +134,16 @@ class Prefs {
     return value;
   }
 
-  static double getDouble(String key, [double defValue]) {
+  static double getDouble(String key, [double? defValue]) {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getDoubleF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getDouble(key) ?? defValue ?? 0.0;
+    return _prefsInstance?.getDouble(key) ?? defValue ?? 0.0;
   }
 
   /// Returns a Future.
-  static Future<double> getDoubleF(String key, [double defValue]) async {
+  static Future<double> getDoubleF(String key, [double? defValue]) async {
     double value;
     if (_prefsInstance == null) {
       var prefs = await _instance;
@@ -154,16 +154,16 @@ class Prefs {
     return value;
   }
 
-  static String getString(String key, [String defValue]) {
+  static String getString(String key, [String? defValue]) {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getStringF(key)instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getString(key) ?? defValue ?? "";
+    return _prefsInstance?.getString(key) ?? defValue ?? "";
   }
 
   /// Returns a Future.
-  static Future<String> getStringF(String key, [String defValue]) async {
+  static Future<String> getStringF(String key, [String? defValue]) async {
     String value;
     if (_prefsInstance == null) {
       var prefs = await _instance;
@@ -174,17 +174,17 @@ class Prefs {
     return value;
   }
 
-  static List<String> getStringList(String key, [List<String> defValue]) {
+  static List<String> getStringList(String key, [List<String>? defValue]) {
     assert(_initCalled,
         "Prefs.init() must be called first in an initState() preferably!");
     assert(_prefsInstance != null,
         "Maybe call Prefs.getStringListF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getStringList(key) ?? defValue ?? [""];
+    return _prefsInstance?.getStringList(key) ?? defValue ?? [""];
   }
 
   /// Returns a Future.
   static Future<List<String>> getStringListF(String key,
-      [List<String> defValue]) async {
+      [List<String>? defValue]) async {
     List<String> value;
     if (_prefsInstance == null) {
       var prefs = await _instance;

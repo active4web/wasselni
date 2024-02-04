@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'myColors.dart';
 
 Widget orderStatusSteps(
   BuildContext context,
   int status,
-  Function onFirstTap,
-  Function onSecondTap,
-  Function onThirdTap,
+    void Function()? onFirstTap,
+    void Function()? onSecondTap,
+    void Function()? onThirdTap,
 ) {
   return Material(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: BorderRadius.all(Radius.circular(8.r)),
       elevation: 0,
       child: Container(
           decoration:
-              BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8))),
+              BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8.r))),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
               Widget>[
             Stack(children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.only(top: 18, right: 10, left: 10),
+                  padding:  EdgeInsets.only(top: 18.h, right: 10.w, left: 10.w),
                   child: Container(
                       width: MediaQuery.of(context).size.width,
                       child: Row(children: <Widget>[
@@ -96,7 +97,7 @@ double radius = 40;
 double size = .25;
 double containerSize = 40;
 
-Widget preparedStep(BuildContext context, int status, Function onFirstTap) {
+Widget preparedStep(BuildContext context, int status, void Function()? onFirstTap) {
   return InkWell(
     onTap: onFirstTap,
     child: Container(
@@ -120,7 +121,7 @@ Widget preparedStep(BuildContext context, int status, Function onFirstTap) {
   );
 }
 
-Widget inWayStep(BuildContext context, int status, Function onSecondTap) {
+Widget inWayStep(BuildContext context, int status, void Function()? onSecondTap) {
   return InkWell(
     onTap: onSecondTap,
     child: Container(
@@ -144,7 +145,7 @@ Widget inWayStep(BuildContext context, int status, Function onSecondTap) {
   );
 }
 
-Widget deliveredStep(BuildContext context, int status, Function onThirdTap) {
+Widget deliveredStep(BuildContext context, int status, void Function()? onThirdTap) {
   return InkWell(
     onTap: onThirdTap,
     child: Container(

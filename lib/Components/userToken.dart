@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<Map<String, dynamic>> headersMap() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   Map<String, dynamic> headersData = {
-    'Authorization': "Bearer ${jsonDecode(preferences.get("token"))}",
+    'Authorization': "Bearer ${jsonDecode(preferences.get("token").toString())}",
     "Lang": Get.locale,
     "Accept": "application/json"
   };

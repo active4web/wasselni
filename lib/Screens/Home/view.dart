@@ -1,17 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocode/geocode.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:card_swiper/card_swiper.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/cart/cart.dart';
 import 'package:wassalny/Screens/searchScreen/searchScreen.dart' as Search;
 import 'package:wassalny/model/addToFavourite.dart';
@@ -31,22 +34,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   GlobalKey<ScaffoldState> _scafold2 = GlobalKey<ScaffoldState>();
   TextEditingController _search = TextEditingController();
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
 
   List<Cart.AllProduct> allProducts = [];
-  String currncy;
+  String? currncy;
   bool _loader = true;
   var location = Location();
-  double currentLat;
-  double currentLong;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
-  LocationData _locationData;
+  double? currentLat;
+  double? currentLong;
+  bool? _serviceEnabled;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
   Future _getCurrentLocation() async {
     _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
+    if (!_serviceEnabled!) {
       _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+      if (!_serviceEnabled!) {
         return;
       }
     }
@@ -60,30 +63,31 @@ class _HomeState extends State<Home> {
     }
 
     _locationData = await location.getLocation();
-    final coordinates =
-        new Coordinates(_locationData.latitude, _locationData.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    print(
-        'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-    setState(() {
-      currentLat = _locationData.latitude;
-      currentLong = _locationData.longitude;
-    });
-    setState(() {
-      _loader = false;
-    });
-    print(currentLat);
-    print(currentLong);
+    // GeoCode geoCode = GeoCode();
+
+    // final coordinates =
+    //     new Coordinates(latitude:_locationData?.latitude, longitude:_locationData?.longitude);
+    // var addresses =await geoCode.forwardGeocoding(address: address);
+    // var first = addresses.first;
+    // print(
+    //     'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
+    // setState(() {
+    //   currentLat = _locationData?.latitude;
+    //   currentLong = _locationData?.longitude;
+    // });
+    // setState(() {
+    //   _loader = false;
+    // });
+    // print(currentLat);
+    // print(currentLong);
   }
 
   Future<void> future() async {
     loader = true;
     // try {
     allProducts =
-        await Provider.of<Cart.CartListProvider>(context, listen: false)
-            .fetchCart(lang);
+        (await Provider.of<Cart.CartListProvider>(context, listen: false)
+            .fetchCart(lang))!;
     for (var i = 0; i < allProducts.length; i++) {
       print('${allProducts[i].price} price');
       currncy = allProducts[i].currencyName;
@@ -99,8 +103,8 @@ class _HomeState extends State<Home> {
 
   Widget restaurant(String image) => Expanded(
         child: Container(
-          height: 120,
-          width: 120,
+          height: 120.h,
+          width: 120.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Colors.white,
@@ -118,10 +122,10 @@ class _HomeState extends State<Home> {
         Provider.of<SearchName>(context, listen: false).doneSearching;
     final provider = Provider.of<SearchName>(context, listen: false);
     provider.searchName.clear();
-    if (!key.currentState.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
-    key.currentState.save();
+    key.currentState!.save();
     showDaialogLoader(context);
     try {
       doneSearching =
@@ -169,7 +173,7 @@ class _HomeState extends State<Home> {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () => _scafold2.currentState.openDrawer(),
+                  onTap: () => _scafold2.currentState?.openDrawer(),
                   child: Icon(Icons.menu, color: Colors.blue),
                 ),
                 SizedBox(
@@ -183,7 +187,7 @@ class _HomeState extends State<Home> {
                       child: TransparentTextFieldColorText(
                           controller: _search,
                           validator: (val) {
-                            if (val.isEmpty) {
+                            if (val!.isEmpty) {
                               return 'PleaseEnterTheSearchWord'.tr;
                             } else {
                               return null;
@@ -202,7 +206,7 @@ class _HomeState extends State<Home> {
                     onTap: () => Get.to(
                           () => CartScreen(),
                         ),
-                    child: Badge(
+                    child: badges.Badge(
                       badgeContent: Text(
                         allProducts.length.toString(),
                         style: TextStyle(
@@ -225,34 +229,26 @@ class _HomeState extends State<Home> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Carousel(
-                    boxFit: BoxFit.fill,
-                    images: sliderImageInMain.map(
-                      (e) {
-                        return InkWell(
+                child: Swiper(
+                  itemCount: sliderImageInMain.length,
+                    itemBuilder:(context,index)=>
+                         InkWell(
                           onTap:
-                              e.link.isEmpty || e.link == null || e.link == ''
+                          sliderImageInMain[index].link!.isEmpty || sliderImageInMain[index].link == null || sliderImageInMain[index].link == ''
                                   ? () {}
                                   : () async {
-                                      await launch('http:${e.link}');
+                                      await launch('http:${sliderImageInMain[index].link}');
                                     },
                           child: CachedNetworkImage(
-                            imageUrl: e.image,
+                            imageUrl: sliderImageInMain[index].image??'',
                             fit: BoxFit.fill,
                           ),
-                        );
-                      },
-                    ).toList(),
+
+                    ),
                     autoplay: true,
-                    dotSize: 7.0,
-                    overlayShadow: true,
-                    autoplayDuration: Duration(seconds: 6),
-                    dotColor: Colors.blue,
-                    indicatorBgPadding: 1.0,
-                    dotBgColor: Colors.transparent),
               ),
             ),
-          ),
+          ))
         ],
       ),
     );
@@ -335,7 +331,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  int mainIDN;
+  int? mainIDN;
   @override
   Widget build(BuildContext context) {
     final width = (MediaQuery.of(context).size.width);
@@ -404,8 +400,8 @@ class _HomeState extends State<Home> {
                               width: width * 0.4,
                               child: CachedNetworkImage(
                                 placeholder: (context, url) =>
-                                    Image.asset('assets/images/img.png'),
-                                imageUrl: chonsenOne(1).recommendedImage,
+                                    Image.asset(appLogo),
+                                imageUrl: chonsenOne(1).recommendedImage??'',
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -435,8 +431,8 @@ class _HomeState extends State<Home> {
                                   width: width * 0.20,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/img.png'),
-                                    imageUrl: chonsenOne(2).recommendedImage,
+                                        Image.asset(appLogo),
+                                    imageUrl: chonsenOne(2).recommendedImage??'',
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -458,8 +454,8 @@ class _HomeState extends State<Home> {
                                   width: width * 0.20,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/img.png'),
-                                    imageUrl: chonsenOne(6).recommendedImage,
+                                        Image.asset(appLogo),
+                                    imageUrl: chonsenOne(6).recommendedImage??'',
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -495,9 +491,9 @@ class _HomeState extends State<Home> {
                                         child: CachedNetworkImage(
                                           placeholder: (context, url) =>
                                               Image.asset(
-                                                  'assets/images/img.png'),
+                                                  appLogo),
                                           imageUrl:
-                                              chonsenOne(3).recommendedImage,
+                                              chonsenOne(3).recommendedImage??"",
                                           fit: BoxFit.fill,
                                         ),
                                         width: width * 0.1,
@@ -519,9 +515,9 @@ class _HomeState extends State<Home> {
                                         child: CachedNetworkImage(
                                           placeholder: (context, url) =>
                                               Image.asset(
-                                                  'assets/images/img.png'),
+                                                  appLogo),
                                           imageUrl:
-                                              chonsenOne(4).recommendedImage,
+                                              chonsenOne(4).recommendedImage??'',
                                           fit: BoxFit.fill,
                                         ),
                                         width: width * 0.1,
@@ -547,8 +543,8 @@ class _HomeState extends State<Home> {
                                   width: width * 0.22,
                                   child: CachedNetworkImage(
                                     placeholder: (context, url) =>
-                                        Image.asset('assets/images/img.png'),
-                                    imageUrl: chonsenOne(5).recommendedImage,
+                                        Image.asset(appLogo),
+                                    imageUrl: chonsenOne(5).recommendedImage??'',
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -568,45 +564,47 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: hight * 0.02),
-                        child: Container(
-                          height: hight * 0.25,
-                          decoration: BoxDecoration(
-                            border: Border(),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Carousel(
-                                boxFit: BoxFit.fill,
-                                images: secondSlider.map(
-                                  (e) {
-                                    return InkWell(
-                                      onTap: e.link.isEmpty ||
-                                              e.link == null ||
-                                              e.link == ''
-                                          ? () {}
-                                          : () async {
-                                              await launch('http:${e.link}');
-                                            },
-                                      child: CachedNetworkImage(
-                                        imageUrl: e.image,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                                autoplay: true,
-                                dotSize: 7.0,
-                                autoplayDuration: Duration(seconds: 6),
-                                overlayShadow: true,
-                                dotColor: Colors.blue,
-                                indicatorBgPadding: 1.0,
-                                dotBgColor: Colors.transparent),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(top: hight * 0.02),
+                      //   child: Container(
+                      //     height: hight * 0.25,
+                      //     decoration: BoxDecoration(
+                      //       border: Border(),
+                      //       borderRadius: BorderRadius.circular(15),
+                      //     ),
+                      //     child: ClipRRect(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //       child: Carousel(
+                      //           boxFit: BoxFit.fill,
+                      //           images: secondSlider.map(
+                      //             (e) {
+                      //               return InkWell(
+                      //                 onTap: e.link.isEmpty ||
+                      //                         e.link == null ||
+                      //                         e.link == ''
+                      //                     ? () {}
+                      //                     : () async {
+                      //                         await launch('http:${e.link}');
+                      //                       },
+                      //                 child: CachedNetworkImage(
+                      //                   imageUrl: e.image,
+                      //                   fit: BoxFit.fill,
+                      //                 ),
+                      //               );
+                      //             },
+                      //           ).toList(),
+                      //           autoplay: true,
+                      //           dotSize: 7.0,
+                      //           autoplayDuration: Duration(seconds: 6),
+                      //           overlayShadow: true,
+                      //           dotColor: Colors.blue,
+                      //           indicatorBgPadding: 1.0,
+                      //           dotBgColor: Colors.transparent),
+                      //     ),
+                      //   ),
+                      // ),
+
+
                       // Container(
                       //   padding: EdgeInsets.all(10),
                       //   decoration: BoxDecoration(
@@ -640,7 +638,7 @@ class _HomeState extends State<Home> {
                       //     ),
                       //   ),
                       // ),
-                      // SizedBox(height: 30),
+                      // SizedBox(height: 30.h),
                       // ...allfeature.map((items) {
                       //   // ignore: unused_element
                       //   int mainId() {
@@ -683,7 +681,7 @@ class _HomeState extends State<Home> {
                       //                 width: 90),
                       //           ],
                       //         ),
-                      //         SizedBox(height: 20),
+                      //         SizedBox(height: 20.h),
                       //         // SingleChildScrollView(
                       //         //   scrollDirection: Axis.horizontal,
                       //         //   child: Row(

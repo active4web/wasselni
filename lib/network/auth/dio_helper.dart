@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import '../../Components/constants.dart';
 
 class DioHelper {
-  static Dio dio;
+  static Dio? dio;
 
   static init() {
     dio = Dio(BaseOptions(
@@ -13,22 +13,22 @@ class DioHelper {
   }
 
   static Future<Response> getData({
-     String url,
-    Map<String, dynamic> query,
+     String? url,
+    Map<String, dynamic>? query,
   }) async {
-    return await dio.get(
-      url,
+    return await dio!.get(
+      url!,
       queryParameters: query,
     );
   }
 
   static Future<Response> postData({
-     String url,
-    Map<String, dynamic> query,
+     String? url,
+    Map<String, dynamic>? query,
       data,
   }) async {
-    return dio.post(
-      url,
+    return dio!.post(
+      url!,
       queryParameters: query,
       data: FormData.fromMap(data),
     );

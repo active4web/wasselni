@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_pro/carousel_pro.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ import 'package:wassalny/model/sentLocation.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ServicesDetails extends StatefulWidget {
-  final int id;
+  final int? id;
 
   const ServicesDetails({this.id});
   @override
@@ -38,8 +39,8 @@ class _ServicesDetailsState extends State<ServicesDetails> {
   ScrollController _customController = ScrollController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  String counterr;
-  Future<String> counter() async {
+  String? counterr;
+  Future<String?> counter() async {
     counterr = await FlutterBarcodeScanner.scanBarcode(
         '#004297', 'close', true, ScanMode.DEFAULT);
     return counterr;
@@ -67,28 +68,20 @@ class _ServicesDetailsState extends State<ServicesDetails> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
-          child: Carousel(
-              boxFit: BoxFit.fill,
-              images: sliderImageInMain.map(
-                (e) {
-                  return CachedNetworkImage(
-                    imageUrl: e.img,
+          child: Swiper(
+             itemCount: sliderImageInMain.length,
+              itemBuilder:(context,index)=>  CachedNetworkImage(
+                    imageUrl: sliderImageInMain[index].img??'',
                     fit: BoxFit.fill,
-                  );
-                },
-              ).toList(),
+                  ),
               autoplay: false,
-              dotSize: 7.0,
-              overlayShadow: true,
-              dotColor: Colors.blue,
-              indicatorBgPadding: 1.0,
-              dotBgColor: Colors.transparent),
+              ),
         ),
       ),
     );
   }
 
-  String lang = Get.locale.languageCode;
+  String lang = Get.locale?.languageCode??'ar';
   bool isCache = false;
 
   Future<void> getDetails() async {
@@ -99,7 +92,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     Provider.of<ItemServicesDetail>(context, listen: false).cobon = 0;
     try {
       await Provider.of<ItemServicesDetail>(context, listen: false)
-          .fetchAllDetails(widget.id, lang);
+          .fetchAllDetails(widget.id??0, lang);
 
       setState(() {
         loader = false;
@@ -118,7 +111,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     Provider.of<ItemServicesDetail>(context, listen: false);
     try {
       await Provider.of<ItemServicesDetail>(context, listen: false)
-          .fetchAllDetails(widget.id, lang);
+          .fetchAllDetails(widget.id??0, lang);
     } catch (e) {
       setState(() {
         loader = false;
@@ -134,7 +127,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     });
     try {
       await Provider.of<ItemServicesDetail>(context, listen: false)
-          .getCobon(widget.id);
+          .getCobon(widget.id??0);
       setState(() {
         cobonLoader = false;
       });
@@ -171,9 +164,9 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     }
   }
 
-  YoutubePlayerController _youtubePlayerController;
+  YoutubePlayerController?  _youtubePlayerController;
   String linnk() {
-    String link =
+    String? link =
         Provider.of<ItemServicesDetail>(context, listen: false).videoLink;
     if (link == null) {
       return 'https://www.youtube.com/watch?v=PakAvfdXi5I';
@@ -190,7 +183,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
   }
 
   TextEditingController addComment = TextEditingController();
-  double rate;
+  double? rate;
   Future<void> _submit() async {
     bool done =
         Provider.of<AddRatingProvider>(context, listen: false).doneSentRate;
@@ -198,7 +191,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     showDaialogLoader(context);
     try {
       done =
-          await Provider.of<AddRatingProvider>(context, listen: false).addRate(
+      await Provider.of<AddRatingProvider>(context, listen: false).addRate(
         comment: addComment.text,
         rating: rate.toString(),
         id: widget.id,
@@ -217,7 +210,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     }
   }
 
-  Future<void> _sentLocation({String lag, String lat}) async {
+  Future<void> _sentLocation({String? lag, String? lat}) async {
     bool done = Provider.of<SentLocationgProvider>(context, listen: false)
         .doneSentLocation;
     print(lat);
@@ -245,7 +238,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     setState(() {});
     bool done =
         Provider.of<UpdateFavProvider>(context, listen: false).doneSenting;
-    int isFav = Provider.of<ItemServicesDetail>(context, listen: false).isFav;
+    int? isFav = Provider.of<ItemServicesDetail>(context, listen: false).isFav;
 
     try {
       done = await Provider.of<UpdateFavProvider>(context, listen: false)
@@ -298,13 +291,13 @@ class _ServicesDetailsState extends State<ServicesDetails> {
   @override
   void initState() {
     getDetails().then((value) {
-      String videoId;
+      String? videoId;
       print(Provider.of<ItemServicesDetail>(context, listen: false).videoLink);
       videoId = YoutubePlayer.convertUrlToId(
-          Provider.of<ItemServicesDetail>(context, listen: false).videoLink);
+          Provider.of<ItemServicesDetail>(context, listen: false).videoLink!);
       print(videoId);
       _youtubePlayerController = YoutubePlayerController(
-        initialVideoId: videoId,
+        initialVideoId: videoId!,
         flags: YoutubePlayerFlags(
           mute: false,
           autoPlay: false,
@@ -322,7 +315,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
   @override
   void dispose() {
     super.dispose();
-    _youtubePlayerController.dispose();
+    _youtubePlayerController?.dispose();
   }
 
   @override
@@ -331,7 +324,7 @@ class _ServicesDetailsState extends State<ServicesDetails> {
     final width = (MediaQuery.of(context).size.width);
     final higt = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top);
-    int isFav = Provider.of<ItemServicesDetail>(context, listen: false).isFav;
+    int? isFav = Provider.of<ItemServicesDetail>(context, listen: false).isFav;
     print('${info.viewMin} min');
     return Scaffold(
       appBar: AppBar(
@@ -350,42 +343,41 @@ class _ServicesDetailsState extends State<ServicesDetails> {
               // IconButton(onPressed: (){
               //   Navigator.pop(context);
               // }, icon: Icon(Icons.arrow_back_ios)),
-              Image.asset('assets/images/img.png', width: 50),
+              Image.asset('assets/images/logo.png', width: 50),
               // SizedBox(width: 20,),
               Spacer(),
               IconButton(
                   onPressed: _sentFav,
                   icon: isFav == 0
                       ? Icon(
-                          CupertinoIcons.heart,
-                          color: Colors.blue,
-                          size: 30,
-                        )
+                    CupertinoIcons.heart,
+                    color: Colors.blue,
+                    size: 30,
+                  )
                       : Icon(
-                          CupertinoIcons.heart_fill,
-                          color: Colors.red,
-                          size: 30,
-                        )),
+                    CupertinoIcons.heart_fill,
+                    color: Colors.red,
+                    size: 30,
+                  )),
               info.viewScan == '0'
                   ? SizedBox()
                   : InkWell(
-                      child: Image.asset(
-                        'assets/images/qr.png',
-                        width: 35,
-                        height: 40,
-                        fit: BoxFit.fill,
-                      ),
-                      onTap: () {
-                        counter().then((value) {
-                          print("hello" + value);
-                          if (value == "-1") {
-                            print('object');
-                          } else {
-                            print(widget.id);
-                            getQr(widget.id, value);
-                          }
-                        });
-                      }),
+                  child: Image.asset(
+                    'assets/images/qr.png',
+                    width: 35,
+                    height: 40,
+                    fit: BoxFit.fill,
+                  ),
+                  onTap: () {
+                    counter().then((value) {
+                      if (value == "-1") {
+                        print('object');
+                      } else {
+                        print(widget.id);
+                        getQr(widget.id??0, value);
+                      }
+                    });
+                  }),
             ],
           ),
           centerTitle: true,
@@ -393,681 +385,540 @@ class _ServicesDetailsState extends State<ServicesDetails> {
       // endDrawer: MyDrawer(),
       body: loader
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
           : Container(
-              width: width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: Padding(
-                    padding: EdgeInsets.all(width * 0.03),
-                    child: ListView(
-                      children: [
-                        if (isCache)
-                          int.parse(info.sliderType) == 0
-                              ? imageCarousel()
-                              : Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: YoutubePlayer(
-                                      controller: _youtubePlayerController,
-                                      bottomActions: [
-                                        CurrentPosition(),
-                                        ProgressBar(
-                                          isExpanded: true,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+        width: width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(width * 0.03),
+                  child: ListView(
+                    children: [
+                      if (isCache)
+                        int.parse(info.sliderType??'') == 0
+                            ? imageCarousel()
+                            : Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: YoutubePlayer(
+                              controller: _youtubePlayerController!,
+                              bottomActions: [
+                                CurrentPosition(),
+                                ProgressBar(
+                                  isExpanded: true,
                                 ),
-                        SizedBox(
-                          height: higt * 0.015,
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: width * 0.35,
-                                      child: MaterialButton(
-                                        color: Colors.blue,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0),
-                                          side: BorderSide(
-                                              color: int.parse(info.delivary) ==
-                                                          0 ||
-                                                      int.parse(
-                                                              info.delivary) ==
-                                                          null
-                                                  ? Colors.grey[300]
-                                                  : Colors.blue),
-                                        ),
-                                        onPressed: int.parse(info.delivary) ==
-                                                    0 ||
-                                                int.parse(info.delivary) == null
-                                            ? null
-                                            : () =>
-                                                // Min(
-                                                //       id: info.idd,
-                                                //       title: info.menuTilte ==
-                                                //                   null ||
-                                                //               info.menuTilte == ''
-                                                //           ? "menu".tr
-                                                //           : info.menuTilte,
-                                                //     ),
-                                                // Provider.of<CartListProvider>(
-                                                //         context,
-                                                //         listen: false)
-                                                //     .fetchProductCart(
-                                                //         lang, info.idd)
-                                                //     .then((value) {
-                                                //   Get.to(CartScreen());
-                                                // }),
-                                                Get.to(CartOrderScreen(
-                                                  serviceId: info.idd,
-                                                )),
-                                        child: AutoSizeText(
-                                          "delivery".tr,
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.02,
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: width * 0.35,
-                                          child: cobonLoader == true
-                                              ? Center(
-                                                  child:
-                                                      CupertinoActivityIndicator(
-                                                    radius: 15,
-                                                  ),
-                                                )
-                                              : MaterialButton(
-                                                  onPressed:
-                                                      info.viewCobon == '0'
-                                                          ? null
-                                                          : getcobon,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  color: info.viewCobon == '0'
-                                                      ? Colors.grey[300]
-                                                      : Colors.blue,
-                                                  child: AutoSizeText(
-                                                    '${'coupon'.tr}',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
-                                                    maxLines: 1,
-                                                  ),
-                                                ),
-                                        ),
-                                        SizedBox(
-                                          width: width * 0.025,
-                                        ),
-                                        cobonLoader == true
-                                            ? Center(
-                                                child:
-                                                    CupertinoActivityIndicator(
-                                                  radius: 15,
-                                                ),
-                                              )
-                                            : info.cobon == 0
-                                                ? Text('')
-                                                : info.cobon == null
-                                                    ? AutoSizeText(
-                                                        'nodiscountcoupons'.tr,
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .blue[400]),
-                                                        maxLines: 1,
-                                                      )
-                                                    : AutoSizeText(
-                                                        info.cobon.toString(),
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .blue[400]),
-                                                        maxLines: 1,
-                                                      )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.35,
-                                      child: MaterialButton(
-                                        color: Colors.blue,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: AutoSizeText(
-                                          "deliverMap".tr,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                          maxLines: 1,
-                                        ),
-                                        onPressed: () async {
-                                          await launch(
-                                              'http:${info.loctaation}');
-                                        },
-                                      ),
-                                    ),
-                                    // InkWell(
-                                    //   onTap: () async {
-                                    //     await launch('tel:${info.phone}');
-                                    //   },
-                                    //   child: AutoSizeText(
-                                    //     info.phone,
-                                    //     style: TextStyle(
-                                    //       fontSize: 16,
-                                    //     ),
-                                    //     maxLines: 1,
-                                    //   ),
-                                    // ),
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              Column(
-                                children: [
-                                  Container(
-                                    height: higt * 0.13,
-                                    width: higt * 0.12,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: CachedNetworkImage(
-                                        imageUrl: info.offersImage,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  AutoSizeText(
-                                    info.serviceName,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      SizedBox(
+                        height: higt * 0.015,
+                      ),
+                      Container(
+                        child: Row(
                           children: [
-                            SizedBox(
-                              width: width * 0.35,
-                              child: MaterialButton(
-                                color: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: AutoSizeText(
-                                  "rate".tr,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                  maxLines: 1,
-                                ),
-                                onPressed: info.rateView != "0"
-                                    ? () {
-                                        Get.defaultDialog(
-                                          title: "rate".tr,
-                                          content: Container(
-                                            height: higt * 0.24,
-                                            width: width * 0.8,
-                                            child: Column(
-                                              children: [
-                                                RatingBar.builder(
-                                                  initialRating: 0,
-                                                  direction: Axis.horizontal,
-                                                  allowHalfRating: true,
-                                                  itemCount: 5,
-                                                  itemSize: 25,
-                                                  itemPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 4.0),
-                                                  itemBuilder: (context, _) =>
-                                                      Icon(
-                                                    Icons.star,
-                                                    color: Colors.amber,
-                                                  ),
-                                                  onRatingUpdate: (rating) {
-                                                    rate = rating;
-                                                  },
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                ProfileTextField(
-                                                  hint: "addComment".tr,
-                                                  controller: addComment,
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                SizedBox(
-                                                  width: width * 0.35,
-                                                  child: MaterialButton(
-                                                      color: Colors.blue,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      child: AutoSizeText(
-                                                        "rate".tr,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
-                                                        maxLines: 1,
-                                                      ),
-                                                      onPressed: _submit),
-                                                ),
-                                              ],
-                                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: width * 0.35,
+                                    child: MaterialButton(
+                                      color: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(15.0),
+                                        side: BorderSide(
+                                            color: Colors.blue
+                                        ),
+                                      ),
+                                      onPressed: int.parse(info.delivary??'0') ==
+                                          0
+                                          ? null
+                                          : () =>
+                                      // Min(
+                                      //       id: info.idd,
+                                      //       title: info.menuTilte ==
+                                      //                   null ||
+                                      //               info.menuTilte == ''
+                                      //           ? "menu".tr
+                                      //           : info.menuTilte,
+                                      //     ),
+                                      // Provider.of<CartListProvider>(
+                                      //         context,
+                                      //         listen: false)
+                                      //     .fetchProductCart(
+                                      //         lang, info.idd)
+                                      //     .then((value) {
+                                      //   Get.to(CartScreen());
+                                      // }),
+                                      Get.to(CartOrderScreen(
+                                        serviceId: info.idd,
+                                      )),
+                                      child: AutoSizeText(
+                                        "delivery".tr,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.02,
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: width * 0.35,
+                                        child: cobonLoader == true
+                                            ? Center(
+                                          child:
+                                          CupertinoActivityIndicator(
+                                            radius: 15,
                                           ),
-                                        );
-                                      }
-                                    : null,
+                                        )
+                                            : MaterialButton(
+                                          onPressed:
+                                          info.viewCobon == '0'
+                                              ? null
+                                              : getcobon,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                15),
+                                          ),
+                                          color: info.viewCobon == '0'
+                                              ? Colors.grey[300]
+                                              : Colors.blue,
+                                          child: AutoSizeText(
+                                            '${'coupon'.tr}',
+                                            style: TextStyle(
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                color: Colors.white),
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.025,
+                                      ),
+                                      cobonLoader == true
+                                          ? Center(
+                                        child:
+                                        CupertinoActivityIndicator(
+                                          radius: 15,
+                                        ),
+                                      )
+                                          : info.cobon == 0
+                                          ? Text('')
+                                          : info.cobon == null
+                                          ? AutoSizeText(
+                                        'nodiscountcoupons'.tr,
+                                        style: TextStyle(
+                                            color: Colors
+                                                .blue[400]),
+                                        maxLines: 1,
+                                      )
+                                          : AutoSizeText(
+                                        info.cobon.toString(),
+                                        style: TextStyle(
+                                            color: Colors
+                                                .blue[400]),
+                                        maxLines: 1,
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.35,
+                                    child: MaterialButton(
+                                      color: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(15),
+                                      ),
+                                      child: AutoSizeText(
+                                        "deliverMap".tr,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        maxLines: 1,
+                                      ),
+                                      onPressed: () async {
+                                        await launch(
+                                            'http:${info.loctaation}');
+                                      },
+                                    ),
+                                  ),
+                                  // InkWell(
+                                  //   onTap: () async {
+                                  //     await launch('tel:${info.phone}');
+                                  //   },
+                                  //   child: AutoSizeText(
+                                  //     info.phone,
+                                  //     style: TextStyle(
+                                  //       fontSize: 16,
+                                  //     ),
+                                  //     maxLines: 1,
+                                  //   ),
+                                  // ),
+                                ],
                               ),
                             ),
-                            RatingBar.builder(
-                              initialRating: info.totalRate == ''
-                                  ? 0
-                                  : double.parse(info.totalRate),
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 17,
-                              ignoreGestures: true,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
+                            Spacer(),
+                            Column(
+                              children: [
+                                Container(
+                                  height: higt * 0.13,
+                                  width: higt * 0.12,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: CachedNetworkImage(
+                                      imageUrl: info.offersImage,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  info.serviceName,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700),
+                                  maxLines: 1,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: width * 0.35,
-                          child: MaterialButton(
-                            color: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: AutoSizeText(
-                              "comments".tr,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                              maxLines: 1,
-                            ),
-                            onPressed: () {
-                              Get.defaultDialog(
-                                title: "comments".tr,
-                                content: Container(
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height: higt * 0.5,
-                                        width: width * 0.9,
-                                        child: info.allRate.isEmpty
-                                            ? Text(
-                                                'لا يوجد تعليقات',
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 20),
-                                              )
-                                            : ListView.builder(
-                                                itemCount: info.allRate.length,
-                                                itemBuilder: (context, index) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            info.allRate[index]
-                                                                .username,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 8,
-                                                          ),
-                                                          Icon(
-                                                            Icons.star,
-                                                            color:
-                                                                Colors.yellow,
-                                                            size: 15,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 3,
-                                                          ),
-                                                          Text(
-                                                            info.allRate[index]
-                                                                .userrate,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Text(info.allRate[index]
-                                                          .usercomment),
-                                                      Divider(
-                                                        thickness: 1,
-                                                      )
-                                                    ],
-                                                  );
-                                                },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: width * 0.35,
+                            child: MaterialButton(
+                              color: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: AutoSizeText(
+                                "rate".tr,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                maxLines: 1,
+                              ),
+                              onPressed: info.rateView != "0"
+                                  ? () {
+                                Get.defaultDialog(
+                                  title: "rate".tr,
+                                  content: Container(
+                                    height: higt * 0.24,
+                                    width: width * 0.8,
+                                    child: Column(
+                                      children: [
+                                        RatingBar.builder(
+                                          initialRating: 0,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemSize: 25.r,
+                                          itemPadding:
+                                          EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          itemBuilder: (context, _) =>
+                                              Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
                                               ),
-                                      )),
-                                ),
-                              );
+                                          onRatingUpdate: (rating) {
+                                            rate = rating;
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        ProfileTextField(
+                                          hint: "addComment".tr,
+                                          controller: addComment,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.35,
+                                          child: MaterialButton(
+                                              color: Colors.blue,
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(15),
+                                              ),
+                                              child: AutoSizeText(
+                                                "rate".tr,
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    color:
+                                                    Colors.white),
+                                                maxLines: 1,
+                                              ),
+                                              onPressed: _submit),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                                  : null,
+                            ),
+                          ),
+                          RatingBar.builder(
+                            initialRating: info.totalRate == ''
+                                ? 0
+                                : double.parse(info.totalRate??''),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemSize: 17,
+                            ignoreGestures: true,
+                            itemPadding:
+                            EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) => Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                            ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
                             },
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: width * 0.025, vertical: higt * .01),
-                          child: Container(
-                            height: higt * 0.25,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: width * 0.025,
-                                vertical: higt * 0.01),
-                            width: width,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: DraggableScrollbar.arrows(
-                              alwaysVisibleScrollThumb: true,
-                              backgroundColor: Colors.blue,
-                              controller: _customController,
-                              child: ListView(
-                                padding: EdgeInsets.only(right: width * 0.06),
-                                controller: _customController,
-                                children: [
-                                  info.phoneSecond.isEmpty ///////////
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : InkWell(
-                                          onTap: () async {
-                                            await launch(
-                                                'tel:${info.phoneSecond}');
-                                          },
-                                          child: AutoSizeText(
-                                            info.phoneSecond,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            // maxLines: 1,
-                                          ),
-                                        ),
-                                  info.phoneThird.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : InkWell(
-                                          onTap: () async {
-                                            await launch(
-                                                'tel:${info.phoneThird}');
-                                          },
-                                          child: AutoSizeText(
-                                            info.phoneThird,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            // maxLines: 1,
-                                          ),
-                                        ),
-                                  info.phoneSecond.isEmpty &&
-                                          info.phoneThird.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : SizedBox(
-                                          height: higt * 0.01,
-                                        ),
-                                  info.email.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : InkWell(
-                                          onTap: () async {
-                                            await launch(
-                                                'mailto:${info.email}');
-                                          },
-                                          child: AutoSizeText(
-                                            info.email,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            // maxLines: 1,
-                                          ),
-                                        ),
-                                  info.address == '' || info.address.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : AutoSizeText(
-                                          info.address,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          // maxLines: 2,
-                                        ),
-                                  info.description.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : SizedBox(
-                                          height: higt * 0.01,
-                                        ),
-                                  info.description.isEmpty
-                                      ? SizedBox(
-                                          height: 0,
-                                          width: 0,
-                                        )
-                                      : AutoSizeText(
-                                          info.description,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          // maxLines: 12,
-                                        ),
-                                ],
-                              ),
-                            ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: width * 0.35,
+                        child: MaterialButton(
+                          color: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        ),
-                        Center(
-                          child: Container(
-                            width: width * 0.8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-                                  width: width * 0.3,
-                                  child: MaterialButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    color: info.viewBranches == "0"
-                                        ? Colors.grey[300]
-                                        : Colors.blue,
-                                    onPressed: info.viewBranches == "0"
-                                        ? null
-                                        : () {
-                                            Get.to(Branches(info.idd));
-                                          },
-                                    child: AutoSizeText(
-                                      "Branches".tr,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: width * 0.3,
-                                  child: MaterialButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    color: Colors.blue,
-                                    onPressed: info.viewMin == '0'
-                                        ? null
-                                        : () {
-                                            Get.to(
-                                              Min(
-                                                id: info.idd,
-                                                title: info.menuTilte == null ||
-                                                        info.menuTilte == ''
-                                                    ? "menu".tr
-                                                    : info.menuTilte,
+                          child: AutoSizeText(
+                            "comments".tr,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            maxLines: 1,
+                          ),
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "comments".tr,
+                              content: Container(
+                                child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: higt * 0.5,
+                                      width: width * 0.9,
+                                      child: info.allRate.isEmpty
+                                          ? Text(
+                                        'لا يوجد تعليقات',
+                                        style: TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 20),
+                                      )
+                                          : ListView.builder(
+                                        itemCount: info.allRate.length,
+                                        itemBuilder: (context, index) {
+                                          return Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment
+                                                .start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    info.allRate[index]
+                                                        .username??'',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .bold),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color:
+                                                    Colors.yellow,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Text(
+                                                    info.allRate[index]
+                                                        .userrate??'',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .bold),
+                                                  ),
+                                                ],
                                               ),
-                                            );
-                                          },
-                                    child: AutoSizeText(
-                                      info.menuTilte == null ||
-                                              info.menuTilte == ''
-                                          ? "menu".tr
-                                          : info.menuTilte,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      maxLines: 1,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                              Text(info.allRate[index]
+                                                  .usercomment??''),
+                                              Divider(
+                                                thickness: 1,
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    )),
+                              ),
+                            );
+                          },
                         ),
-                        Center(
-                          child: Container(
-                            width: width * 0.7,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.025, vertical: higt * .01),
+                        child: Container(
+                          height: higt * 0.25,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.025,
+                              vertical: higt * 0.01),
+                          width: width,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: DraggableScrollbar.arrows(
+                            alwaysVisibleScrollThumb: true,
+                            backgroundColor: Colors.blue,
+                            controller: _customController,
+                            child: ListView(
+                              padding: EdgeInsets.only(right: width * 0.06),
+                              controller: _customController,
                               children: [
-                                SizedBox(
-                                  width: width * 0.3,
-                                  child: MaterialButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                info.phoneSecond.isEmpty ///////////
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'tel:${info.phoneSecond}');
+                                  },
+                                  child: AutoSizeText(
+                                    info.phoneSecond,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    color: info.viewOffer == "0"
-                                        ? Colors.grey[300]
-                                        : Colors.red,
-                                    onPressed: info.viewOffer == "0"
-                                        ? null
-                                        : () {
-                                            Get.to(
-                                              ServicesOffers(info.mainImg,
-                                                  info.idd, info.serviceName),
-                                            );
-                                            // Get.to(Offerss());
-                                          },
-                                    child: AutoSizeText(
-                                      "offers".tr,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      maxLines: 1,
-                                    ),
+                                    // maxLines: 1,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: width * 0.3,
-                                  child: MaterialButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
+                                info.phoneThird.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'tel:${info.phoneThird}');
+                                  },
+                                  child: AutoSizeText(
+                                    info.phoneThird,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    color: info.viewPoints == "0"
-                                        ? Colors.grey[300]
-                                        : Colors.blue,
-                                    onPressed: info.viewPoints == "0"
-                                        ? null
-                                        : () {
-                                            // Get.to(ServicesOffers());
-                                            // Get.to(Offerss());
-                                          },
-                                    child: info.points == ''
-                                        ? AutoSizeText(
-                                            "${"Points".tr} = 0",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                            maxLines: 1,
-                                          )
-                                        : AutoSizeText(
-                                            "${"Points".tr} : ${info.points}",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                            maxLines: 1,
-                                          ),
+                                    // maxLines: 1,
                                   ),
+                                ),
+                                info.phoneSecond.isEmpty &&
+                                    info.phoneThird.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : SizedBox(
+                                  height: higt * 0.01,
+                                ),
+                                info.email.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'mailto:${info.email}');
+                                  },
+                                  child: AutoSizeText(
+                                    info.email,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    // maxLines: 1,
+                                  ),
+                                ),
+                                info.address == '' || info.address.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : AutoSizeText(
+                                  info.address,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  // maxLines: 2,
+                                ),
+                                info.description.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : SizedBox(
+                                  height: higt * 0.01,
+                                ),
+                                info.description.isEmpty
+                                    ? SizedBox(
+                                  height: 0,
+                                  width: 0,
+                                )
+                                    : AutoSizeText(
+                                  info.description,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  // maxLines: 12,
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        Center(
+                      ),
+                      Center(
+                        child: Container(
+                          width: width * 0.8,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               SizedBox(
                                 width: width * 0.3,
@@ -1075,14 +926,120 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  color: info.viewLocation == "0"
+                                  color: info.viewBranches == "0"
                                       ? Colors.grey[300]
                                       : Colors.blue,
-                                  onPressed: info.viewLocation == "0"
+                                  onPressed: info.viewBranches == "0"
                                       ? null
-                                      : location,
+                                      : () {
+                                    Get.to(Branches(info.idd!));
+                                  },
                                   child: AutoSizeText(
-                                    '${'sentLocation'.tr}',
+                                    "Branches".tr,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: width * 0.3,
+                                child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: Colors.blue,
+                                  onPressed: info.viewMin == '0'
+                                      ? null
+                                      : () {
+                                    Get.to(
+                                      Min(
+                                        id: info.idd,
+                                        title: info.menuTilte == null ||
+                                            info.menuTilte == ''
+                                            ? "menu".tr
+                                            : info.menuTilte,
+                                      ),
+                                    );
+                                  },
+                                  child: AutoSizeText(
+                                    info.menuTilte == null ||
+                                        info.menuTilte == ''
+                                        ? "menu".tr
+                                        : info.menuTilte,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          width: width * 0.7,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: width * 0.3,
+                                child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: info.viewOffer == "0"
+                                      ? Colors.grey[300]
+                                      : Colors.red,
+                                  onPressed: info.viewOffer == "0"
+                                      ? null
+                                      : () {
+                                    Get.to(
+                                      ServicesOffers(info.mainImg,
+                                          info.idd!, info.serviceName),
+                                    );
+                                    // Get.to(Offerss());
+                                  },
+                                  child: AutoSizeText(
+                                    "offers".tr,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: width * 0.3,
+                                child: MaterialButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: info.viewPoints == "0"
+                                      ? Colors.grey[300]
+                                      : Colors.blue,
+                                  onPressed: info.viewPoints == "0"
+                                      ? null
+                                      : () {
+                                    // Get.to(ServicesOffers());
+                                    // Get.to(Offerss());
+                                  },
+                                  child: info.points == ''
+                                      ? AutoSizeText(
+                                    "${"Points".tr} = 0",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                    maxLines: 1,
+                                  )
+                                      : AutoSizeText(
+                                    "${"Points".tr} : ${info.points}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
@@ -1092,205 +1049,234 @@ class _ServicesDetailsState extends State<ServicesDetails> {
                               ),
                             ],
                           ),
-                        )
-
-                        // info.lag.isEmpty
-                        //     ? SizedBox(
-                        //         width: 0,
-                        //         height: 0,
-                        //       )
-                        //     : Padding(
-                        //         padding:
-                        //             EdgeInsets.symmetric(vertical: higt * 0.01),
-                        //         child: ClipRRect(
-                        //           borderRadius: BorderRadius.circular(15),
-                        //           child: Container(
-                        //             height: higt * 0.2,
-                        //             child: GoogleMap(
-                        //               mapType: MapType.normal,
-                        //               onMapCreated:
-                        //                   (GoogleMapController controller) {
-                        //                 _controller.complete(controller);
-                        //               },
-                        //               initialCameraPosition: CameraPosition(
-                        //                 target: LatLng(double.parse(info.lat),
-                        //                     double.parse(info.lag)),
-                        //                 zoom: 14.4746,
-                        //               ),
-                        //               markers: Set.from(marker),
-                        //               myLocationEnabled: true,
-                        //               myLocationButtonEnabled: true,
-                        //               onTap: (val) {
-                        //                 print(val);
-                        //               },
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                      ],
-                    ),
-                  )),
-                  Column(
-                    children: [
-                      Container(
-                        width: width,
-                        height: 50,
-                        color: Colors.grey[300],
+                        ),
+                      ),
+                      Center(
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IntrinsicHeight(
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      info.phone.isEmpty
-                                          ? Container()
-                                          : InkWell(
-                                              child: Image.asset(
-                                                'assets/images/phoneicon.png',
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              onTap: () async {
-                                                await launch(
-                                                    'tel:${info.phone}');
-                                              },
-                                            ),
-                                      info.instagram.isEmpty
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.instagram.isEmpty
-                                          ? Container()
-                                          : InkWell(
-                                              child: Image.asset(
-                                                'assets/images/instagram.png',
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              onTap: () async {
-                                                await launch(
-                                                    'http:${info.instagram}');
-                                              },
-                                            ),
-                                      info.twitter.isEmpty
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.twitter.isEmpty
-                                          ? Container()
-                                          : InkWell(
-                                              child: Container(
-                                                height: higt * 0.06,
-                                                child: Image.asset(
-                                                  'assets/images/twitter.png',
-                                                  width: width * 0.12,
-                                                  height: higt * 0.07,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              onTap: () async {
-                                                await launch(
-                                                    'http:${info.twitter}');
-                                              },
-                                            ),
-                                      info.web == ""
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.web == ""
-                                          ? Container()
-                                          : InkWell(
-                                              onTap: () async {
-                                                await launch(
-                                                    'http:${info.web}');
-                                              },
-                                              child: Image.asset(
-                                                'assets/images/web.png',
-                                                width: width * 0.11,
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                      info.facebook.isEmpty
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.facebook.isEmpty
-                                          ? Container()
-                                          : InkWell(
-                                              onTap: () async {
-                                                await launch(
-                                                    'http:${info.facebook}');
-                                              },
-                                              child: Image.asset(
-                                                'assets/images/facebook.png',
-                                                width: width * 0.11,
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                      info.whatsapp.isEmpty
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.whatsapp.isEmpty
-                                          ? Container()
-                                          : InkWell(
-                                              child: Image.asset(
-                                                'assets/images/whatsapp.png',
-                                                width: width * 0.11,
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              onTap: () async {
-                                                await launch(url());
-                                              },
-                                            ),
-                                      info.shareView == "0"
-                                          ? Container()
-                                          : VerticalDivider(
-                                              color: Colors.black,
-                                              thickness: 2,
-                                            ),
-                                      info.shareView == "0"
-                                          ? Container()
-                                          : InkWell(
-                                              child: Image.asset(
-                                                'assets/images/Share icon.png',
-                                                height: higt * 0.06,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              onTap: () async {
-                                                await Share.share(
-                                                    info.shareLink);
-                                              },
-                                            ),
-                                    ],
-                                  ),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: width * 0.3,
+                              child: MaterialButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                color: info.viewLocation == "0"
+                                    ? Colors.grey[300]
+                                    : Colors.blue,
+                                onPressed: info.viewLocation == "0"
+                                    ? null
+                                    : location,
+                                child: AutoSizeText(
+                                  '${'sentLocation'.tr}',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                  maxLines: 1,
                                 ),
                               ),
-                            ]),
-                      ),
-                      SizedBox(
-                        height: 5,
+                            ),
+                          ],
+                        ),
                       )
+
+                      // info.lag.isEmpty
+                      //     ? SizedBox(
+                      //         width: 0,
+                      //         height: 0,
+                      //       )
+                      //     : Padding(
+                      //         padding:
+                      //             EdgeInsets.symmetric(vertical: higt * 0.01),
+                      //         child: ClipRRect(
+                      //           borderRadius: BorderRadius.circular(15),
+                      //           child: Container(
+                      //             height: higt * 0.2,
+                      //             child: GoogleMap(
+                      //               mapType: MapType.normal,
+                      //               onMapCreated:
+                      //                   (GoogleMapController controller) {
+                      //                 _controller.complete(controller);
+                      //               },
+                      //               initialCameraPosition: CameraPosition(
+                      //                 target: LatLng(double.parse(info.lat),
+                      //                     double.parse(info.lag)),
+                      //                 zoom: 14.4746,
+                      //               ),
+                      //               markers: Set.from(marker),
+                      //               myLocationEnabled: true,
+                      //               myLocationButtonEnabled: true,
+                      //               onTap: (val) {
+                      //                 print(val);
+                      //               },
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
                     ],
                   ),
-                ],
-              ),
+                )),
+            Column(
+              children: [
+                Container(
+                  width: width,
+                  height: 50.h,
+                  color: Colors.grey[300],
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IntrinsicHeight(
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                info.phone.isEmpty
+                                    ? Container()
+                                    : InkWell(
+                                  child: Image.asset(
+                                    'assets/images/phoneicon.png',
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  onTap: () async {
+                                    await launch(
+                                        'tel:${info.phone}');
+                                  },
+                                ),
+                                info.instagram.isEmpty
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.instagram.isEmpty
+                                    ? Container()
+                                    : InkWell(
+                                  child: Image.asset(
+                                    'assets/images/instagram.png',
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  onTap: () async {
+                                    await launch(
+                                        'http:${info.instagram}');
+                                  },
+                                ),
+                                info.twitter.isEmpty
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.twitter.isEmpty
+                                    ? Container()
+                                    : InkWell(
+                                  child: Container(
+                                    height: higt * 0.06,
+                                    child: Image.asset(
+                                      'assets/images/twitter.png',
+                                      width: width * 0.12,
+                                      height: higt * 0.07,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  onTap: () async {
+                                    await launch(
+                                        'http:${info.twitter}');
+                                  },
+                                ),
+                                info.web == ""
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.web == ""
+                                    ? Container()
+                                    : InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'http:${info.web}');
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/web.png',
+                                    width: width * 0.11,
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                info.facebook.isEmpty
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.facebook.isEmpty
+                                    ? Container()
+                                    : InkWell(
+                                  onTap: () async {
+                                    await launch(
+                                        'http:${info.facebook}');
+                                  },
+                                  child: Image.asset(
+                                    'assets/images/facebook.png',
+                                    width: width * 0.11,
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                info.whatsapp.isEmpty
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.whatsapp.isEmpty
+                                    ? Container()
+                                    : InkWell(
+                                  child: Image.asset(
+                                    'assets/images/whatsapp.png',
+                                    width: width * 0.11,
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  onTap: () async {
+                                    await launch(url());
+                                  },
+                                ),
+                                info.shareView == "0"
+                                    ? Container()
+                                    : VerticalDivider(
+                                  color: Colors.black,
+                                  thickness: 2,
+                                ),
+                                info.shareView == "0"
+                                    ? Container()
+                                    : InkWell(
+                                  child: Image.asset(
+                                    'assets/images/Share icon.png',
+                                    height: higt * 0.06,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  onTap: () async {
+                                    await Share.share(
+                                        info.shareLink!);
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ]),
+                ),
+                SizedBox(
+                  height: 5,
+                )
+              ],
             ),
+          ],
+        ),
+      ),
     );
   }
 }

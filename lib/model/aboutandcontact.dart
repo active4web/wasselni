@@ -19,10 +19,10 @@ class About {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory About.fromJson(Map<String, dynamic> json) => About(
         message: json["message"],
@@ -35,7 +35,7 @@ class About {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -44,7 +44,7 @@ class Result {
     this.about,
   });
 
-  String about;
+  String? about;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         about: json["about"],
@@ -56,7 +56,7 @@ class Result {
 }
 
 class AboutAndContactUS with ChangeNotifier {
-  String token;
+  String? token;
   AboutAndContactUS({this.token});
 
   String about = '';
@@ -69,7 +69,7 @@ class AboutAndContactUS with ChangeNotifier {
         ),
       );
 
-      about = aboutFromJson(response.toString()).result.about;
+      about = aboutFromJson(response.toString()).result?.about??'';
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err} error from offers list');
@@ -93,10 +93,10 @@ class Contact {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  ResultContact result;
+  String? message;
+  int? codenum;
+  bool? status;
+  ResultContact? result;
 
   factory Contact.fromJson(Map<String, dynamic> json) => Contact(
         message: json["message"],
@@ -109,7 +109,7 @@ class Contact {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -131,20 +131,20 @@ class ResultContact {
     this.map,
   });
 
-  String hotline;
-  String nameSite;
-  String address;
-  String supportEmail;
-  String gmailEmail;
-  String infoEmail;
-  String supportPhone;
-  String secondPhone;
-  String whatsapp;
-  String facebook;
-  String twitter;
-  String instagram;
-  String linkedin;
-  String map;
+  String? hotline;
+  String? nameSite;
+  String? address;
+  String? supportEmail;
+  String? gmailEmail;
+  String? infoEmail;
+  String? supportPhone;
+  String? secondPhone;
+  String? whatsapp;
+  String? facebook;
+  String? twitter;
+  String? instagram;
+  String? linkedin;
+  String? map;
 
   factory ResultContact.fromJson(Map<String, dynamic> json) => ResultContact(
         hotline: json["hotline"],
@@ -182,11 +182,11 @@ class ResultContact {
 }
 
 class ContactUsModel with ChangeNotifier {
-  String token;
+  String? token;
   ContactUsModel({this.token});
 
-  ResultContact contacts;
-  String site;
+  ResultContact? contacts;
+  String? site;
   Future<void> getContactUs(String lang, BuildContext context) async {
     try {
       Dio.Response response = await dio().post(

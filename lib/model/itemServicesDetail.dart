@@ -22,10 +22,10 @@ class ItemSirv {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory ItemSirv.fromJson(Map<String, dynamic> json) => ItemSirv(
         message: json["message"],
@@ -38,7 +38,7 @@ class ItemSirv {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -49,9 +49,9 @@ class Result {
     this.serviceDetails,
   });
 
-  List<AllSlider> allSlider;
-  List<AllRate> allRate;
-  List<ServiceDetail> serviceDetails;
+  List<AllSlider>? allSlider;
+  List<AllRate>? allRate;
+  List<ServiceDetail>? serviceDetails;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allSlider: List<AllSlider>.from(
@@ -63,10 +63,10 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "all_slider": List<dynamic>.from(allSlider.map((x) => x.toJson())),
-        "all_rate": List<dynamic>.from(allRate.map((x) => x.toJson())),
+        "all_slider": List<dynamic>.from(allSlider!.map((x) => x.toJson())),
+        "all_rate": List<dynamic>.from(allRate!.map((x) => x.toJson())),
         "service_details":
-            List<dynamic>.from(serviceDetails.map((x) => x.toJson())),
+            List<dynamic>.from(serviceDetails!.map((x) => x.toJson())),
       };
 }
 
@@ -78,10 +78,10 @@ class AllRate {
     this.rateId,
   });
 
-  String username;
-  String userrate;
-  String usercomment;
-  int rateId;
+  String? username;
+  String? userrate;
+  String? usercomment;
+  int? rateId;
 
   factory AllRate.fromJson(Map<String, dynamic> json) => AllRate(
         username: json["username"],
@@ -104,8 +104,8 @@ class AllSlider {
     this.depId,
   });
 
-  String img;
-  int depId;
+  String? img;
+  int? depId;
 
   factory AllSlider.fromJson(Map<String, dynamic> json) => AllSlider(
         img: json["img"],
@@ -156,40 +156,40 @@ class ServiceDetail {
     this.viewMin,
   });
 
-  int favExit;
-  String totalRate;
-  String offersImage;
-  String serviceName;
-  String scanDisplay;
-  String rateView;
-  String shareView;
-  String pointsDisplay;
-  String shareLink;
-  String copounDisplay;
-  String locationDisplay;
-  String offersDisplay;
-  String branchesDisplay;
-  String sliderType;
-  String deliveryOn;
-  String totalPoints;
-  String videoLink;
-  String facebook;
-  String phone;
-  String location;
-  String phoneSecond;
-  String phoneThird;
-  String menuTitle;
-  String whatsapp;
-  String twitter;
-  String instagram;
-  String email;
-  String website;
-  String lat;
-  String lag;
-  String address;
-  String description;
-  int id;
-  String viewMin;
+  int? favExit;
+  String? totalRate;
+  String? offersImage;
+  String? serviceName;
+  String? scanDisplay;
+  String? rateView;
+  String? shareView;
+  String? pointsDisplay;
+  String? shareLink;
+  String? copounDisplay;
+  String? locationDisplay;
+  String? offersDisplay;
+  String? branchesDisplay;
+  String? sliderType;
+  String? deliveryOn;
+  String? totalPoints;
+  String? videoLink;
+  String? facebook;
+  String? phone;
+  String? location;
+  String? phoneSecond;
+  String? phoneThird;
+  String? menuTitle;
+  String? whatsapp;
+  String? twitter;
+  String? instagram;
+  String? email;
+  String? website;
+  String? lat;
+  String? lag;
+  String? address;
+  String? description;
+  int? id;
+  String? viewMin;
   factory ServiceDetail.fromJson(Map<String, dynamic> json) => ServiceDetail(
         favExit: json["fav_exit"],
         totalRate: json["total_rate"],
@@ -265,8 +265,8 @@ class ServiceDetail {
 }
 
 class ItemServicesDetail with ChangeNotifier {
-  String token;
-  ItemServicesDetail(this.token);
+  String? token;
+  ItemServicesDetail({this.token});
 
   String offersImage = '';
   String facebook = '';
@@ -293,22 +293,22 @@ class ItemServicesDetail with ChangeNotifier {
   String img1 = '';
   String img2 = '';
   String img3 = '';
-  String sliderType;
-  String web;
-  String delivary;
-  String videoLink;
-  String shareLink;
-  String totalRate;
-  int isFav;
+  String? sliderType;
+  String? web;
+  String? delivary;
+  String? videoLink;
+  String? shareLink;
+  String? totalRate;
+  int? isFav;
   List<ServiceDetail> serviceDetail = [];
   List<AllRate> allRate = [];
   String points = '';
   List<AllSlider> allslider = [];
   String loctaation = '';
-  int idd;
+  int? idd;
   String menuTilte = '';
-  String rateView;
-  String shareView;
+  String? rateView;
+  String? shareView;
   GetStorage storage = GetStorage();
   bool isCache = false;
   Future<void> fetchAllDetails(int id, String lang) async {
@@ -325,43 +325,43 @@ class ItemServicesDetail with ChangeNotifier {
         ),
       );
       isCache = false;
-      allslider = itemSirvFromJson(response.toString()).result.allSlider;
-      allRate = itemSirvFromJson(response.toString()).result.allRate;
+      allslider = itemSirvFromJson(response.toString()).result?.allSlider??[];
+      allRate = itemSirvFromJson(response.toString()).result?.allRate??[];
       serviceDetail =
-          itemSirvFromJson(response.toString()).result.serviceDetails;
-        viewBranches = serviceDetail[0].branchesDisplay;
-        viewOffer = serviceDetail[0].offersDisplay;
-        viewPoints = serviceDetail[0].pointsDisplay;
-        viewScan = serviceDetail[0].scanDisplay;
-        viewCobon = serviceDetail[0].copounDisplay;
-        viewLocation = serviceDetail[0].locationDisplay;
+          itemSirvFromJson(response.toString()).result?.serviceDetails??[];
+        viewBranches = serviceDetail[0].branchesDisplay??'';
+        viewOffer = serviceDetail[0].offersDisplay??'';
+        viewPoints = serviceDetail[0].pointsDisplay??'';
+        viewScan = serviceDetail[0].scanDisplay??'';
+        viewCobon = serviceDetail[0].copounDisplay??'';
+        viewLocation = serviceDetail[0].locationDisplay??'';
         isFav = serviceDetail[0].favExit;
         totalRate = serviceDetail[0].totalRate;
-        offersImage = serviceDetail[0].offersImage;
-        facebook = serviceDetail[0].facebook;
-        phone = serviceDetail[0].phone;
-        phoneSecond = serviceDetail[0].phoneSecond;
-        phoneThird = serviceDetail[0].phoneThird;
-        whatsapp = serviceDetail[0].whatsapp;
-        twitter = serviceDetail[0].twitter;
-        instagram = serviceDetail[0].instagram;
-        email = serviceDetail[0].email;
-        lat = serviceDetail[0].lat;
-        lag = serviceDetail[0].lag;
-        address = serviceDetail[0].address;
+        offersImage = serviceDetail[0].offersImage??'';
+        facebook = serviceDetail[0].facebook??'';
+        phone = serviceDetail[0].phone??'';
+        phoneSecond = serviceDetail[0].phoneSecond??'';
+        phoneThird = serviceDetail[0].phoneThird??'';
+        whatsapp = serviceDetail[0].whatsapp??'';
+        twitter = serviceDetail[0].twitter??'';
+        instagram = serviceDetail[0].instagram??'';
+        email = serviceDetail[0].email??'';
+        lat = serviceDetail[0].lat??'';
+        lag = serviceDetail[0].lag??'';
+        address = serviceDetail[0].address??'';
         web = serviceDetail[0].website;
-        description = serviceDetail[0].description;
-        serviceName = serviceDetail[0].serviceName;
-        mainImg = serviceDetail[0].offersImage;
+        description = serviceDetail[0].description??'';
+        serviceName = serviceDetail[0].serviceName??'';
+        mainImg = serviceDetail[0].offersImage??'';
         sliderType = serviceDetail[0].sliderType;
         delivary = serviceDetail[0].deliveryOn;
         videoLink = serviceDetail[0].videoLink;
         shareLink = serviceDetail[0].shareLink;
-        loctaation = serviceDetail[0].location;
-        points = serviceDetail[0].totalPoints;
+        loctaation = serviceDetail[0].location??'';
+        points = serviceDetail[0].totalPoints??'';
         idd = serviceDetail[0].id;
-        menuTilte = serviceDetail[0].menuTitle;
-        viewMin = serviceDetail[0].viewMin;
+        menuTilte = serviceDetail[0].menuTitle??'';
+        viewMin = serviceDetail[0].viewMin??'';
         rateView = serviceDetail[0].rateView;
         shareView = serviceDetail[0].shareView;
 
@@ -406,39 +406,39 @@ class ItemServicesDetail with ChangeNotifier {
         });
 
         if(serviceDetail.isNotEmpty) {
-          viewBranches = serviceDetail[0].branchesDisplay;
-          viewOffer = serviceDetail[0].offersDisplay;
-          viewPoints = serviceDetail[0].pointsDisplay;
-          viewScan = serviceDetail[0].scanDisplay;
-          viewCobon = serviceDetail[0].copounDisplay;
-          viewLocation = serviceDetail[0].locationDisplay;
+          viewBranches = serviceDetail[0].branchesDisplay??'';
+          viewOffer = serviceDetail[0].offersDisplay??'';
+          viewPoints = serviceDetail[0].pointsDisplay??'';
+          viewScan = serviceDetail[0].scanDisplay??'';
+          viewCobon = serviceDetail[0].copounDisplay??'';
+          viewLocation = serviceDetail[0].locationDisplay??'';
           isFav = serviceDetail[0].favExit;
           totalRate = serviceDetail[0].totalRate;
-          offersImage = serviceDetail[0].offersImage;
-          facebook = serviceDetail[0].facebook;
-          phone = serviceDetail[0].phone;
-          phoneSecond = serviceDetail[0].phoneSecond;
-          phoneThird = serviceDetail[0].phoneThird;
-          whatsapp = serviceDetail[0].whatsapp;
-          twitter = serviceDetail[0].twitter;
-          instagram = serviceDetail[0].instagram;
-          email = serviceDetail[0].email;
-          lat = serviceDetail[0].lat;
-          lag = serviceDetail[0].lag;
-          address = serviceDetail[0].address;
-          web = serviceDetail[0].website;
-          description = serviceDetail[0].description;
-          serviceName = serviceDetail[0].serviceName;
-          mainImg = serviceDetail[0].offersImage;
+          offersImage = serviceDetail[0].offersImage??'';
+          facebook = serviceDetail[0].facebook??'';
+          phone = serviceDetail[0].phone??'';
+          phoneSecond = serviceDetail[0].phoneSecond??'';
+          phoneThird = serviceDetail[0].phoneThird??'';
+          whatsapp = serviceDetail[0].whatsapp??'';
+          twitter = serviceDetail[0].twitter??'';
+          instagram = serviceDetail[0].instagram??'';
+          email = serviceDetail[0].email??'';
+          lat = serviceDetail[0].lat??'';
+          lag = serviceDetail[0].lag??'';
+          address = serviceDetail[0].address??'';
+          web = serviceDetail[0].website??'';
+          description = serviceDetail[0].description??'';
+          serviceName = serviceDetail[0].serviceName??'';
+          mainImg = serviceDetail[0].offersImage??'';
           sliderType = serviceDetail[0].sliderType;
           delivary = serviceDetail[0].deliveryOn;
           videoLink = serviceDetail[0].videoLink;
           shareLink = serviceDetail[0].shareLink;
-          loctaation = serviceDetail[0].location;
-          points = serviceDetail[0].totalPoints;
+          loctaation = serviceDetail[0].location??'';
+          points = serviceDetail[0].totalPoints??'';
           idd = serviceDetail[0].id;
-          menuTilte = serviceDetail[0].menuTitle;
-          viewMin = serviceDetail[0].viewMin;
+          menuTilte = serviceDetail[0].menuTitle??'';
+          viewMin = serviceDetail[0].viewMin??'';
         }else{
           offersImage = '';
           facebook = '';
@@ -485,7 +485,7 @@ class ItemServicesDetail with ChangeNotifier {
     }
   }
 
-  int cobon;
+  int? cobon;
   Future<void> getCobon(int id) async {
     try {
       Dio.Response response = await dio().post(

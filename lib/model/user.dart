@@ -2,7 +2,7 @@ import 'package:get_storage/get_storage.dart';
 
 class User {
   //{============To Sent Login============}
-  String phone;
+  String? phone;
   num key = 1234567890;
   String oldPassword = "0";
 
@@ -17,9 +17,9 @@ class User {
   }
 
   //{============To Sent Edait Profile============}
-  String phoneEdaite;
-  String adressEdaite;
-  String nameEdaite;
+  String? phoneEdaite;
+  String? adressEdaite;
+  String? nameEdaite;
 
   Map<String, dynamic> sentEdaitProfile(
     String token,
@@ -40,11 +40,11 @@ class User {
   }
 
   //{============To Sent  Subscribtion============}
-  String subPhone;
-  int subId;
-  String subName;
-  String subAdress;
-  String subdetails;
+  String? subPhone;
+  int? subId;
+  String? subName;
+  String? subAdress;
+  String? subdetails;
 
   Map<String, dynamic> sentSub(String token, String lang) {
     return {
@@ -60,9 +60,9 @@ class User {
   }
 
   //{============To Sent tickets============}
-  int ticId;
-  String title;
-  String content;
+  int? ticId;
+  String? title;
+  String? content;
 
   Map<String, dynamic> sentTickets(String token, String lang) {
     return {
@@ -76,11 +76,11 @@ class User {
   }
   //{============To Sent register============}
 
-  String newname;
-  String newphone;
-  String newAdress;
+  String? newname;
+  String? newphone;
+  String? newAdress;
 
-  String password;
+  String? password;
 
   Map<String, dynamic> sentRegister(
       String token, String lang, String country, String fireBaseToken) {

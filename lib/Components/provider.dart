@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Counter with ChangeNotifier {
-  Counter({GlobalKey<NavigatorState> navigatorKey});
+  Counter({GlobalKey<NavigatorState>? navigatorKey});
   int notifyCount = 0;
   void setNotificationsCount() {
     notifyCount++;

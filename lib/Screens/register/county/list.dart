@@ -25,10 +25,10 @@ class CityDropDwon {
     this.result,
   });
 
-  String message;
-  int codenum;
-  bool status;
-  Result result;
+  String? message;
+  int? codenum;
+  bool? status;
+  Result? result;
 
   factory CityDropDwon.fromJson(Map<String, dynamic> json) => CityDropDwon(
         message: json["message"],
@@ -41,7 +41,7 @@ class CityDropDwon {
         "message": message,
         "codenum": codenum,
         "status": status,
-        "result": result.toJson(),
+        "result": result?.toJson(),
       };
 }
 
@@ -50,7 +50,7 @@ class Result {
     this.listCountries,
   });
 
-  List<ListCountry> listCountries;
+  List<ListCountry>? listCountries;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         listCountries: List<ListCountry>.from(
@@ -59,7 +59,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
         "list_countries":
-            List<dynamic>.from(listCountries.map((x) => x.toJson())),
+            List<dynamic>.from(listCountries!.map((x) => x.toJson())),
       };
 }
 
@@ -70,9 +70,9 @@ class ListCountry {
     this.idCountry,
   });
 
-  String nameCountry;
-  String nameIcon;
-  String idCountry;
+  String? nameCountry;
+  String? nameIcon;
+  String? idCountry;
 
   factory ListCountry.fromJson(Map<String, dynamic> json) => ListCountry(
         nameCountry: json["name_country"],
@@ -88,7 +88,7 @@ class ListCountry {
 }
 
 class CityDropDownProvider with ChangeNotifier {
-  List<ListCountry> list;
+  List<ListCountry>? list;
   Future<void> fetchAllCites(String lang) async {
     try {
       Dio.Response response = await dio().post(
@@ -98,8 +98,8 @@ class CityDropDownProvider with ChangeNotifier {
         ),
       );
       print(response.data);
-      list = cityDropDwonFromJson(response.toString()).result.listCountries;
-      print(list[0].nameCountry);
+      list = cityDropDwonFromJson(response.toString()).result?.listCountries;
+      print(list?[0].nameCountry);
     } catch (err) {
       // ignore: unnecessary_brace_in_string_interps
       print('${err}');
