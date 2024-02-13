@@ -83,7 +83,7 @@ class User {
   String? password;
 
   Map<String, dynamic> sentRegister(
-      String token, String lang, String country, String fireBaseToken) {
+      String token, String lang, String country, String fireBaseToken,String stateId) {
     return {
       'key': 1234567890,
       'lang': lang,
@@ -92,7 +92,8 @@ class User {
       'address': newAdress,
       'firebase_id': fireBaseToken,
       'Country': country,
-      "password": password
+      "password": password,
+      "state_id":stateId
     };
   }
 }

@@ -12,6 +12,7 @@ import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/BattomBar/view.dart';
 import 'package:wassalny/Screens/forget_password/forget_password_screen.dart';
+import 'package:wassalny/Screens/intro/view.dart';
 import 'package:wassalny/Screens/register/register.dart';
 import 'package:wassalny/model/user.dart';
 import 'package:wassalny/network/auth/auth.dart';
@@ -64,7 +65,7 @@ class _LoginState extends State<Login> {
     try {
      var auth = await Provider.of<Auth>(context, listen: false).signIn(user);
       if(auth["status"]){
-        Get.offAll(BottomNavyView());
+        Get.offAll(IntroScreen());
       }else{
         Navigator.pop(context);
         showErrorDaialog(auth["message"], context);
@@ -82,15 +83,12 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.all(30),
+        padding: EdgeInsets.all(30.r),
         children: [
           SizedBox(height: 50.h),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              child: Image.asset(appLogo)),
-          SizedBox(height: 20.h),
+          Image.asset(appLogo,width: 150.w,height: 150.h,),
+          SizedBox(height: 70.h),
           // CustomTextField(controller: _name, hint: 'name'.tr),
-          SizedBox(height: 10),
           CustomTextField(
               controller: _phone,
               hint: "phoneNumber".tr,
@@ -132,7 +130,7 @@ class _LoginState extends State<Login> {
           // CustomTextField(controller: _address, hint: 'العنوان'),
           // SizedBox(height: 10),
           // dropList(),
-          SizedBox(height: 50.h),
+          SizedBox(height: 20.h),
           CustomButton(
               backgroundColor: Colors.blue,
               borderColor: Colors.blue,
@@ -141,7 +139,7 @@ class _LoginState extends State<Login> {
               textColor: Colors.white,
               label: 'login'.tr),
           SizedBox(
-            height: 100,
+            height: 30.h,
           ),
           Center(
             child: TextButton(
@@ -170,6 +168,25 @@ class _LoginState extends State<Login> {
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 20,
+                    decoration: TextDecoration.underline),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          InkWell(
+            onTap: () {
+              Get.to(
+                IntroScreen(),
+              );
+            },
+            child: Center(
+              child: Text(
+                "الدخول كزائر".tr,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20.sp,
                     decoration: TextDecoration.underline),
               ),
             ),

@@ -1,4 +1,4 @@
-package com.Bosr3a
+package com.waselnni
 
 import io.flutter.embedding.android.FlutterActivity
 

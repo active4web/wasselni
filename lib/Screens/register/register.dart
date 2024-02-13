@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart' as Dio;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,10 +17,13 @@ import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
 import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/Screens/BattomBar/view.dart';
+import 'package:wassalny/Screens/intro/view.dart';
 import 'package:wassalny/Screens/login/view.dart';
+import 'package:wassalny/model/cities_model.dart';
 import 'package:wassalny/model/offers.dart';
 import 'package:wassalny/model/user.dart';
 import 'package:wassalny/network/auth/auth.dart';
+import 'package:wassalny/network/auth/dio.dart';
 import 'package:wassalny/network/auth/provider/condition.dart';
 
 import 'county/list.dart';
@@ -66,6 +70,8 @@ class _RegisterState extends State<Register> {
   String? token_id;
   String? city;
   String? cityId;
+  String? govern;
+  String? governId;
   bool loader = false;
   Future<void> future() async {
     loader = true;
@@ -97,7 +103,7 @@ class _RegisterState extends State<Register> {
     showDaialogLoader(context);
     try {
       auth = await Provider.of<Auth>(context, listen: false)
-          .register(user, lang, cityId??'');
+          .register(user, lang, cityId??'',governId??'');
       Get.updateLocale(Locale('ar'));
       // ignore: unused_catch_clause
     } on HttpExeption catch (error) {
@@ -112,7 +118,7 @@ class _RegisterState extends State<Register> {
     } finally {
       if (auth) {
         Navigator.of(context).pop();
-        Get.offAll(BottomNavyView());
+        Get.offAll(IntroScreen());
       }
     }
   }
@@ -159,11 +165,11 @@ class _RegisterState extends State<Register> {
                     )),
               ),
             ),
-            SizedBox(height: 50.h),
+            SizedBox(height: 10.h),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 60),
                 child: Image.asset(appLogo)),
-            SizedBox(height: 80),
+            SizedBox(height: 20.h),
             // dropList(),
             // SizedBox(height: 10),
             CustomTextField(
@@ -178,7 +184,7 @@ class _RegisterState extends State<Register> {
                   }
                 },
                 hint: "name".tr),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             CustomTextField(
                 onSaved: (val) {
                   user.newphone = val;
@@ -197,7 +203,7 @@ class _RegisterState extends State<Register> {
                 hint: "phoneNumber".tr,
                 textDirection: TextDirection.ltr,
                 type: TextInputType.phone),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             CustomTextField(
                 onSaved: (val) {
                   user.newAdress = val;
@@ -210,7 +216,7 @@ class _RegisterState extends State<Register> {
                   }
                 },
                 hint: "address".tr),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Container(
               height: 55,
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -258,7 +264,55 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
+            Container(
+              height: 55,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              child: InkWell(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.blue[300],
+                      content: Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: cityWidget(
+                          context,
+                          citiesModel?.result?.allStates??[],
+                        ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            20,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                // _modalBottomSheetMenu(context, cities),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Text(govern == null ? "اختر المنطقه".tr : govern??'',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17))),
+                    Icon(Icons.keyboard_arrow_down,
+                        color: Colors.white, size: 30)
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10.h),
             CustomTextField(
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(
@@ -287,7 +341,7 @@ class _RegisterState extends State<Register> {
                 hint: "password".tr,
                 textDirection: TextDirection.ltr,
                 type: TextInputType.visiblePassword),
-            SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Column(
               children: [
                 Row(
@@ -344,13 +398,15 @@ class _RegisterState extends State<Register> {
                 // ),
               ],
             ),
+            SizedBox(height: 10.h),
+
             CustomButton(
                 backgroundColor: Colors.blue,
                 borderColor: Colors.blue,
                 isShadow: 1,
                 onTap: cityId == null
                     ? () => Get.snackbar('انتباه', 'يرجي اختيار الدوله')
-                    : _submit,
+                    :governId==null? () => Get.snackbar('انتباه', 'يرجي اختيار المنطقة'):_submit,
                 textColor: Colors.white,
                 label: "login".tr),
             InkWell(
@@ -399,6 +455,24 @@ class _RegisterState extends State<Register> {
     }
   }
 
+  CitiesModel? citiesModel;
+  Future<void>getCities(int id)async{
+    final response = await dio().post('user_api/list_state', data:
+    Dio.FormData.fromMap(
+        {
+          "key":1234567890,
+          "id_country":id
+        }
+    ),
+    );
+    if(response.data['status']){
+      citiesModel=CitiesModel.fromJson(response.data);
+      print(response.data);
+    }
+    else{
+      print("${response.data}");
+    }
+  }
   void showAlertDialog(BuildContext context){
     showDialog(
       context: context,
@@ -629,6 +703,7 @@ class _RegisterState extends State<Register> {
             setState(() {
               city = cities[index].nameCountry;
               cityId = cities[index].idCountry;
+              getCities(int.parse(cities[index].idCountry??''));
             });
             Navigator.pop(context);
           },
@@ -652,6 +727,53 @@ class _RegisterState extends State<Register> {
                     child: Center(
                       child: MyText(
                         title: cities[index].nameCountry,
+                        size: 18,
+                        weight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  Widget cityWidget(BuildContext context, List<AllStates> cities) {
+    return ListView.builder(
+      itemCount: cities.length,
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            setState(() {
+              govern=cities[index].stateName;
+              governId=cities[index].stateId;
+            });
+            Navigator.pop(context);
+          },
+          child: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.blue[800],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: EdgeInsets.symmetric(vertical: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Offstage(
+                    offstage: govern == cities[index].stateName ? false : true,
+                    child: Icon(Icons.check_circle, color: MyColors.green)),
+                // SizedBox(width: 10),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: Center(
+                      child: MyText(
+                        title: cities[index].stateName,
                         size: 18,
                         weight: FontWeight.bold,
                         color: Colors.white,

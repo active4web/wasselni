@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/model/addToCart.dart';
 import 'package:wassalny/model/min_sirv.dart';
 
@@ -259,7 +260,10 @@ class _MinState extends State<Min> {
                                         ),
                                         color: Colors.blue,
                                         onPressed: () {
-                                          add(info[index].id!);
+                                          if(storeToken!=null){
+                                          add(info[index].id!);}else{
+                                            Get.snackbar('انتباه', 'يرجي تسجيل الدخول');
+                                          }
                                         },
                                         child: AutoSizeText(
                                           'اضافه الي السله',

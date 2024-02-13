@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dio/dio.dart' as Dio;
 import 'package:wassalny/Components/constants.dart';
+import 'package:wassalny/Screens/intro/select_intro_screen.dart';
+import 'package:wassalny/Screens/intro/view.dart';
 import 'package:wassalny/Screens/register/register.dart';
 
 import 'Screens/BattomBar/view.dart';
@@ -48,16 +50,16 @@ class SplashScreenState extends State<SplashScreen> {
     Provider.of<Auth>(context, listen: false)
         .getUserInfoForSpalsh(tokenn??'', lang);
     Future.delayed(Duration(seconds: 1), () {
-      if (tokenn != null) {
-        print('10');
+
         Future.delayed(Duration(seconds: 1), () {
-          Get.offAll(BottomNavyView());
+          if(storeToken==null){
+          Get.offAll(Login());}
+          else{
+            Get.offAll(IntroScreen());
+          }
+
         });
-      } else {
-        Future.delayed(Duration(seconds: 1), () {
-          Get.offAll(Register());
-        });
-      }
+
     });
   }
 

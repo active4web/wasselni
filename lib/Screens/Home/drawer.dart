@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:wassalny/Components/CustomWidgets/MyText.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/About/view.dart';
 import 'package:wassalny/Screens/ContactUs/view.dart';
 import 'package:wassalny/Screens/Language/view.dart';
@@ -150,6 +151,7 @@ class _MyDrawer extends State<MyDrawer> {
                     mainAxisAlignment: MainAxisAlignment.start, children: []),
               ),
               // SizedBox(height: 30.h),
+              if(storeToken!=null)...[
               menuTitle("Profile".tr, () {
                 Get.to(Profile());
               }),
@@ -167,7 +169,7 @@ class _MyDrawer extends State<MyDrawer> {
               ),
               menuTitle("MyOrders".tr, () {
                 Get.to(MyOrdersScreen());
-              }),
+              }),],
               // menuTitle("offers".tr, () {
               //   Get.to(Offerss(
               //     searchType: 0,
@@ -188,6 +190,7 @@ class _MyDrawer extends State<MyDrawer> {
               menuTitle("aboutApp".tr, () {
                 Get.to(About());
               }),
+              if(storeToken!=null)
               menuTitle("points".tr, () {
                 Get.to(AllPointsScreen());
               }),
@@ -197,7 +200,13 @@ class _MyDrawer extends State<MyDrawer> {
                   Get.to(ContactUs());
                 },
               ),
+              if(storeToken!=null)
               menuTitle("SignOut".tr, _submit),
+              if(storeToken==null)
+                menuTitle("سجل دخول".tr,(){
+                  Get.to(Login());
+                }),
+
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.15,
               ),

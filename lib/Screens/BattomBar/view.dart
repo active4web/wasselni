@@ -75,119 +75,115 @@ class _BottomNavyViewState extends State<BottomNavyView>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () =>
-          displayLogoutDialog(context, "closeApplication".tr, "wantExit".tr),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Color.fromRGBO(250, 250, 250, 1),
-        body: GestureDetector(
-          onTap: () {},
-          child: Stack(
-            children: [
-              PageView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  onPageChanged: _pageChanged,
-                  itemCount: pages.length,
-                  itemBuilder: (context, index) {
-                    return pages[pageIndex];
-                  }),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    boxShadow: [
-                      BoxShadow(
-                          color: MyColors.lightBlue.withOpacity(.3),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                          offset: Offset(0, 1))
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            navigationTapped(0);
-                          },
-                          child: Column(
-                            children: [
-                              SizedBox(height: 3),
-                              Icon(Icons.home, size: 28, color: Colors.white),
-                              SizedBox(height: 0),
-                              MyText(
-                                title: "Main".tr,
-                                color: Colors.white,
-                                size: 11,
-                              ),
-                              SizedBox(height: 3),
-                            ],
-                          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+      body: GestureDetector(
+        onTap: () {},
+        child: Stack(
+          children: [
+            PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                onPageChanged: _pageChanged,
+                itemCount: pages.length,
+                itemBuilder: (context, index) {
+                  return pages[pageIndex];
+                }),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  boxShadow: [
+                    BoxShadow(
+                        color: MyColors.lightBlue.withOpacity(.3),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: Offset(0, 1))
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          navigationTapped(0);
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(height: 3),
+                            Icon(Icons.category_outlined, size: 28, color: Colors.white),
+                            SizedBox(height: 0),
+                            MyText(
+                              title: "اقسام".tr,
+                              color: Colors.white,
+                              size: 11,
+                            ),
+                            SizedBox(height: 3),
+                          ],
                         ),
                       ),
-                      Container(
+                    ),
+                    Container(
+                      height: 40,
+                      width: .4,
+                      color: Colors.black,
+                      child: Container(),
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          navigationTapped(1);
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(height: 3),
+                            Icon(Icons.offline_bolt,
+                                size: 28, color: Colors.white),
+                            SizedBox(height: 0),
+                            MyText(
+                              title: "offers".tr,
+                              color: Colors.white,
+                              size: 11,
+                            ),
+                            SizedBox(height: 3),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
                         height: 40,
                         width: .4,
                         color: Colors.black,
-                        child: Container(),
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            navigationTapped(1);
-                          },
-                          child: Column(
-                            children: [
-                              SizedBox(height: 3),
-                              Icon(Icons.offline_bolt,
-                                  size: 28, color: Colors.white),
-                              SizedBox(height: 0),
-                              MyText(
-                                title: "offers".tr,
-                                color: Colors.white,
-                                size: 11,
-                              ),
-                              SizedBox(height: 3),
-                            ],
-                          ),
+                        child: Container()),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          navigationTapped(2);
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(height: 3),
+                            Icon(Icons.search, size: 28, color: Colors.white),
+                            SizedBox(height: 0),
+                            MyText(
+                              title: "Searchfilter".tr,
+                              color: Colors.white,
+                              size: 11,
+                            ),
+                            SizedBox(height: 3),
+                          ],
                         ),
                       ),
-                      Container(
-                          height: 40,
-                          width: .4,
-                          color: Colors.black,
-                          child: Container()),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            navigationTapped(2);
-                          },
-                          child: Column(
-                            children: [
-                              SizedBox(height: 3),
-                              Icon(Icons.search, size: 28, color: Colors.white),
-                              SizedBox(height: 0),
-                              MyText(
-                                title: "Searchfilter".tr,
-                                color: Colors.white,
-                                size: 11,
-                              ),
-                              SizedBox(height: 3),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

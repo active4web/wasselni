@@ -352,9 +352,15 @@ class _CategoryListState extends State<CategoryList> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       IconButton(
-                                          onPressed: () => _sentFav(
-                                              allProduct[index].favExit!,
-                                              allProduct[index].prodId!),
+                                          onPressed: () => {
+                                            if(storeToken!=null){
+                                            _sentFav(
+                                                allProduct[index].favExit!,
+                                                allProduct[index].prodId!)}
+                                            else{
+                                              Get.snackbar('انتباه', 'يرجي تسجيل الدخول')
+                                            }
+                                          },
                                           icon: allProduct[index].favExit == 0
                                               ? Icon(
                                                   CupertinoIcons.heart,

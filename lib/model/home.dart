@@ -149,8 +149,8 @@ class AllRecommended {
   String? recommendedImage;
   int? recommendedPosition;
   int? serviceId;
-  // int depId;
-  // int catId;
+  int? depId;
+  int?catId;
   int? id;
   String? enddate;
 
@@ -167,8 +167,8 @@ class AllRecommended {
     recommendedImage = json['recommended_image'];
     recommendedPosition = json['recommended_position'];
     serviceId = json['service_id'];
-    // depId = json['dep_id'];
-    // catId = json['cat_id'];
+    depId = json['dep_id'];
+    catId = json['cat_id'];
     id = json['id'];
     enddate = json['enddate'];
   }
@@ -178,8 +178,8 @@ class AllRecommended {
     data['recommended_image'] = this.recommendedImage;
     data['recommended_position'] = this.recommendedPosition;
     data['service_id'] = this.serviceId;
-    // data['dep_id'] = this.depId;
-    // data['cat_id'] = this.catId;
+    data['dep_id'] = this.depId;
+    data['cat_id'] = this.catId;
     data['id'] = this.id;
     data['enddate'] = this.enddate;
     return data;

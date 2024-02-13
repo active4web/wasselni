@@ -6,3 +6,4 @@ String conditionUrl = '/pages/get_contact_info';
 
 //String token;
 const String appLogo="assets/images/logo.png";
+ String? storeToken;

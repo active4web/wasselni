@@ -4,6 +4,7 @@ import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Components/networkExeption.dart';
 import 'package:wassalny/model/registerModel.dart';
 import 'package:wassalny/model/user.dart';
@@ -62,6 +63,7 @@ String ? terms_conditions;
         final preferences = await SharedPreferences.getInstance();
         await preferences.setString('bool', token!);
         token = preferences.getString('bool');
+        storeToken = preferences.getString('bool');
       }
       notifyListeners();
       return response.data;
@@ -200,7 +202,7 @@ String ? terms_conditions;
 
   bool doneSentRegister = false;
 
-  Future<bool> register(User user, String language, String country) async {
+  Future<bool> register(User user, String language, String country,String stateId) async {
     try {
       Dio.Response response = await dio().post(
         'user_api/set_registration',
@@ -210,6 +212,8 @@ String ? terms_conditions;
             language,
             country,
             await FCMConfig.instance.messaging.getToken().toString(),
+            stateId
+
           ),
         ),
       );
@@ -233,6 +237,7 @@ String ? terms_conditions;
         await preferences.setString('bool', token!);
 
         token = preferences.getString('bool');
+        storeToken = preferences.getString('bool');
       }
       notifyListeners();
       return doneSentRegister;

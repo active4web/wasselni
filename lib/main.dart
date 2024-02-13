@@ -2,9 +2,16 @@ import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wassalny/waslnyApp.dart';
+
+import 'Components/constants.dart';
+import 'bloc_observer.dart';
+import 'firebase_options.dart';
+import 'network/auth/dio_helper.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageType}");
@@ -13,9 +20,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 GlobalKey navigatorKey = GlobalKey();
 void main() async {
   await GetStorage.init();
+  DioHelper.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options:DefaultFirebaseOptions.currentPlatform
+  );
+  Bloc.observer=MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
+  final preferences = await SharedPreferences.getInstance();
+  storeToken = preferences.getString('bool');
+
+  print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  FCMConfig.instance.messaging.getToken().then((value) => {
+    print('ttttttttttttttt'),
+    print(value.toString())
+  }).catchError((onError){
+    print('errrrrrrrrrrrrr');
+    print(onError);
+  });
+  print(FCMConfig.instance.messaging.getToken(),);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Message data: ${message.data}');
     if (message.notification != null) {

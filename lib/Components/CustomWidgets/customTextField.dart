@@ -329,6 +329,7 @@ class TransparentTextFieldColorText extends StatefulWidget {
   final void Function()? onTap;
   final Widget? icon;
   final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   TransparentTextFieldColorText({
     this.validator,
     this.focusNode,
@@ -338,6 +339,7 @@ class TransparentTextFieldColorText extends StatefulWidget {
     this.textDirection,
     this.onTap,
     this.icon,
+    this.onSaved
   });
 
   @override
@@ -355,6 +357,7 @@ class _TransparentTextFieldColorTextState
         focusNode: widget.focusNode,
         controller: widget.controller,
         keyboardType: widget.type,
+        onFieldSubmitted: widget.onSaved,
         obscureText: false,
         textDirection: (widget.textDirection == null &&
                     currentLanguage.languageCode == "ar") ||

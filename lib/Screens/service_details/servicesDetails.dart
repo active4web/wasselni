@@ -14,6 +14,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/Branches/view.dart';
 import 'package:wassalny/Screens/cart/order_cart.dart';
 import 'package:wassalny/Screens/min/view.dart';
@@ -347,7 +348,13 @@ class _ServicesDetailsState extends State<ServicesDetails> {
               // SizedBox(width: 20,),
               Spacer(),
               IconButton(
-                  onPressed: _sentFav,
+                  onPressed: (){
+                    if(storeToken!=null){
+                      _sentFav();
+                    }else{
+                      Get.snackbar('انتباه', 'يرجي تسجيل الدخول');
+                    }
+                  },
                   icon: isFav == 0
                       ? Icon(
                     CupertinoIcons.heart,

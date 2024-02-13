@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocode/geocode.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
 import 'package:wassalny/Components/constants.dart';
+import 'package:wassalny/Screens/Home/cubit/home_cubit.dart';
 import 'package:wassalny/Screens/cart/cart.dart';
 import 'package:wassalny/Screens/searchScreen/searchScreen.dart' as Search;
 import 'package:wassalny/model/addToFavourite.dart';
@@ -42,45 +44,45 @@ class _HomeState extends State<Home> {
   var location = Location();
   double? currentLat;
   double? currentLong;
-  bool? _serviceEnabled;
-  PermissionStatus? _permissionGranted;
-  LocationData? _locationData;
-  Future _getCurrentLocation() async {
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled!) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled!) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    _locationData = await location.getLocation();
-    // GeoCode geoCode = GeoCode();
-
-    // final coordinates =
-    //     new Coordinates(latitude:_locationData?.latitude, longitude:_locationData?.longitude);
-    // var addresses =await geoCode.forwardGeocoding(address: address);
-    // var first = addresses.first;
-    // print(
-    //     'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-    // setState(() {
-    //   currentLat = _locationData?.latitude;
-    //   currentLong = _locationData?.longitude;
-    // });
-    // setState(() {
-    //   _loader = false;
-    // });
-    // print(currentLat);
-    // print(currentLong);
-  }
+  // bool? _serviceEnabled;
+  // PermissionStatus? _permissionGranted;
+  // LocationData? _locationData;
+  // Future _getCurrentLocation() async {
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled!) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled!) {
+  //       return;
+  //     }
+  //   }
+  //
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return;
+  //     }
+  //   }
+  //
+  //   _locationData = await location.getLocation();
+  //   // GeoCode geoCode = GeoCode();
+  //
+  //   // final coordinates =
+  //   //     new Coordinates(latitude:_locationData?.latitude, longitude:_locationData?.longitude);
+  //   // var addresses =await geoCode.forwardGeocoding(address: address);
+  //   // var first = addresses.first;
+  //   // print(
+  //   //     'locationsss: ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
+  //   // setState(() {
+  //   //   currentLat = _locationData?.latitude;
+  //   //   currentLong = _locationData?.longitude;
+  //   // });
+  //   // setState(() {
+  //   //   _loader = false;
+  //   // });
+  //   // print(currentLat);
+  //   // print(currentLong);
+  // }
 
   Future<void> future() async {
     loader = true;
@@ -161,7 +163,13 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.only(
           top: hight * 0.048, left: width * 0.048, right: width * 0.048),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back)),
           Container(
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
@@ -185,6 +193,9 @@ class _HomeState extends State<Home> {
                     child: Form(
                       key: key,
                       child: TransparentTextFieldColorText(
+                        onSaved: (value){
+                          _submit();
+                        },
                           controller: _search,
                           validator: (val) {
                             if (val!.isEmpty) {
@@ -203,9 +214,14 @@ class _HomeState extends State<Home> {
                   child: Icon(Icons.search, color: Colors.blue),
                 ),
                 InkWell(
-                    onTap: () => Get.to(
-                          () => CartScreen(),
-                        ),
+                    onTap: () {
+                      if(storeToken!=null){
+                      Get.to(
+                          CartScreen()
+                      );}else{
+                        Get.snackbar('انتباه', 'يرجي تسجيل الدخول');
+                      }
+                    },
                     child: badges.Badge(
                       badgeContent: Text(
                         allProducts.length.toString(),
@@ -321,11 +337,14 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    future().then((value) {
-      _getCurrentLocation();
+    if(storeToken!=null){
+      future();
+    }
+    // future().then((value) {
+      // _getCurrentLocation();
       // fetchLocalDatabase();
       fechHome();
-    });
+    // });
 
     savedLang.write('lang', lang);
     super.initState();
@@ -360,7 +379,7 @@ class _HomeState extends State<Home> {
                   height: 15,
                 ),
                 imageCarousel(),
-                SizedBox(height: 8),
+                SizedBox(height:20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width * 0.048),
                   child: AutoSizeText(
@@ -383,18 +402,19 @@ class _HomeState extends State<Home> {
                               horizontal: width * 0.02, vertical: hight * 0.01),
                           child: GestureDetector(
                             onTap: () {
-                              // if (chonsenOne(1).depId != null)
-                              //   Get.to(
-                              //       // ServicesDetails(
-                              //       //   id: chonsenOne(1).serviceId,
-                              //       // ),
-                              //       SearchLatAndLagScreen(
-                              //     catId: chonsenOne(1).depId,
-                              //     lat: currentLat,
-                              //     lag: currentLong,
-                              //     distance: "10",
-                              //     searchType: 2,
-                              //   ));
+                              if (chonsenOne(1).depId != null)
+                                // Get.to(
+                                //     ServicesDetails(
+                                //       id: chonsenOne(1).serviceId,
+                                //     ))
+                                SearchLatAndLagScreen(
+                                  catId: chonsenOne(1).depId,
+                                  lat: currentLat,
+                                  lag: currentLong,
+                                  distance: "10",
+                                  searchType: 2,
+                                );
+
                             },
                             child: Container(
                               width: width * 0.4,
@@ -766,3 +786,7 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
+
+
