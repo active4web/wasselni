@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 
 import 'edit_password_screen.dart';
 
@@ -21,7 +22,7 @@ class OtpScreen extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Image.asset(
-              "assets/images/img.png",
+              appLogo,
             ),
           ),
           Align(

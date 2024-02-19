@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/network/auth/auth.dart';
 import 'otp_screen.dart';
 
@@ -23,7 +24,7 @@ class ForgetPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                "assets/images/img.png",
+                appLogo,
               ),
               SizedBox(
                 height: 20,

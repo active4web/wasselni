@@ -45,10 +45,10 @@ class SplashScreenState extends State<SplashScreen> {
   String lang = Get.locale?.languageCode??'ar';
 
   checkUsers() async {
-    final preferences = await SharedPreferences.getInstance();
-    String? tokenn = preferences.getString('bool');
-    Provider.of<Auth>(context, listen: false)
-        .getUserInfoForSpalsh(tokenn??'', lang);
+    if(storeToken!=null){
+      Provider.of<Auth>(context, listen: false)
+          .getUserInfoForSpalsh(storeToken!, lang);
+    }
     Future.delayed(Duration(seconds: 1), () {
 
         Future.delayed(Duration(seconds: 1), () {
@@ -70,6 +70,7 @@ class SplashScreenState extends State<SplashScreen> {
     //   print(
     //       ">>>>>>>>>>>>>>>>>>>>>>>  splash >>>>>        ${prefs.getString('msgToken')}     <<<<<<<<<<<");
     // });
+
     super.initState();
     checkUsers();
     // SystemChrome.setEnabledSystemUIOverlays([]);

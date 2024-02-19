@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:wassalny/Components/CustomWidgets/CustomButton.dart';
 import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
+import 'package:wassalny/Components/constants.dart';
 import 'package:wassalny/Screens/login/view.dart';
 import 'package:wassalny/network/auth/auth.dart';
 
@@ -44,7 +45,7 @@ class _EditPasswordState extends State<EditPassword> {
                 Align(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    "assets/images/img.png",
+                    appLogo,
                     width: 80,
                   ),
                 ),
