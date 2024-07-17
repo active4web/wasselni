@@ -86,7 +86,7 @@ class MainOffers {
 }
 
 class ListCats {
-  String? catId;
+  int? catId;
   String? categoryImage;
   String? categoryName;
 

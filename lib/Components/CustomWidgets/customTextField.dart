@@ -56,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           controller: widget.controller,
           keyboardType: widget.type,
           inputFormatters: widget.inputFormatters,
-          obscureText: widget.isPassword??false,
+          obscureText: widget.isPassword ?? false,
           textDirection: (widget.textDirection == null &&
                       currentLanguage.languageCode == "ar") ||
                   widget.textDirection == TextDirection.rtl
@@ -95,7 +95,7 @@ class ProfileTextField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? type;
   final FocusNode? focusNode;
-  final String ?hint;
+  final String? hint;
   final TextDirection? textDirection;
   final void Function()? onTap;
   final Widget? icon;
@@ -339,7 +339,7 @@ class TransparentTextFieldColorText extends StatefulWidget {
     this.textDirection,
     this.onTap,
     this.icon,
-    this.onSaved
+    this.onSaved,
   });
 
   @override
@@ -382,5 +382,73 @@ class _TransparentTextFieldColorTextState
             icon: widget.icon == null ? null : widget.icon,
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 0.0, vertical: 9.0)));
+  }
+}
+
+class FilledTextField extends StatefulWidget {
+  final TextEditingController? controller;
+  final TextInputType? type;
+  final FocusNode? focusNode;
+  final String? hint;
+  final TextDirection? textDirection;
+  final void Function()? onTap;
+  final Widget? icon;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
+
+  FilledTextField(
+      {this.controller,
+      this.type,
+      this.focusNode,
+      this.hint,
+      this.textDirection,
+      this.onTap,
+      this.icon,
+      this.validator,
+      this.onSaved});
+
+  @override
+  State<FilledTextField> createState() => _FilledTextFieldState();
+}
+
+class _FilledTextFieldState extends State<FilledTextField> {
+  @override
+  Widget build(BuildContext context) {
+    var currentLanguage = Localizations.localeOf(context);
+    return TextFormField(
+      validator: widget.validator,
+      focusNode: widget.focusNode,
+      controller: widget.controller,
+      keyboardType: widget.type,
+      onFieldSubmitted: widget.onSaved,
+      obscureText: false,
+      textDirection: (widget.textDirection == null &&
+                  currentLanguage.languageCode == "ar") ||
+              widget.textDirection == TextDirection.rtl
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      autofocus: false,
+      style: TextStyle(
+          fontSize: 20, fontFamily: 'GE-Snd-Book', color: Colors.black),
+      decoration: InputDecoration(
+        constraints: BoxConstraints(minHeight: 60),
+        filled: true,
+        // focusColor: Colors.transparent,
+        fillColor: Colors.grey[300],
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.transparent),
+        ),
+        // focusedBorder: InputBorder.none,
+        hintText: widget.hint,
+        hintStyle: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: 15,
+            color: Colors.black,
+            fontFamily: 'GE-Snd-Book'),
+        icon: widget.icon == null ? null : widget.icon,
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      ),
+    );
   }
 }

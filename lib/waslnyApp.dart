@@ -327,10 +327,10 @@ class _WaslnyAppState extends State<WaslnyApp> with WidgetsBindingObserver {
             primaryColor: MyColors.primary,
             hintColor: MyColors.primary,
             fontFamily: "GE-Snd-Book",
-            backgroundColor: Color.fromRGBO(250, 250, 250, 1),
+            // backgroundColor: Color.fromRGBO(250, 250, 250, 1),
             canvasColor: Color.fromRGBO(250, 250, 250, 1),
             textTheme: TextTheme(
-              headline1: TextStyle(fontFamily: 'GE-Snd-Book'),
+              headlineMedium: TextStyle(fontFamily: 'GE-Snd-Book'),
             ),
           ),
           home: SplashScreen(),

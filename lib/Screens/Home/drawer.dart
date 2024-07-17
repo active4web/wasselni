@@ -1,7 +1,5 @@
 import 'dart:io' show Platform;
 
-import 'package:badges/badges.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

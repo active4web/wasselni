@@ -24,7 +24,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   bool loader = false;
-  String lang = Get.locale?.languageCode??'';
+  String lang = Get.locale?.languageCode ?? '';
   User user = User();
   String? city;
   String? cityId;
@@ -208,7 +208,7 @@ class _ProfileState extends State<Profile> {
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: citiesWidget(
                                     context,
-                                    list??[],
+                                    list ?? [],
                                   ),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -226,7 +226,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Expanded(
                                   child: Text(
-                                      city == null ? "country".tr : city??'',
+                                      city == null ? "country".tr : city ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -240,10 +240,11 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {
-                            Get.to((() => ChangePasswordScreen()));
-                          },
-                          child: Text("changePassword".tr)),
+                        onPressed: () {
+                          Get.to((() => ChangePasswordScreen()));
+                        },
+                        child: Text("changePassword".tr),
+                      ),
                       TextButton(
                           onPressed: () async {
                             showCupertinoDialog(

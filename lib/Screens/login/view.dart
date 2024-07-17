@@ -9,8 +9,6 @@ import 'package:wassalny/Components/CustomWidgets/customTextField.dart';
 import 'package:wassalny/Components/CustomWidgets/myColors.dart';
 import 'package:wassalny/Components/CustomWidgets/showdialog.dart';
 import 'package:wassalny/Components/constants.dart';
-import 'package:wassalny/Components/networkExeption.dart';
-import 'package:wassalny/Screens/BattomBar/view.dart';
 import 'package:wassalny/Screens/forget_password/forget_password_screen.dart';
 import 'package:wassalny/Screens/intro/view.dart';
 import 'package:wassalny/Screens/register/register.dart';
@@ -172,25 +170,25 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          InkWell(
-            onTap: () {
-              Get.to(
-                IntroScreen(),
-              );
-            },
-            child: Center(
-              child: Text(
-                "الدخول كزائر".tr,
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 20.sp,
-                    decoration: TextDecoration.underline),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 10.h,
+          // ),
+          // InkWell(
+          //   onTap: () {
+          //     Get.to(
+          //       IntroScreen(),
+          //     );
+          //   },
+          //   child: Center(
+          //     child: Text(
+          //       "الدخول كزائر".tr,
+          //       style: TextStyle(
+          //           color: Colors.blue,
+          //           fontSize: 20.sp,
+          //           decoration: TextDecoration.underline),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

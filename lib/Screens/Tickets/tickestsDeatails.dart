@@ -17,7 +17,7 @@ class _TickestDetailsState extends State<TickestDetails> {
 
   bool loader = false;
   Future<void> getx() async {
-    String lang = Get.locale?.languageCode??'ar';
+    String lang = Get.locale?.languageCode ?? 'ar';
     loader = true;
     try {
       await Provider.of<TicketsDetailsProvider>(context, listen: false)
@@ -35,7 +35,7 @@ class _TickestDetailsState extends State<TickestDetails> {
     if (_replayController.text.isEmpty) {
       return;
     }
-    String lang = Get.locale?.languageCode??'ar';
+    String lang = Get.locale?.languageCode ?? 'ar';
 
     loader = true;
     try {
@@ -95,8 +95,7 @@ class _TickestDetailsState extends State<TickestDetails> {
                     return Column(
                       crossAxisAlignment: replay[index].senderType == 0
                           ? CrossAxisAlignment.start
-                          :  CrossAxisAlignment.end
-                              ,
+                          : CrossAxisAlignment.end,
                       children: [
                         Container(
                           margin: EdgeInsets.all(width * 0.02),
@@ -104,17 +103,15 @@ class _TickestDetailsState extends State<TickestDetails> {
                           decoration: BoxDecoration(
                               color: replay[index].senderType == 0
                                   ? Colors.grey[400]
-                                  :  Colors.blue
-                                      ,
+                                  : Colors.blue,
                               borderRadius:
                                   BorderRadius.circular(width * 0.04)),
                           child: Text(
-                            replay[index].content??'',
+                            replay[index].content ?? '',
                             style: TextStyle(
                                 color: replay[index].senderType == 0
                                     ? Colors.black
-                                    : Colors.white
-                                        ,
+                                    : Colors.white,
                                 fontSize: 18),
                           ),
                         ),
@@ -137,7 +134,8 @@ class _TickestDetailsState extends State<TickestDetails> {
                       )),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(), primary: Colors.blue),
+                            shape: CircleBorder(),
+                            backgroundColor: Colors.blue),
                         child: Container(
                           width: width * 0.12,
                           height: width * 0.12,

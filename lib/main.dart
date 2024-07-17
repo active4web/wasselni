@@ -22,23 +22,24 @@ void main() async {
   await GetStorage.init();
   DioHelper.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options:DefaultFirebaseOptions.currentPlatform
-  );
-  Bloc.observer=MyBlocObserver();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
   final preferences = await SharedPreferences.getInstance();
   storeToken = preferences.getString('bool');
 
   print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-  FCMConfig.instance.messaging.getToken().then((value) => {
-    print('ttttttttttttttt'),
-    print(value.toString())
-  }).catchError((onError){
+  FCMConfig.instance.messaging
+      .getToken()
+      .then((value) => {print('ttttttttttttttt'), print(value.toString())})
+      // ignore: body_might_complete_normally_catch_error
+      .catchError((onError) {
     print('errrrrrrrrrrrrr');
     print(onError);
   });
-  print(FCMConfig.instance.messaging.getToken(),);
+  print(
+    FCMConfig.instance.messaging.getToken(),
+  );
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Message data: ${message.data}');
     if (message.notification != null) {
