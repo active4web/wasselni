@@ -9,11 +9,13 @@ class NotificationHelper {
   initializeNotification() async {
     //tz.initializeTimeZones();
     final DarwinInitializationSettings initializationSettingsIOS =
-    DarwinInitializationSettings(
-            requestSoundPermission: false,
-            requestBadgePermission: false,
-            requestAlertPermission: false,
-            onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {});
+        DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+      // onDidReceiveLocalNotification:
+      //     (int id, String? title, String? body, String? payload) async {},
+    );
 
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings("logo");
@@ -23,7 +25,9 @@ class NotificationHelper {
       iOS: initializationSettingsIOS,
       android: initializationSettingsAndroid,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
   }
 
   Future onDidReceiveLocalNotification(
@@ -64,7 +68,7 @@ class NotificationHelper {
         );
   }
 
-  Future selectNotification(String payload) async {
+  Future selectNotification(String? payload) async {
     if (payload != null) {
       print('notification payload: $payload');
     } else {
@@ -76,9 +80,11 @@ class NotificationHelper {
       {@required String? title, @required String? body}) async {
     print("doing test");
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', channelDescription: 'your channel description',
-        importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics =  DarwinNotificationDetails ();
+        'your channel id', 'your channel name',
+        channelDescription: 'your channel description',
+        importance: Importance.max,
+        priority: Priority.high);
+    var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);

@@ -37,9 +37,9 @@ void main() async {
     print('errrrrrrrrrrrrr');
     print(onError);
   });
-  print(
-    FCMConfig.instance.messaging.getToken(),
-  );
+
+  print(FCMConfig.instance.messaging.getToken());
+
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Message data: ${message.data}');
     if (message.notification != null) {
